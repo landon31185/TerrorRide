@@ -31,6 +31,7 @@ body {
   width: 100%;
   box-sizing: border-box;
   position: relative;
+  height: auto
 }
 
 .nav-links {
@@ -52,58 +53,59 @@ body {
 
 /* Hamburger container styling */
 .hamburger-container {
+  width: 44px;
+  height: 44px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  height: 25px;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  padding: 5px;
   background-color: transparent;
+  position: relative;
 }
 
 .hamburger-container .line {
-  width: 100%;
+  width: 38px;
   height: 3px;
   background-color: white;
   border-radius: 2px;
   transition: all 0.3s ease;
+  position: absolute;
 }
 
 .top {
-  position: absolute;
-  top: 8px;
+  top: 14px;
 }
 
 .middle {
-  position: absolute;
-  top: 19px;
+  top: 25px;
 }
 
 .bottom {
-  position: absolute;
-  top: 30px;
+  top: 36px;
 }
 
-/* Open state - Upside down cross */
+/* Open state - Upside down cross (satanic style) */
 .hamburger-container.open .top {
-  transform: rotate(45deg) translateY(8px);
+  transform: rotate(90deg); /* Rotate the top line to horizontal */
+  top: 22px; /* Adjust the top line's position */
 }
 
 .hamburger-container.open .middle {
-  opacity: 0;
+  opacity:1; /* Leave middle line visible */
+  top: 34px; /* Adjust the middle line's position */
 }
 
 .hamburger-container.open .bottom {
-  transform: rotate(-45deg) translateY(-8px);
+  transform: rotate(-90deg); /* Rotate the bottom line to horizontal */
+  top: 28px; /* Adjust the bottom line's position */
 }
 
 .hamburger-container.open .line {
-  background-color: #BF0000;
+  background-color: #BF0000; /* Change line color when opened */
 }
+
 
 /* Mobile Menu */
 .mobile-menu {
@@ -116,6 +118,7 @@ body {
     color: white;
     padding: 20px 0;
     transition: bottom 0.5s ease;  /* Animate the sliding up */
+    min-height: auto;
   }
 
   .mobile-menu.open {
@@ -196,8 +199,8 @@ body {
 .logo {
     max-width: 300px;  /* Limit the maximum width to 300px */
     height: auto;      /* Maintain the aspect ratio */
-    display: block;    /* Make the logo a block element */
-    margin-left: auto; /* Center horizontally */
-    margin-right: auto; /* Center horizontally */
+    display: inline-block;    /* Make the logo a block element */
+    margin-left: 0; /* Center horizontally */
+    margin-right: 0; /* Center horizontally */
   }
   
