@@ -1,0 +1,203 @@
+/* General body styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+  h1 {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+  }                     
+
+  h2 {
+    text-align: center;
+    font-family: 'HFucktura-Heavy', sans-serif; /* Custom font for h2 and h3 */
+  }
+
+/* Top Navigation Bar */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  margin: 0 15px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+}
+
+/* Hamburger container styling */
+.hamburger-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+}
+
+.hamburger-container .line {
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.top {
+  position: absolute;
+  top: 8px;
+}
+
+.middle {
+  position: absolute;
+  top: 19px;
+}
+
+.bottom {
+  position: absolute;
+  top: 30px;
+}
+
+/* Open state - Upside down cross */
+.hamburger-container.open .top {
+  transform: rotate(45deg) translateY(8px);
+}
+
+.hamburger-container.open .middle {
+  opacity: 0;
+}
+
+.hamburger-container.open .bottom {
+  transform: rotate(-45deg) translateY(-8px);
+}
+
+.hamburger-container.open .line {
+  background-color: #BF0000;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    display: none;  /* Hidden by default */
+    position: fixed;
+    bottom: -100%;  /* Starts out of view */
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    transition: bottom 0.5s ease;  /* Animate the sliding up */
+  }
+
+  .mobile-menu.open {
+    bottom: 40px;  /* Bring the gravestone to within 40px of the top navigation */
+    display: block; /* Show when open */
+  }
+
+/* Gravestone styles */
+.gravestone {
+    background-color: #5f5f5f;
+    border-radius: 50% 50% 0 0;
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    min-height: 150px;  /* You can adjust this value */
+  }
+  
+.gravestone ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gravestone li {
+  margin: 15px 0;
+}
+
+.gravestone a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+/* Desktop Styles */
+@media (min-width: 768px) {
+  .hamburger-container {
+    display: none; /* Hide hamburger menu on desktop */
+  }
+
+  .nav-links {
+    display: flex; /* Show navigation links on desktop */
+    justify-content: center;
+  }
+
+  .mobile-menu {
+    display: none; /* Hide mobile menu on desktop */
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Hide desktop nav links on mobile */
+  }
+
+  .hamburger-container {
+    display: flex; /* Show hamburger menu on mobile */
+  }
+
+  .mobile-nav {
+    display: none; /* Hidden by default */
+  }
+
+  .mobile-nav.open {
+    display: flex; /* Show mobile navigation when open */
+  }
+
+  .top-nav {
+    justify-content: space-between; /* Adjust for smaller screens */
+  }
+}
+
+/* Logo styling */
+.logo {
+    max-width: 300px;  /* Limit the maximum width to 300px */
+    height: auto;      /* Maintain the aspect ratio */
+    display: block;    /* Make the logo a block element */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+  }
+  
