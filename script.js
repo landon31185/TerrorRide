@@ -1,18 +1,12 @@
 function toggleMenu() {
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const hamburger = document.querySelector('.hamburger-container');
-  
-    // Check if the elements exist before attempting to toggle
-    if (mobileMenu) {
-      mobileMenu.classList.toggle('open');
-    } else {
-      console.error('Mobile menu not found!');
-    }
-  
-    if (hamburger) {
-      hamburger.classList.toggle('open');
-    } else {
-      console.error('Hamburger menu not found!');
-    }
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const hamburger = document.querySelector('.hamburger-container');
+
+  if (mobileMenu && hamburger) {
+    // Toggle classes on both mobile menu and hamburger
+    mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open');
+  } else {
+    console.error('Mobile menu or hamburger not found!');
   }
-  
+}

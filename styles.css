@@ -1,37 +1,68 @@
 /* General body styling */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-  }
-  
-  h1 {
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-  }                     
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh; /* Changed from height to min-height */
+  background-color: #f0f0f0;
+  padding-top: 64px; /* Add padding to prevent content from being hidden behind nav */
+  position: relative;
+}
 
-  h2 {
-    text-align: center;
-    font-family: 'HFucktura-Heavy', sans-serif; /* Custom font for h2 and h3 */
-  }
+/* Background image overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('images/BandLarge.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 1; /* Adjust opacity if needed */
+  z-index: -1; /* Place behind other content */
+}
+
+h1 {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}                     
+
+h2 {
+  text-align: center;
+  font-family: 'HFucktura-Heavy', sans-serif;
+  color: white 
+}
 
 /* Top Navigation Bar */
+
 .top-nav {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; /* This ensures vertical centering */
   padding: 10px 20px;
   background-color: #333;
   color: white;
   width: 100%;
+  height: 64px; /* Fixed height */
   box-sizing: border-box;
-  position: relative;
-  height: auto
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+}
+
+.top-nav .logo {
+  margin: 0; /* Remove any existing margins */
+  display: flex;
+  align-items: center; /* Vertically center text */
+  font-size: 1.5rem; /* Adjust font size as needed */
+  font-weight: bold;
 }
 
 .nav-links {
@@ -55,7 +86,7 @@ body {
 .hamburger-container {
   width: 44px;
   height: 44px;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -74,133 +105,99 @@ body {
   position: absolute;
 }
 
-.top {
-  top: 14px;
-}
+.top { top: 14px; }
+.middle { top: 25px; }
+.bottom { top: 36px; }
 
-.middle {
-  top: 25px;
-}
-
-.bottom {
-  top: 36px;
-}
-
-/* Open state - Upside down cross (satanic style) */
+/* Hamburger open state */
 .hamburger-container.open .top {
-  transform: rotate(90deg); /* Rotate the top line to horizontal */
-  top: 22px; /* Adjust the top line's position */
+  transform: rotate(90deg);
+  top: 22px;
 }
 
 .hamburger-container.open .middle {
-  opacity:1; /* Leave middle line visible */
-  top: 34px; /* Adjust the middle line's position */
+  opacity: 1;
+  top: 34px;
 }
 
 .hamburger-container.open .bottom {
-  transform: rotate(-90deg); /* Rotate the bottom line to horizontal */
-  top: 28px; /* Adjust the bottom line's position */
+  transform: rotate(-90deg);
+  top: 28px;
 }
 
 .hamburger-container.open .line {
-  background-color: #BF0000; /* Change line color when opened */
+  background-color: #BF0000;
 }
-
 
 /* Mobile Menu */
 .mobile-menu {
-    display: none;  /* Hidden by default */
-    position: fixed;
-    bottom: -100%;  /* Starts out of view */
-    left: 0;
-    width: 100%;
-    background-color: #333;
-    color: white;
-    padding: 20px 0;
-    transition: bottom 0.5s ease;  /* Animate the sliding up */
-    min-height: auto;
-  }
+  position: fixed;
+  bottom: -100%; /* Start off-screen at the bottom */
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 64px); /* Subtract top nav height */
+  background-color: rgba(0,0,0,0.85);
+  transition: bottom 0.5s ease;
+  z-index: 1000;
+  display: none;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20%;
+}
 
-  .mobile-menu.open {
-    bottom: 40px;  /* Bring the gravestone to within 40px of the top navigation */
-    display: block; /* Show when open */
-  }
+.mobile-menu.open {
+  bottom: 0; /* Slide up to the bottom of the screen */
+  display: flex;
+}
 
-/* Gravestone styles */
-.gravestone {
-    background-color: #5f5f5f;
-    border-radius: 50% 50% 0 0;
-    width: 100%;
-    padding: 20px 0;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    min-height: 150px;  /* You can adjust this value */
-  }
-  
-.gravestone ul {
+.mobile-menu-items {
   list-style: none;
   margin: 0;
   padding: 0;
+  text-align: center;
+  width: 100%;
 }
 
-.gravestone li {
-  margin: 15px 0;
+.mobile-menu-items li {
+  margin: 25px 0;
 }
 
-.gravestone a {
+.mobile-menu-items a {
   text-decoration: none;
   color: white;
-  font-size: 18px;
+  font-size: 24px;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: bold;
 }
 
-/* Desktop Styles */
-@media (min-width: 768px) {
-  .hamburger-container {
-    display: none; /* Hide hamburger menu on desktop */
-  }
-
-  .nav-links {
-    display: flex; /* Show navigation links on desktop */
-    justify-content: center;
-  }
-
-  .mobile-menu {
-    display: none; /* Hide mobile menu on desktop */
-  }
-}
-
 /* Mobile Styles */
 @media (max-width: 768px) {
   .nav-links {
-    display: none; /* Hide desktop nav links on mobile */
+    display: none;
   }
 
   .hamburger-container {
-    display: flex; /* Show hamburger menu on mobile */
+    display: flex;
   }
 
-  .mobile-nav {
-    display: none; /* Hidden by default */
+  .mobile-menu {
+    display: flex; /* Ensure it's ready to be shown */
   }
-
-  .mobile-nav.open {
-    display: flex; /* Show mobile navigation when open */
-  }
-
-  .top-nav {
-    justify-content: space-between; /* Adjust for smaller screens */
+}
+/* Desktop Styles */
+@media (min-width: 769px) {
+  .mobile-menu {
+    display: none;
   }
 }
 
 /* Logo styling */
 .logo {
-    max-width: 300px;  /* Limit the maximum width to 300px */
-    height: auto;      /* Maintain the aspect ratio */
-    display: inline-block;    /* Make the logo a block element */
-    margin-left: 0; /* Center horizontally */
-    margin-right: 0; /* Center horizontally */
-  }
-  
+  max-width: 300px;
+  height: auto;
+  display: inline-block;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 64px; /* Add top margin to account for fixed nav */
+}
