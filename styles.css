@@ -6,7 +6,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-height: 100vh; /* Changed from height to min-height */
+  min-height: 100dvh; /* Changed from height to min-height */
   background-color: #f0f0f0;
   padding-top: 64px; /* Add padding to prevent content from being hidden behind nav */
   position: relative;
@@ -135,7 +135,7 @@ h2 {
   bottom: -100%; /* Start off-screen at the bottom */
   left: 0;
   width: 100%;
-  height: calc(100vh - 64px); /* Subtract top nav height */
+  height: calc(100dvh - 64px); /* Subtract top nav height */
   background-color: rgba(0,0,0,0.85);
   transition: bottom 0.5s ease;
   z-index: 1000;
