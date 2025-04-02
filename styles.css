@@ -132,7 +132,7 @@ h2 {
 /* Mobile Menu */
 .mobile-menu {
   position: fixed;
-  bottom: -100%; /* Start off-screen at the bottom */
+  bottom: -125%; /* Start off-screen at the bottom */
   left: 0;
   width: 100%;
   height: calc(100dvh - 64px); /* Subtract top nav height */
@@ -165,10 +165,16 @@ h2 {
 .mobile-menu-items a {
   text-decoration: none;
   color: white;
-  font-size: 24px;
+  font-size: 32px;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: bold;
+  cursor: pointer;
+}
+
+.mobile-menu-items a:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
 }
 
 /* Mobile Styles */
