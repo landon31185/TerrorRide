@@ -132,22 +132,27 @@ h2 {
 /* Mobile Menu */
 .mobile-menu {
   position: fixed;
-  bottom: -125%; /* Start off-screen at the bottom */
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: calc(100dvh - 64px); /* Subtract top nav height */
+  height: calc(100dvh - 64px);
   background-color: rgba(0,0,0,0.85);
-  transition: bottom 0.5s ease;
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.5s ease, opacity 0.5s ease;
   z-index: 1000;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: flex-start;
   padding-top: 20%;
 }
 
 .mobile-menu.open {
-  bottom: 0; /* Slide up to the bottom of the screen */
-  display: flex;
+  transform: translateY(0%);
+  opacity: 1;
+  pointer-events: auto;
+display: flex;
 }
 
 .mobile-menu-items {
