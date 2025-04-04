@@ -207,3 +207,15 @@ h2 {
   margin-right: 0;
   margin-top: 64px; /* Add top margin to account for fixed nav */
 }
+
+.menu-bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; /* Behind menu content */
+  opacity: 0.4; /* Adjust to your taste */
+  pointer-events: none; /* Let clicks go through */
+}
