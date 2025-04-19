@@ -21,7 +21,7 @@
     </ul>
 
     <!-- Hamburger Icon for Mobile -->
-    <div class="hamburger-container" onclick="toggleMenu()">
+    <div class="hamburger-container">
       <div class="line top"></div>
       <div class="line middle"></div>
       <div class="line bottom"></div>
@@ -31,6 +31,12 @@
   <!-- Logo -->
   <img src="images/logo.jpg" alt="Band's logo" class="logo">
 
+  <!-- Buttons -->
+  <div>
+    <button class="button-primary">Stream</button>
+  </div>
+
+
   <!-- Main Content -->
   <section id="main-content" class="content">
     <h2>Breakdowns so heavy, you'll shit your pants.</h2>
@@ -39,7 +45,8 @@
 <!-- Mobile Menu with Flame Background -->
 <div class="mobile-menu">
   <!-- 🔥 Background video -->
-  <video autoplay loop muted playsinline class="menu-bg-video">
+  <video autoplay loop muted playsinline class="menu-bg-video" oncanplay="this.play()">
+    <source src="output.mp4" type="video/mp4">
     <source src="output.webm" type="video/webm">
     Your browser does not support the video tag.
   </video>
