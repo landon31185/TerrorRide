@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Music| Terror Ride</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="about">
+
+  <!-- Navigation -->
+  <nav class="top-nav" role="navigation">
+    <div class="logo">TERROR RIDE</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html" class="active" aria-current="page">Music</a></li>
+    </ul>
+    <div class="hamburger-container" id="hamburger">
+      <span class="line top"></span>
+      <span class="line middle"></span>
+      <span class="line bottom"></span>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-menu-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html" class="active" aria-current="page">Music</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <h1>Music</h1>
+
+    <section>
+      <h2>PCC (Pushing Capitalist Control)</h2>
+
+      <div class="text-container-placeholder">
+        <p>Coming spring 2024</p>
+        <p>Get. Fucking. Ready.</p>
+      </div>
+      
+    </section>
+
+  </main>
+
+  <!-- JS for hamburger menu toggle -->
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>

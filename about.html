@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | Terror Ride</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="about">
+
+  <!-- Navigation -->
+  <nav class="top-nav" role="navigation">
+    <div class="logo">TERROR RIDE</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active" aria-current="page">About</a></li>
+      <li><a href="music.html">Music</a></li>
+    </ul>
+    <div class="hamburger-container" id="hamburger">
+      <span class="line top"></span>
+      <span class="line middle"></span>
+      <span class="line bottom"></span>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-menu-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active" aria-current="page">About</a></li>
+      <li><a href="music.html">Music</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main content">
+    <h1>Meet the Band</h1>
+    <img src="images/bandpic1_ivan-lapyrin-LWpMNqUjZvE-unsplash.jpg" alt="Band photo" loading="lazy" class="band-pic">
+
+    <section class="content">
+      <h2>Ricky Blades</h2>
+      <p>Vocals & Chainsaw Screams. West Seattle born, whiskey-fueled growler since '09.</p>
+    </section>
+
+    <section>
+      <h2>Jules "Thunderfist"</h2>
+      <p>Drums. Breaks sticks on purpose. Once kicked out of school for blast beats in math class.</p>
+    </section>
+
+    <section>
+      <h2>Mara Venom</h2>
+      <p>Guitar/Bass hybrid monster. Shreds solos while skateboarding. Has three pet snakes.</p>
+    </section>
+  </main>
+
+  <!-- JS for hamburger menu toggle -->
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>

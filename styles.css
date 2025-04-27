@@ -20,7 +20,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('images/BandLarge.jpg');
+  background-image: url('images/BandLarge-Dark.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -30,14 +30,29 @@ body::before {
 
 h1 {
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'HFucktura-Heavy', sans-serif;
+  color: white;
+  font-size: 28px;
+
 }                     
 
 h2 {
   text-align: center;
   font-family: 'HFucktura-Heavy', sans-serif;
-  color: white 
+  color: white;
+  font-size: 20px;
 }
+
+p {
+  color: white;
+  font-size: 16px;
+}
+
+.line {
+  font-size: 18px;
+  color: #333; /* Adjust as needed */
+}
+
 
 /* Top Navigation Bar */
 
@@ -81,6 +96,23 @@ h2 {
   text-decoration: none;
   color: white;
   font-size: 16px;
+}
+
+.nav-links a.active,
+.mobile-menu-items a.active {
+  border-bottom: 2px solid #24e39d;
+  padding-bottom: 2px; /* prevents layout shift */
+  color: #24e39d;
+}
+
+.nav-links a:hover {
+  color: #24e39d; /* Change text color to your highlight color */
+}
+
+.nav-links a:focus {
+  outline: 2px solid #24e39d; /* Add an outline to make it visible on focus */
+  outline-offset: 2px;
+  color: #24e39d; /* Optional: Change color on focus as well */
 }
 
 /* Hamburger container styling */
@@ -227,10 +259,38 @@ h2 {
   border: none;
   color: white;
   font-size: 24px;
-  padding: 16 px 32 px;
+  padding: 16px 32px;
   text-align: center;
   text-decoration: none;
   display: flex;
   justify-content: center;
   gap: 10px;
 }
+
+
+.text-container-placeholder {
+  width: 100%;
+  max-width: 600px;
+  height: 340px;
+  background-color: #333;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  border: 2px solid #24e39d; /* Matches your green accent */
+  margin: 20px auto;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column; /* Stacks the elements vertically */
+  gap: 10px; /* Adds spacing between each item */
+}
+
+.band-photo {
+  width: 80%; /* or any desired width */
+  height: auto; /* automatically adjusts height to maintain aspect ratio */
+  object-fit: cover;
+}
+
+
+
