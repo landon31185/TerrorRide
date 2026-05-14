@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Music| Terror Ride</title>
+  <title>Music | Terror Ride</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
 </head>
-<body class="about">
+<body>
 
   <!-- Navigation -->
   <nav class="top-nav" role="navigation">
@@ -16,19 +17,23 @@
       <li><a href="about.html">About</a></li>
       <li><a href="music.html" class="active" aria-current="page">Music</a></li>
     </ul>
-    <div class="hamburger-container" id="hamburger">
-      <span class="line top"></span>
-      <span class="line middle"></span>
-      <span class="line bottom"></span>
+    <div class="hamburger-container" aria-label="Toggle navigation menu" aria-expanded="false">
+      <div class="line top"></div>
+      <div class="line middle"></div>
+      <div class="line bottom"></div>
     </div>
   </nav>
 
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobileMenu">
+  <!-- Mobile Menu with Flame Background -->
+  <div class="mobile-menu">
+    <video autoplay loop muted playsinline class="menu-bg-video">
+      <source src="output.mp4" type="video/mp4">
+      <source src="output.webm" type="video/webm">
+    </video>
     <ul class="mobile-menu-items">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="music.html" class="active" aria-current="page">Music</a></li>
+      <li><a href="music.html" class="active">Music</a></li>
     </ul>
   </div>
 
@@ -36,28 +41,52 @@
   <main id="main-content">
     <h1>Music</h1>
 
-    <section>
-      <h2>PCC (Pushing Capitalist Control)</h2>
+    <section class="album-section">
+      <div class="album-card">
 
-      <div class="text-container-placeholder">
-        <p>Coming spring 2024</p>
-        <p>Get. Fucking. Ready.</p>
+        <div class="album-art">
+          <span class="album-art-text">PCC</span>
+        </div>
+
+        <div class="album-info">
+          <h2>PCC</h2>
+          <p class="album-subtitle">Pushing Capitalist Control</p>
+          <p class="album-year">2025</p>
+
+          <ul class="track-list">
+            <li class="track-item">
+              <span class="track-num">01</span>
+              <span class="track-name">No Managers</span>
+            </li>
+            <li class="track-item">
+              <span class="track-num">02</span>
+              <span class="track-name">Debt Machine</span>
+            </li>
+            <li class="track-item">
+              <span class="track-num">03</span>
+              <span class="track-name">Quarterly Funeral</span>
+            </li>
+            <li class="track-item">
+              <span class="track-num">04</span>
+              <span class="track-name">The Shareholders Are Screaming</span>
+            </li>
+            <li class="track-item">
+              <span class="track-num">05</span>
+              <span class="track-name">West Seattle Burning</span>
+            </li>
+          </ul>
+
+          <div class="stream-links">
+            <a href="#" class="stream-btn">Spotify</a>
+            <a href="#" class="stream-btn">Apple Music</a>
+            <a href="#" class="stream-btn">Bandcamp</a>
+          </div>
+        </div>
+
       </div>
-      
     </section>
 
   </main>
-
-  <!-- JS for hamburger menu toggle -->
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      mobileMenu.classList.toggle('open');
-    });
-  </script>
 
 </body>
 </html>
