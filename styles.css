@@ -1,3 +1,18 @@
+/* Fonts */
+@font-face {
+  font-family: 'HFucktura-Heavy';
+  src: url('fonts/HFucktura-Heavy.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HFucktura-Thin';
+  src: url('fonts/HFucktura-Thin.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* General body styling */
 body {
   margin: 0;
@@ -286,10 +301,195 @@ p {
   gap: 10px; /* Adds spacing between each item */
 }
 
+/* Main content layout */
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 60px;
+}
+
+/* Band photo */
 .band-photo {
-  width: 80%; /* or any desired width */
-  height: auto; /* automatically adjusts height to maintain aspect ratio */
+  width: 90%;
+  max-width: 720px;
+  height: auto;
   object-fit: cover;
+  display: block;
+  margin: 0 auto 8px;
+  border-bottom: 3px solid #24e39d;
+}
+
+/* About page — member cards */
+.members-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90%;
+  max-width: 720px;
+  margin: 28px auto 0;
+}
+
+.member-card {
+  background-color: rgba(0, 0, 0, 0.72);
+  border: 1px solid #222;
+  border-left: 4px solid #24e39d;
+  padding: 24px 28px;
+}
+
+.member-card h2 {
+  text-align: left;
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.member-role {
+  color: #24e39d;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 14px;
+}
+
+.member-card p:last-child {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  opacity: 0.85;
+}
+
+/* Music page — album section */
+.album-section {
+  width: 90%;
+  max-width: 780px;
+  margin: 16px auto 0;
+}
+
+.album-card {
+  display: flex;
+  gap: 36px;
+  background-color: rgba(0, 0, 0, 0.72);
+  border: 1px solid #222;
+  border-top: 3px solid #24e39d;
+  padding: 32px;
+}
+
+.album-art {
+  flex-shrink: 0;
+  width: 180px;
+  height: 180px;
+  background-color: #0a0a0a;
+  border: 2px solid #24e39d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.album-art-text {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  color: #24e39d;
+  font-size: 44px;
+  letter-spacing: 4px;
+}
+
+.album-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.album-info h2 {
+  text-align: left;
+  margin: 0 0 4px;
+  font-size: 26px;
+}
+
+.album-subtitle {
+  color: #888;
+  font-size: 14px;
+  font-style: italic;
+  margin: 0 0 4px;
+}
+
+.album-year {
+  color: #24e39d;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+}
+
+.track-list {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+  border-top: 1px solid #2a2a2a;
+}
+
+.track-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.track-num {
+  color: #24e39d;
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 12px;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.track-name {
+  color: white;
+  font-size: 14px;
+}
+
+.stream-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stream-btn {
+  background: transparent;
+  border: 1px solid #24e39d;
+  color: #24e39d;
+  padding: 8px 18px;
+  text-decoration: none;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.stream-btn:hover {
+  background: #24e39d;
+  color: #000;
+}
+
+@media (max-width: 600px) {
+  .album-card {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .album-info h2 {
+    text-align: center;
+  }
+
+  .album-subtitle,
+  .album-year {
+    text-align: center;
+  }
+
+  .stream-links {
+    justify-content: center;
+  }
 }
 
 
