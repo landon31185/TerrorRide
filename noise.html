@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File a Complaint | Terror Ride</title>
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:site_name"   content="Terror Ride">
+  <meta property="og:title"       content="File a Noise Complaint — Terror Ride">
+  <meta property="og:description" content="We've received 47 of these. Here's what they look like.">
+  <meta property="og:image"       content="https://terrorride.vercel.app/images/BandLarge-Dark.png">
+  <meta property="og:url"         content="https://terrorride.vercel.app/noise.html">
+  <meta name="twitter:card"       content="summary_large_image">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <nav class="top-nav" role="navigation">
+    <div class="logo">TERROR RIDE</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+      <li><a href="noise.html" class="active" aria-current="page">Noise</a></li>
+    </ul>
+    <div class="hamburger-container" aria-label="Toggle navigation menu" aria-expanded="false">
+      <div class="line top"></div>
+      <div class="line middle"></div>
+      <div class="line bottom"></div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <video autoplay loop muted playsinline class="menu-bg-video">
+      <source src="output.mp4" type="video/mp4">
+      <source src="output.webm" type="video/webm">
+    </video>
+    <ul class="mobile-menu-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+      <li><a href="noise.html" class="active">Noise</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+    <h1>File a Complaint</h1>
+    <p style="text-align:center; color:#555; font-style:italic; margin-top:0;">
+      We've received 47 of these. Here's what they look like.
+    </p>
+
+    <div class="complaint-wrap">
+      <div class="complaint-card" id="complaint-output">
+        <div class="letterhead">City of West Seattle — Resident Noise Complaint Division</div>
+        <div class="complaint-subject" id="complaint-subject"></div>
+        <div class="complaint-body" id="complaint-body"></div>
+        <div class="complaint-sig" id="complaint-sig"></div>
+      </div>
+
+      <div class="complaint-actions">
+        <button class="btn-generate" onclick="generate()">Generate Complaint</button>
+        <button class="btn-copy" id="copy-btn" onclick="copyComplaint()">Copy to Clipboard</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const names    = ['H. Grumbleton', 'Margaret T. Harpswell', 'Clarence Boufont III', 'Patricia A. Windemere', 'R. Stuffington-Bell', 'Deborah J. Pince', 'Walter Crumley'];
+    const addrs    = ['4821 California Ave SW', '2307 Alki Ave SW', '5601 SW Dawson St', '1142 Harbor Ave SW', '3388 SW Avalon Way', '6602 35th Ave SW'];
+    const locs     = ['in the alley behind my home', 'at Alki Beach at 11pm', 'in the Bartell Drugs parking lot', 'on the West Seattle Bridge', 'outside Easy Street Records', 'at Camp Long (a children\'s area)', 'in the Trader Joe\'s parking lot on Alaska', 'under the West Seattle Bridge'];
+    const times    = ['11:47pm', '2:13am', 'during my daughter\'s piano recital', 'while I was trying to watch Jeopardy!', 'on Christmas Eve', 'at 6:30am on a Sunday', 'during a neighborhood HOA meeting'];
+    const fx       = ['my houseplants wilted', 'my cat developed a stress tick', 'the fillings fell out of two of my teeth', 'I can still hear the ringing (this was in 2019)', 'my Prius alarm has not stopped since', 'my sourdough starter died', 'the neighbor\'s Ring camera captured footage we cannot legally describe'];
+    const pets     = ['my cat Mr. Whiskers', 'my rescue greyhound Gerald', 'my emotional support koi', 'my therapy iguana Steve', 'both of my guinea pigs'];
+    const attempts = ['calling the non-emergency line four times', 'making direct eye contact with the drummer', 'deploying noise-canceling headphones rated for construction sites', 'contacting my HOA (we don\'t have one)', 'placing a strongly-worded note on their van', 'asking Ricky Blades to "please stop" (he did not stop)'];
+    const demands  = ['never perform again within King County limits', 'personally pay for my therapy', 'apologize directly to Gerald', 'be prohibited from owning amplifiers or chainsaws', 'relocate all future performances to Bellevue', 'issue a formal written apology to the Bartell Drugs staff'];
+
+    const months   = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function randomDate() {
+      const y = 2022 + Math.floor(Math.random() * 3);
+      const m = months[Math.floor(Math.random() * 12)];
+      const d = 1 + Math.floor(Math.random() * 27);
+      return `${m} ${d}, ${y}`;
+    }
+
+    function generate() {
+      const name    = pick(names);
+      const addr    = pick(addrs);
+      const loc     = pick(locs);
+      const time    = pick(times);
+      const effect  = pick(fx);
+      const pet     = pick(pets);
+      const attempt = pick(attempts);
+      const demand  = pick(demands);
+      const date    = randomDate();
+
+      document.getElementById('complaint-subject').textContent =
+        `NOISE COMPLAINT — FORMAL NOTICE\nDate: ${date}  |  From: ${name}, ${addr}\nRe: The band "Terror Ride"`;
+
+      document.getElementById('complaint-body').textContent =
+        `To Whom It May Concern,\n\nI am writing to formally document an incident involving the band "Terror Ride," who performed ${loc} on ${date} at approximately ${time}.\n\nThe noise level caused ${effect}. ${pet} has not been the same since.\n\nI attempted to resolve this matter by ${attempt}, but was wholly unsuccessful.\n\nI am formally demanding that Terror Ride ${demand}.\n\nThis is my ${1 + Math.floor(Math.random() * 6)}${['st','nd','rd','th','th','th'][Math.floor(Math.random()*6)]} complaint. I will not stop filing.`;
+
+      document.getElementById('complaint-sig').textContent =
+        `Sincerely,\n${name}\nWest Seattle, WA 98116`;
+
+      document.getElementById('copy-btn').textContent = 'Copy to Clipboard';
+      document.getElementById('copy-btn').classList.remove('copied');
+    }
+
+    function copyComplaint() {
+      const subject = document.getElementById('complaint-subject').textContent;
+      const body    = document.getElementById('complaint-body').textContent;
+      const sig     = document.getElementById('complaint-sig').textContent;
+      const full    = `${subject}\n\n${body}\n\n${sig}`;
+
+      navigator.clipboard.writeText(full).then(() => {
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy to Clipboard';
+          btn.classList.remove('copied');
+        }, 2500);
+      });
+    }
+
+    // Auto-generate on load
+    generate();
+  </script>
+
+</body>
+</html>

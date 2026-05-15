@@ -770,6 +770,86 @@ main {
   .ban-date { color: var(--red); }
 }
 
+/* ── Noise complaint generator ────────────────────────────── */
+.complaint-wrap {
+  width: 90%;
+  max-width: 680px;
+  margin: 20px auto 60px;
+}
+
+.complaint-card {
+  background: #f5f0e8;
+  color: #1a1a1a;
+  font-family: Georgia, 'Times New Roman', serif;
+  padding: 40px 44px;
+  border-left: 6px solid var(--red);
+  line-height: 1.75;
+  min-height: 320px;
+}
+
+.complaint-card .letterhead {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.complaint-card .complaint-subject {
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+}
+
+.complaint-card .complaint-body {
+  font-size: 15px;
+  color: #2a2a2a;
+  white-space: pre-line;
+}
+
+.complaint-card .complaint-sig {
+  margin-top: 28px;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.complaint-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.complaint-actions button {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-generate {
+  background: var(--green);
+  border: 1px solid var(--green);
+  color: #000;
+}
+.btn-generate:hover { background: #1cc888; }
+
+.btn-copy {
+  background: transparent;
+  border: 1px solid #444;
+  color: #aaa;
+}
+.btn-copy:hover { border-color: var(--green); color: var(--green); }
+.btn-copy.copied { border-color: var(--green); color: var(--green); }
+
 /* Certificate print styles */
 @media print {
   body > *:not(#certificate) { display: none; }
