@@ -502,15 +502,134 @@ main {
   }
 }
 
-/* ── Scroll fade-in ───────────────────────────────────────── */
+/* ── Scroll-driven animations ─────────────────────────────── */
+
+/* Fallback: JS IntersectionObserver adds .in-view */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+  filter: blur(3px);
 }
 .reveal.in-view {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Modern: CSS scroll-driven animations (Chrome 115+, Safari 18+) */
+@keyframes scroll-reveal {
+  from { opacity: 0; transform: translateY(32px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0);   }
+}
+
+@keyframes scroll-reveal-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+
+@supports (animation-timeline: view()) {
+  .reveal {
+    opacity: 0; /* start hidden until scroll reaches it */
+    transform: none;
+    filter: none;
+    transition: none;
+    animation: scroll-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+
+  /* Ban list items slide in from the left */
+  .ban-item.reveal {
+    animation-name: scroll-reveal-left;
+    animation-range: entry 0% entry 50%;
+  }
+}
+
+/* ── Geolocation radar ────────────────────────────────────── */
+.radar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.radar-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.radar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.radar-face {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(36, 227, 157, 0.5);
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(36, 227, 157, 0.08), inset 0 0 40px rgba(0,0,0,0.9);
+}
+
+.radar-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(36, 227, 157, 0.15);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.radar-ring.r1 { width: 66%; height: 66%; }
+.radar-ring.r2 { width: 33%; height: 33%; }
+
+.radar-cross {
+  position: absolute;
+  background: rgba(36, 227, 157, 0.12);
+}
+.radar-cross.h { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
+.radar-cross.v { height: 100%; width: 1px; left: 50%; top: 0; transform: translateX(-50%); }
+
+.radar-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(36, 227, 157, 0)    0deg,
+    rgba(36, 227, 157, 0.03) 120deg,
+    rgba(36, 227, 157, 0.12) 240deg,
+    rgba(36, 227, 157, 0.55) 355deg,
+    rgba(36, 227, 157, 0)    360deg
+  );
+  animation: radar-spin 1.8s linear infinite;
+}
+
+@keyframes radar-spin { to { transform: rotate(360deg); } }
+
+.radar-coords {
+  font-family: 'HFucktura-Heavy', monospace;
+  font-size: 13px;
+  color: var(--green);
+  letter-spacing: 2px;
+}
+
+.radar-status {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  color: #444;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  transition: color 0.4s;
 }
 
 /* ── Geolocation banner ───────────────────────────────────── */
@@ -769,6 +888,86 @@ main {
   }
   .ban-date { color: var(--red); }
 }
+
+/* ── Noise complaint generator ────────────────────────────── */
+.complaint-wrap {
+  width: 90%;
+  max-width: 680px;
+  margin: 20px auto 60px;
+}
+
+.complaint-card {
+  background: #f5f0e8;
+  color: #1a1a1a;
+  font-family: Georgia, 'Times New Roman', serif;
+  padding: 40px 44px;
+  border-left: 6px solid var(--red);
+  line-height: 1.75;
+  min-height: 320px;
+}
+
+.complaint-card .letterhead {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.complaint-card .complaint-subject {
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+}
+
+.complaint-card .complaint-body {
+  font-size: 15px;
+  color: #2a2a2a;
+  white-space: pre-line;
+}
+
+.complaint-card .complaint-sig {
+  margin-top: 28px;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.complaint-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.complaint-actions button {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-generate {
+  background: var(--green);
+  border: 1px solid var(--green);
+  color: #000;
+}
+.btn-generate:hover { background: #1cc888; }
+
+.btn-copy {
+  background: transparent;
+  border: 1px solid #444;
+  color: #aaa;
+}
+.btn-copy:hover { border-color: var(--green); color: var(--green); }
+.btn-copy.copied { border-color: var(--green); color: var(--green); }
 
 /* Certificate print styles */
 @media print {
