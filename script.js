@@ -1,10 +1,88 @@
 document.addEventListener('DOMContentLoaded', function () {
   initShaderBackground();
+  initCursorTrail();
   initMenu();
   initScrollReveal();
   initGeolocation();
   initLogoBleed();
 });
+
+// ─── Fire ember cursor trail (desktop only) ──────────────────────
+function initCursorTrail() {
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998;';
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const particles = [];
+  const MAX = 200;
+
+  function spawn(x, y, count, burst) {
+    for (let i = 0; i < count && particles.length < MAX; i++) {
+      const angle = burst ? Math.random() * Math.PI * 2 : 0;
+      const speed = burst ? Math.random() * 4 + 1 : 0;
+      particles.push({
+        x: x + (Math.random() - 0.5) * 6,
+        y: y + (Math.random() - 0.5) * 6,
+        vx: burst ? Math.cos(angle) * speed : (Math.random() - 0.5) * 1.0,
+        vy: burst ? Math.sin(angle) * speed : -(Math.random() * 1.8 + 0.4),
+        life: 1.0,
+        decay: burst ? 0.035 + Math.random() * 0.025 : 0.018 + Math.random() * 0.018,
+        size: burst ? 2 + Math.random() * 3 : 1.5 + Math.random() * 2,
+      });
+    }
+  }
+
+  window.addEventListener('mousemove', e => spawn(e.clientX, e.clientY, 3, false));
+  window.addEventListener('mousedown', e => spawn(e.clientX, e.clientY, 18, true));
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function render() {
+    requestAnimationFrame(render);
+    if (document.hidden) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x  += p.vx;
+      p.y  += p.vy;
+      p.vy -= 0.04;
+      p.life -= p.decay;
+      p.size *= 0.975;
+      if (p.life <= 0 || p.size < 0.3) { particles.splice(i, 1); continue; }
+
+      let r, g, b;
+      if (p.life > 0.65) {
+        const t = (p.life - 0.65) / 0.35;
+        r = 255; g = Math.floor(lerp(140, 240, t)); b = Math.floor(lerp(0, 160, t));
+      } else if (p.life > 0.3) {
+        const t = (p.life - 0.3) / 0.35;
+        r = 255; g = Math.floor(lerp(20, 140, t)); b = 0;
+      } else {
+        const t = p.life / 0.3;
+        r = Math.floor(lerp(60, 255, t)); g = 0; b = 0;
+      }
+
+      ctx.save();
+      ctx.globalAlpha = p.life * 0.9;
+      ctx.shadowColor  = `rgb(${r},${g},${b})`;
+      ctx.shadowBlur   = 8;
+      ctx.fillStyle    = `rgb(${r},${g},${b})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+  render();
+}
 
 // ─── Lava crack shader background ────────────────────────────────
 function initShaderBackground() {
