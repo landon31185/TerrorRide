@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merch | Terror Ride</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <nav class="top-nav" role="navigation">
+    <div class="logo">TERROR RIDE</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html" class="active" aria-current="page">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+    </ul>
+    <div class="hamburger-container" aria-label="Toggle navigation menu" aria-expanded="false">
+      <div class="line top"></div>
+      <div class="line middle"></div>
+      <div class="line bottom"></div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <video autoplay loop muted playsinline class="menu-bg-video">
+      <source src="output.mp4" type="video/mp4">
+      <source src="output.webm" type="video/webm">
+    </video>
+    <ul class="mobile-menu-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html" class="active">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+    <h1>Merch</h1>
+    <p style="text-align:center; color:#555; font-style:italic; margin-top:0;">Everything is sold out. It's not our fault you weren't paying attention.</p>
+
+    <div class="merch-grid">
+
+      <div class="merch-card reveal">
+        <span class="sold-out-badge">Sold Out</span>
+        <div class="merch-art">Terror Ride<br>Tee</div>
+        <p class="merch-name">Terror Ride T-Shirt (Black on Black)</p>
+        <p class="merch-note">You literally cannot see the logo. Perfect.</p>
+        <p class="merch-price">$45</p>
+        <button class="merch-btn" disabled>Sold Out</button>
+      </div>
+
+      <div class="merch-card reveal">
+        <span class="sold-out-badge">Sold Out</span>
+        <div class="merch-art">Terror Ride<br>Tee<br>(Blacker)</div>
+        <p class="merch-name">Terror Ride T-Shirt (Blacker)</p>
+        <p class="merch-note">Even less visible than the first one.</p>
+        <p class="merch-price">$52</p>
+        <button class="merch-btn" disabled>Sold Out</button>
+      </div>
+
+      <div class="merch-card reveal">
+        <span class="sold-out-badge">Sold Out</span>
+        <div class="merch-art">PCC<br>Vinyl</div>
+        <p class="merch-name">PCC Vinyl — Limited Edition</p>
+        <p class="merch-note">We pressed 3 copies. We kept one. You do the math.</p>
+        <p class="merch-price">$200</p>
+        <button class="merch-btn" disabled>Sold Out</button>
+      </div>
+
+      <div class="merch-card reveal">
+        <span class="sold-out-badge">Sold Out</span>
+        <div class="merch-art">⛓</div>
+        <p class="merch-name">Ricky's Chainsaw (Stage Prop, Signed)</p>
+        <p class="merch-note">FAA approved. Sort of. No refunds.</p>
+        <p class="merch-price">$666</p>
+        <button class="merch-btn" disabled>Sold Out</button>
+      </div>
+
+      <div class="merch-card reveal">
+        <span class="sold-out-badge">Sold Out</span>
+        <div class="merch-art">🥢<br>Bag of Splinters</div>
+        <p class="merch-name">Jules' Broken Drumstick Set</p>
+        <p class="merch-note">Comes in a zip-lock. Includes a band-aid.</p>
+        <p class="merch-price">$89</p>
+        <button class="merch-btn" disabled>Sold Out</button>
+      </div>
+
+      <div class="merch-card reveal">
+        <span class="sold-out-badge">Sold Out</span>
+        <div class="merch-art">Mara's<br>Pick</div>
+        <p class="merch-name">Mara's Guitar Pick (Slightly Cursed)</p>
+        <p class="merch-note">Left-handed. Non-transferable. Consequences not included.</p>
+        <p class="merch-price">$120</p>
+        <button class="merch-btn" disabled>Sold Out</button>
+      </div>
+
+      <div class="merch-card reveal">
+        <span class="sold-out-badge">Sold Out</span>
+        <div class="merch-art">Terror Ride<br>Hoodie</div>
+        <p class="merch-name">Terror Ride Hoodie</p>
+        <p class="merch-note">One size: Large. Non-negotiable.</p>
+        <p class="merch-price">$85</p>
+        <button class="merch-btn" disabled>Sold Out</button>
+      </div>
+
+      <div class="merch-card reveal">
+        <span class="sold-out-badge">Sold Out</span>
+        <div class="merch-art">Empty<br>Bottle</div>
+        <p class="merch-name">Ricky's Stage Whiskey (Empty Bottle)</p>
+        <p class="merch-note">Residual whiskey not guaranteed. Residual Ricky very likely.</p>
+        <p class="merch-price">$199</p>
+        <button class="merch-btn" disabled>Sold Out</button>
+      </div>
+
+      <div class="merch-card available reveal">
+        <div class="merch-art">CERTIFICATE<br>OF<br>INCONVENIENCE</div>
+        <p class="merch-name">Certificate of Inconvenience — Official</p>
+        <p class="merch-note">Proof you survived a Terror Ride show. Suitable for framing. Printable.</p>
+        <p class="merch-price">$0.00</p>
+        <button class="merch-btn available" onclick="printCertificate()">Claim Yours</button>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="certificate-print" style="display:none;">
+    <style id="cert-print-style"></style>
+  </div>
+
+  <script>
+    function printCertificate() {
+      const style = `
+        @media print {
+          body > *:not(#certificate-print) { display: none !important; }
+          #certificate-print { display: block !important; }
+        }
+      `;
+      document.getElementById('cert-print-style').textContent = style;
+
+      const cert = document.getElementById('certificate-print');
+      cert.innerHTML = `
+        <style>
+          @media print {
+            body > *:not(#certificate-print) { display: none !important; }
+          }
+          #certificate-print {
+            font-family: Georgia, serif;
+            text-align: center;
+            padding: 60px;
+            border: 8px double #000;
+            margin: 40px;
+            color: #000;
+            background: #fff;
+          }
+          #certificate-print h2 { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin: 0 0 8px; }
+          #certificate-print h1 { font-size: 36px; margin: 0 0 16px; }
+          #certificate-print p  { font-size: 16px; line-height: 1.8; }
+          #certificate-print .seal { font-size: 64px; margin: 24px 0; }
+          #certificate-print .sig { margin-top: 48px; font-size: 13px; display: flex; justify-content: space-around; }
+          #certificate-print .sig div { border-top: 1px solid #000; padding-top: 8px; min-width: 140px; }
+        </style>
+        <h2>West Seattle, WA — Est. 2009</h2>
+        <h1>TERROR RIDE</h1>
+        <div class="seal">🤘</div>
+        <p><em>This certifies that the bearer has been</em></p>
+        <p style="font-size:22px; font-weight:bold;">SUFFICIENTLY INCONVENIENCED</p>
+        <p><em>by the live performance of Terror Ride and has survived with their hearing mostly intact.</em></p>
+        <div class="sig">
+          <div>Ricky Blades<br><small>Vocals & Chainsaw</small></div>
+          <div>Jules "Thunderfist"<br><small>Drums</small></div>
+          <div>Mara Venom<br><small>Guitar / Bass</small></div>
+        </div>
+      `;
+      window.print();
+    }
+  </script>
+
+</body>
+</html>
