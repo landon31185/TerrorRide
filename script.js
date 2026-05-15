@@ -1,10 +1,173 @@
 document.addEventListener('DOMContentLoaded', function () {
   initShaderBackground();
+  initCursorTrail();
+  initPoll();
   initMenu();
   initScrollReveal();
   initGeolocation();
   initLogoBleed();
 });
+
+// ─── Pop-up poll ──────────────────────────────────────────────────
+function initPoll() {
+  if (sessionStorage.getItem('tr_poll_done')) return;
+
+  const POLLS = [
+    { id: 'species', q: 'Are we fucked as a species?',
+      a: ["We're so fucked", 'Hardcore til I die', 'We will have to see'] },
+    { id: 'quiet',   q: 'Should bands play quieter out of respect for the neighborhood?',
+      a: ['Be considerate', "That's what the noise complaint page is for", 'file it at terrorride.com/noise'] },
+    { id: 'rock',    q: "What's the current state of rock?",
+      a: ['Completely dead', "It's right here", 'Check the pulse'] },
+    { id: 'pit',     q: 'Pick a side.',
+      a: ['The pit is a safe space', 'The pit is not a safe space', "I don't go in the pit"] },
+  ];
+
+  const poll = POLLS[Math.floor(Math.random() * POLLS.length)];
+
+  const overlay = document.createElement('div');
+  overlay.id = 'poll-overlay';
+  overlay.innerHTML = `
+    <div id="poll-modal">
+      <button id="poll-close" aria-label="Close">×</button>
+      <p id="poll-q">${poll.q}</p>
+      <div id="poll-answers">
+        ${poll.a.map((a, i) => `<button class="poll-btn" data-i="${i}">${a}</button>`).join('')}
+      </div>
+      <div id="poll-results" hidden></div>
+      <p id="poll-total"></p>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  const show = () => requestAnimationFrame(() => overlay.classList.add('visible'));
+  const hide = () => {
+    overlay.classList.remove('visible');
+    overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+  };
+
+  document.getElementById('poll-close').addEventListener('click', () => {
+    sessionStorage.setItem('tr_poll_done', '1');
+    hide();
+  });
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) { sessionStorage.setItem('tr_poll_done', '1'); hide(); }
+  });
+
+  overlay.querySelectorAll('.poll-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const answer = parseInt(btn.dataset.i);
+      sessionStorage.setItem('tr_poll_done', '1');
+      overlay.querySelectorAll('.poll-btn').forEach(b => b.disabled = true);
+      try {
+        const res = await fetch('/api/poll', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: poll.id, answer }),
+        });
+        const { counts } = await res.json();
+        showResults(counts, answer);
+      } catch { hide(); }
+    });
+  });
+
+  function showResults(counts, votedIdx) {
+    const total = counts.reduce((a, b) => a + b, 0);
+    document.getElementById('poll-answers').hidden = true;
+    const resultsEl = document.getElementById('poll-results');
+    resultsEl.hidden = false;
+    resultsEl.innerHTML = poll.a.map((a, i) => {
+      const pct = total ? Math.round(counts[i] / total * 100) : 0;
+      return `<div class="poll-result-row">
+        <span class="poll-result-label">${a}</span>
+        <span class="poll-result-pct">${pct}%</span>
+        <div class="poll-bar-wrap"><div class="poll-bar${i === votedIdx ? ' voted' : ''}" data-pct="${pct}"></div></div>
+      </div>`;
+    }).join('');
+    document.getElementById('poll-total').textContent = `${total} vote${total !== 1 ? 's' : ''}`;
+    requestAnimationFrame(() => {
+      overlay.querySelectorAll('.poll-bar').forEach(b => { b.style.width = b.dataset.pct + '%'; });
+    });
+  }
+
+  setTimeout(show, 4000);
+}
+
+// ─── Fire ember cursor trail (desktop only) ──────────────────────
+function initCursorTrail() {
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998;';
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const particles = [];
+  const MAX = 200;
+
+  function spawn(x, y, count, burst) {
+    for (let i = 0; i < count && particles.length < MAX; i++) {
+      const angle = burst ? Math.random() * Math.PI * 2 : 0;
+      const speed = burst ? Math.random() * 4 + 1 : 0;
+      particles.push({
+        x: x + (Math.random() - 0.5) * 6,
+        y: y + (Math.random() - 0.5) * 6,
+        vx: burst ? Math.cos(angle) * speed : (Math.random() - 0.5) * 1.0,
+        vy: burst ? Math.sin(angle) * speed : -(Math.random() * 1.8 + 0.4),
+        life: 1.0,
+        decay: burst ? 0.035 + Math.random() * 0.025 : 0.018 + Math.random() * 0.018,
+        size: burst ? 2 + Math.random() * 3 : 1.5 + Math.random() * 2,
+      });
+    }
+  }
+
+  window.addEventListener('mousemove', e => spawn(e.clientX, e.clientY, 3, false));
+  window.addEventListener('mousedown', e => spawn(e.clientX, e.clientY, 18, true));
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function render() {
+    requestAnimationFrame(render);
+    if (document.hidden) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x  += p.vx;
+      p.y  += p.vy;
+      p.vy -= 0.04;
+      p.life -= p.decay;
+      p.size *= 0.975;
+      if (p.life <= 0 || p.size < 0.3) { particles.splice(i, 1); continue; }
+
+      let r, g, b;
+      if (p.life > 0.65) {
+        const t = (p.life - 0.65) / 0.35;
+        r = 255; g = Math.floor(lerp(140, 240, t)); b = Math.floor(lerp(0, 160, t));
+      } else if (p.life > 0.3) {
+        const t = (p.life - 0.3) / 0.35;
+        r = 255; g = Math.floor(lerp(20, 140, t)); b = 0;
+      } else {
+        const t = p.life / 0.3;
+        r = Math.floor(lerp(60, 255, t)); g = 0; b = 0;
+      }
+
+      ctx.save();
+      ctx.globalAlpha = p.life * 0.9;
+      ctx.shadowColor  = `rgb(${r},${g},${b})`;
+      ctx.shadowBlur   = 8;
+      ctx.fillStyle    = `rgb(${r},${g},${b})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+  render();
+}
 
 // ─── Lava crack shader background ────────────────────────────────
 function initShaderBackground() {
