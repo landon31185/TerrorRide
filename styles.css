@@ -776,6 +776,8 @@ main {
   width: 90%;
   max-width: 900px;
   margin: 20px auto 0;
+  position: relative;
+  z-index: 0; /* contains Leaflet stacking context below mobile menu */
 }
 
 #banned-map {
@@ -1164,6 +1166,8 @@ main {
   width: 90%;
   max-width: 900px;
   margin: 20px auto 0;
+  position: relative;
+  z-index: 0; /* contains Leaflet stacking context below mobile menu */
 }
 
 #banned-map {
