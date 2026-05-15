@@ -1,11 +1,96 @@
 document.addEventListener('DOMContentLoaded', function () {
   initShaderBackground();
   initCursorTrail();
+  initPoll();
   initMenu();
   initScrollReveal();
   initGeolocation();
   initLogoBleed();
 });
+
+// ─── Pop-up poll ──────────────────────────────────────────────────
+function initPoll() {
+  if (sessionStorage.getItem('tr_poll_done')) return;
+
+  const POLLS = [
+    { id: 'species', q: 'Are we fucked as a species?',
+      a: ["We're so fucked", 'Hardcore til I die', 'We will have to see'] },
+    { id: 'quiet',   q: 'Should bands play quieter out of respect for the neighborhood?',
+      a: ['Be considerate', "That's what the noise complaint page is for", 'file it at terrorride.com/noise'] },
+    { id: 'rock',    q: "What's the current state of rock?",
+      a: ['Completely dead', "It's right here", 'Check the pulse'] },
+    { id: 'pit',     q: 'Pick a side.',
+      a: ['The pit is a safe space', 'The pit is not a safe space', "I don't go in the pit"] },
+  ];
+
+  const poll = POLLS[Math.floor(Math.random() * POLLS.length)];
+
+  const overlay = document.createElement('div');
+  overlay.id = 'poll-overlay';
+  overlay.innerHTML = `
+    <div id="poll-modal">
+      <button id="poll-close" aria-label="Close">×</button>
+      <p id="poll-q">${poll.q}</p>
+      <div id="poll-answers">
+        ${poll.a.map((a, i) => `<button class="poll-btn" data-i="${i}">${a}</button>`).join('')}
+      </div>
+      <div id="poll-results" hidden></div>
+      <p id="poll-total"></p>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  const show = () => requestAnimationFrame(() => overlay.classList.add('visible'));
+  const hide = () => {
+    overlay.classList.remove('visible');
+    overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+  };
+
+  document.getElementById('poll-close').addEventListener('click', () => {
+    sessionStorage.setItem('tr_poll_done', '1');
+    hide();
+  });
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) { sessionStorage.setItem('tr_poll_done', '1'); hide(); }
+  });
+
+  overlay.querySelectorAll('.poll-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const answer = parseInt(btn.dataset.i);
+      sessionStorage.setItem('tr_poll_done', '1');
+      overlay.querySelectorAll('.poll-btn').forEach(b => b.disabled = true);
+      try {
+        const res = await fetch('/api/poll', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: poll.id, answer }),
+        });
+        const { counts } = await res.json();
+        showResults(counts, answer);
+      } catch { hide(); }
+    });
+  });
+
+  function showResults(counts, votedIdx) {
+    const total = counts.reduce((a, b) => a + b, 0);
+    document.getElementById('poll-answers').hidden = true;
+    const resultsEl = document.getElementById('poll-results');
+    resultsEl.hidden = false;
+    resultsEl.innerHTML = poll.a.map((a, i) => {
+      const pct = total ? Math.round(counts[i] / total * 100) : 0;
+      return `<div class="poll-result-row">
+        <span class="poll-result-label">${a}</span>
+        <span class="poll-result-pct">${pct}%</span>
+        <div class="poll-bar-wrap"><div class="poll-bar${i === votedIdx ? ' voted' : ''}" data-pct="${pct}"></div></div>
+      </div>`;
+    }).join('');
+    document.getElementById('poll-total').textContent = `${total} vote${total !== 1 ? 's' : ''}`;
+    requestAnimationFrame(() => {
+      overlay.querySelectorAll('.poll-bar').forEach(b => { b.style.width = b.dataset.pct + '%'; });
+    });
+  }
+
+  setTimeout(show, 4000);
+}
 
 // ─── Fire ember cursor trail (desktop only) ──────────────────────
 function initCursorTrail() {
