@@ -1,9 +1,145 @@
 document.addEventListener('DOMContentLoaded', function () {
+  initShaderBackground();
   initMenu();
   initScrollReveal();
   initGeolocation();
   initLogoBleed();
 });
+
+// ─── Lava crack shader background ────────────────────────────────
+function initShaderBackground() {
+  const canvas = document.createElement('canvas');
+  canvas.id = 'bg-canvas';
+  document.body.insertBefore(canvas, document.body.firstChild);
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) { canvas.remove(); return; }
+
+  const VS = `
+    attribute vec2 a_pos;
+    void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
+  `;
+
+  const FS = `
+    precision mediump float;
+    uniform float u_time;
+    uniform vec2  u_res;
+
+    vec2 hash2(vec2 p) {
+      p = vec2(dot(p, vec2(127.1,311.7)), dot(p, vec2(269.5,183.3)));
+      return fract(sin(p) * 43758.5453);
+    }
+
+    float noise(vec2 p) {
+      vec2 i = floor(p), f = fract(p);
+      f = f*f*(3.0-2.0*f);
+      float a = fract(sin(dot(i,           vec2(127.1,311.7)))*43758.5453);
+      float b = fract(sin(dot(i+vec2(1,0), vec2(127.1,311.7)))*43758.5453);
+      float c = fract(sin(dot(i+vec2(0,1), vec2(127.1,311.7)))*43758.5453);
+      float d = fract(sin(dot(i+vec2(1,1), vec2(127.1,311.7)))*43758.5453);
+      return mix(mix(a,b,f.x), mix(c,d,f.x), f.y);
+    }
+
+    float voronoiEdge(vec2 p) {
+      vec2 n = floor(p), f = fract(p);
+      float d1 = 8.0, d2 = 8.0;
+      for (int j=-2; j<=2; j++) {
+        for (int i=-2; i<=2; i++) {
+          vec2 g = vec2(float(i), float(j));
+          vec2 o = 0.5 + 0.5*sin(u_time*0.2 + 6.28318*hash2(n+g));
+          vec2 r = g + o - f;
+          float d = dot(r,r);
+          if (d < d1) { d2=d1; d1=d; } else if (d < d2) { d2=d; }
+        }
+      }
+      return sqrt(d2) - sqrt(d1);
+    }
+
+    void main() {
+      vec2 uv = gl_FragCoord.xy / u_res;
+      vec2 p  = vec2(uv.x * (u_res.x/u_res.y), uv.y);
+
+      float wt   = u_time * 0.08;
+      vec2 warp  = vec2(noise(p*1.5+wt), noise(p*1.5+wt+3.7));
+      vec2 wp    = p*4.0 + warp*0.5;
+
+      float e1 = voronoiEdge(wp);
+      float e2 = voronoiEdge(wp*2.0 + vec2(5.1,3.3));
+
+      float crack1 = 1.0 - smoothstep(0.0, 0.06, e1);
+      float glow1  = 1.0 - smoothstep(0.0, 0.22, e1);
+      float crack2 = (1.0 - smoothstep(0.0, 0.04, e2)) * 0.5;
+      float glow2  = (1.0 - smoothstep(0.0, 0.14, e2)) * 0.3;
+
+      float pulse  = 0.8 + 0.2*sin(u_time*0.35 + wp.x*0.5 + wp.y*0.3);
+
+      vec3 col = vec3(0.04, 0.01, 0.01);
+      col += vec3(0.35, 0.04, 0.0) * pow(glow1, 2.0) * pulse * 0.7;
+      col += vec3(0.35, 0.04, 0.0) * glow2 * pulse * 0.4;
+      col += vec3(1.0,  0.38, 0.0) * crack1 * pulse;
+      col += vec3(1.0,  0.82, 0.25)* crack1*crack1 * 0.9;
+      col += vec3(1.0,  0.38, 0.0) * crack2 * pulse * 0.6;
+
+      vec2 vd = uv - 0.5;
+      col *= clamp(1.0 - dot(vd,vd)*1.8, 0.0, 1.0);
+
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  function compile(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.error(gl.getShaderInfoLog(s));
+      gl.deleteShader(s); return null;
+    }
+    return s;
+  }
+
+  const vs = compile(gl.VERTEX_SHADER, VS);
+  const fs = compile(gl.FRAGMENT_SHADER, FS);
+  if (!vs || !fs) { canvas.remove(); return; }
+
+  const prog = gl.createProgram();
+  gl.attachShader(prog, vs); gl.attachShader(prog, fs);
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    console.error(gl.getProgramInfoLog(prog)); canvas.remove(); return;
+  }
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+
+  const posLoc  = gl.getAttribLocation(prog, 'a_pos');
+  const timeLoc = gl.getUniformLocation(prog, 'u_time');
+  const resLoc  = gl.getUniformLocation(prog, 'u_res');
+
+  function resize() {
+    const scale = window.innerWidth < 769 ? 0.5 : 1.0;
+    canvas.width  = Math.floor(window.innerWidth  * scale);
+    canvas.height = Math.floor(window.innerHeight * scale);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const t0 = performance.now();
+  function render() {
+    requestAnimationFrame(render);
+    if (document.hidden) return;
+    gl.useProgram(prog);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.enableVertexAttribArray(posLoc);
+    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+    gl.uniform1f(timeLoc, (performance.now() - t0) * 0.001);
+    gl.uniform2f(resLoc, canvas.width, canvas.height);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+  render();
+}
 
 // ─── Menu ────────────────────────────────────────────────────────
 function initMenu() {
