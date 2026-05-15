@@ -34,8 +34,12 @@ function toggleMenu() {
   }
 }
 
-// ─── Scroll reveal (Intersection Observer) ───────────────────────
+// ─── Scroll reveal ────────────────────────────────────────────────
+// CSS scroll-driven animations handle this in Chrome 115+ / Safari 18+.
+// IntersectionObserver is the fallback for everything else.
 function initScrollReveal() {
+  if (CSS.supports('animation-timeline', 'view()')) return;
+
   const observer = new IntersectionObserver(
     entries => entries.forEach(entry => {
       if (entry.isIntersecting) {
