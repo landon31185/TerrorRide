@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Banned | Terror Ride</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="script.js" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+</head>
+<body>
+
+  <nav class="top-nav" role="navigation">
+    <div class="logo">TERROR RIDE</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html" class="active" aria-current="page">Banned</a></li>
+    </ul>
+    <div class="hamburger-container" aria-label="Toggle navigation menu" aria-expanded="false">
+      <div class="line top"></div>
+      <div class="line middle"></div>
+      <div class="line bottom"></div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <video autoplay loop muted playsinline class="menu-bg-video">
+      <source src="output.mp4" type="video/mp4">
+      <source src="output.webm" type="video/webm">
+    </video>
+    <ul class="mobile-menu-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html" class="active">Banned</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+    <h1>Banned From</h1>
+    <p style="text-align:center; color:#555; font-style:italic; margin-top:0;">Every red dot is a lesson we didn't learn.</p>
+
+    <div class="map-wrap">
+      <div id="banned-map"></div>
+    </div>
+
+    <div class="ban-list">
+      <div class="ban-item reveal">
+        <span class="ban-venue">Easy Street Records</span>
+        <span class="ban-reason">Sound check caused "structural concern." Quote from the owner.</span>
+        <span class="ban-date">Mar 2023</span>
+      </div>
+      <div class="ban-item reveal">
+        <span class="ban-venue">Skylark Café & Club</span>
+        <span class="ban-reason">Blast beats violating jazz night terms. We didn't know it was jazz night.</span>
+        <span class="ban-date">Aug 2022</span>
+      </div>
+      <div class="ban-item reveal">
+        <span class="ban-venue">Feedback Lounge</span>
+        <span class="ban-reason">Requested to play louder 11 times. The irony was not lost on us.</span>
+        <span class="ban-date">Jan 2024</span>
+      </div>
+      <div class="ban-item reveal">
+        <span class="ban-venue">Admiral Pub</span>
+        <span class="ban-reason">Ricky Blades incident. Details sealed by mutual agreement.</span>
+        <span class="ban-date">Jun 2021</span>
+      </div>
+      <div class="ban-item reveal">
+        <span class="ban-venue">Alki Beach</span>
+        <span class="ban-reason">Unpermitted amp setup. Jules cited by parks dept. Still outstanding.</span>
+        <span class="ban-date">Jul 2023</span>
+      </div>
+      <div class="ban-item reveal">
+        <span class="ban-venue">West Seattle Bridge</span>
+        <span class="ban-reason">Attempted guerrilla concert during resurfacing closure. Twice.</span>
+        <span class="ban-date">May 2022</span>
+      </div>
+      <div class="ban-item reveal">
+        <span class="ban-venue">Camp Long</span>
+        <span class="ban-reason">Simultaneously disrupted 4 birthday parties. Not a record we're proud of.</span>
+        <span class="ban-date">Oct 2022</span>
+      </div>
+      <div class="ban-item reveal">
+        <span class="ban-venue">Lincoln Park</span>
+        <span class="ban-reason">Rangers are still looking for Jules. We are not at liberty to say more.</span>
+        <span class="ban-date">Sep 2023</span>
+      </div>
+      <div class="ban-item reveal">
+        <span class="ban-venue">The Junction</span>
+        <span class="ban-reason">Banned from the entire Junction. Not one business. All of them.</span>
+        <span class="ban-date">Feb 2024</span>
+      </div>
+      <div class="ban-item reveal">
+        <span class="ban-venue">West Seattle High School</span>
+        <span class="ban-reason">Career Day. Details sealed. Parents involved. We're genuinely sorry.</span>
+        <span class="ban-date">Nov 2023</span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    window.addEventListener('load', function () {
+      const venues = [
+        { name: 'Easy Street Records',    coords: [47.5614, -122.3874], reason: 'Sound check caused "structural concern."',          date: 'Mar 2023' },
+        { name: 'Skylark Café & Club',    coords: [47.5541, -122.3682], reason: 'Blast beats violating jazz night terms.',           date: 'Aug 2022' },
+        { name: 'Feedback Lounge',        coords: [47.5239, -122.3868], reason: 'Requested louder 11 times.',                       date: 'Jan 2024' },
+        { name: 'Admiral Pub',            coords: [47.5845, -122.3854], reason: 'Ricky Blades incident. Details sealed.',           date: 'Jun 2021' },
+        { name: 'Alki Beach',             coords: [47.5766, -122.4118], reason: 'Unpermitted amp setup. Jules cited.',              date: 'Jul 2023' },
+        { name: 'West Seattle Bridge',    coords: [47.5582, -122.3584], reason: 'Guerrilla concert during resurfacing. Twice.',     date: 'May 2022' },
+        { name: 'Camp Long',              coords: [47.5432, -122.3826], reason: 'Disrupted 4 birthday parties simultaneously.',    date: 'Oct 2022' },
+        { name: 'Lincoln Park',           coords: [47.5218, -122.4107], reason: 'Rangers still looking for Jules.',                date: 'Sep 2023' },
+        { name: 'The Junction',           coords: [47.5630, -122.3868], reason: 'Banned from the entire Junction.',                date: 'Feb 2024' },
+        { name: 'West Seattle High',      coords: [47.5688, -122.3874], reason: 'Career Day. Parents involved.',                   date: 'Nov 2023' },
+      ];
+
+      const map = L.map('banned-map', { zoomControl: true }).setView([47.553, -122.387], 13);
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap © CARTO',
+        subdomains: 'abcd',
+        maxZoom: 19
+      }).addTo(map);
+
+      const icon = L.divIcon({
+        className: 'banned-marker',
+        html: '<div class="marker-dot"></div>',
+        iconSize: [14, 14],
+        iconAnchor: [7, 7],
+        popupAnchor: [0, -10]
+      });
+
+      venues.forEach(v => {
+        L.marker(v.coords, { icon })
+          .addTo(map)
+          .bindPopup(`
+            <p class="popup-venue">${v.name}</p>
+            <p class="popup-reason">"${v.reason}"</p>
+            <p class="popup-date">${v.date}</p>
+          `);
+      });
+    });
+  </script>
+
+</body>
+</html>
