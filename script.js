@@ -52,8 +52,21 @@ function initScrollReveal() {
 // ─── Geolocation banner ───────────────────────────────────────────
 // West Seattle bounding box (approximate)
 const WS_BOUNDS = { latMin: 47.500, latMax: 47.612, lngMin: -122.445, lngMax: -122.340 };
+const GEO_CACHE_KEY   = 'tr_local';   // localStorage — survives sessions
+const GEO_SHOWN_KEY   = 'tr_banner';  // sessionStorage — once per session
 
 function initGeolocation() {
+  // Only show once per browser session
+  if (sessionStorage.getItem(GEO_SHOWN_KEY)) return;
+  sessionStorage.setItem(GEO_SHOWN_KEY, '1');
+
+  // Use cached result — no permission prompt on repeat visits
+  const cached = localStorage.getItem(GEO_CACHE_KEY);
+  if (cached !== null) {
+    showLocationBanner(cached === 'true');
+    return;
+  }
+
   if (!navigator.geolocation) return;
 
   navigator.geolocation.getCurrentPosition(
@@ -61,9 +74,10 @@ function initGeolocation() {
       const local =
         coords.latitude  > WS_BOUNDS.latMin && coords.latitude  < WS_BOUNDS.latMax &&
         coords.longitude > WS_BOUNDS.lngMin && coords.longitude < WS_BOUNDS.lngMax;
+      localStorage.setItem(GEO_CACHE_KEY, String(local)); // cache forever
       showLocationBanner(local);
     },
-    () => {} // permission denied or unavailable — fail silently
+    () => {} // permission denied — fail silently, don't cache
   );
 }
 
