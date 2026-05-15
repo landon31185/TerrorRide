@@ -19,7 +19,7 @@
 <body>
   <!-- Top Navigation Bar (Desktop and Mobile) -->
   <nav class="top-nav" role="navigation">
-    <div class="logo">TERROR RIDE</div>
+    <a href="index.html" class="logo logo-link">TERROR RIDE</a>
 
     <!-- Desktop Navigation Links -->
     <ul class="nav-links">
@@ -39,39 +39,36 @@
     </div>
   </nav>
 
-  <!-- Logo -->
-  <img src="images/logo.jpg" alt="Band's logo" class="logo">
-
-  <!-- Buttons -->
-  <div>
-    <button class="button-primary">Stream</button>
+  <div class="mobile-menu">
+    <video autoplay loop muted playsinline class="menu-bg-video">
+      <source src="output.mp4" type="video/mp4">
+      <source src="output.webm" type="video/webm">
+    </video>
+    <ul class="mobile-menu-items">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+      <li><a href="noise.html">Noise</a></li>
+    </ul>
   </div>
 
-<!-- Mobile Menu with Flame Background -->
-<div class="mobile-menu">
-  <!-- 🔥 Background video -->
-  <video autoplay loop muted playsinline class="menu-bg-video" oncanplay="this.play()">
-    <source src="output.mp4" type="video/mp4">
-    <source src="output.webm" type="video/webm">
-    Your browser does not support the video tag.
-  </video>
-
-  <!-- Menu content -->
-  <ul class="mobile-menu-items">
-    <li><a href="index.html" class="active">Home</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="music.html">Music</a></li>
-    <li><a href="merch.html">Merch</a></li>
-    <li><a href="banned.html">Banned</a></li>
-    <li><a href="noise.html">Noise</a></li>
-  </ul>
-</div>
-
-
-  <!-- Main Content -->
   <main id="main-content">
-    <section class="content">
-      <h1>West Seattle’s most inconvenient band.</h1>
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">West Seattle, WA &middot; Est. 2009</div>
+        <h1 class="hero-title">TERROR<br>RIDE</h1>
+        <p class="hero-sub">West Seattle’s most inconvenient band.<br>Breakdowns so heavy you’ll shit your pants.</p>
+        <div class="hero-cta">
+          <a href="music.html" class="btn-cta primary">Stream Now</a>
+          <a href="about.html" class="btn-cta outline">Meet the Band</a>
+        </div>
+        <div class="hero-bottom">
+          <span class="release-label">Latest Release</span>
+          <span class="release-title">PCC — Pushing Capitalist Control</span>
+        </div>
+      </div>
     </section>
   </main>
 
