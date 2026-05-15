@@ -1529,17 +1529,6 @@ a.logo-link {
 /* ── Iframe interior ──────────────────────────────────────── */
 .iframe-body {
   background: #ebebeb;
-  height: 560px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.iframe-scroll {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
 }
 
 /* Government header */
@@ -1582,7 +1571,7 @@ a.logo-link {
 
 /* Form body - scoped to override global dark styles */
 .gov-body {
-  padding: 22px 28px 28px;
+  padding: 22px 28px 100px; /* bottom clears fixed footer */
   background: #f2f2ed;
 }
 
@@ -1730,7 +1719,7 @@ a.logo-link {
 
 /* ── Success state (inside iframe) ─────────────────────────── */
 .gov-success {
-  padding: 36px 28px 40px;
+  padding: 36px 28px 100px; /* bottom clears fixed footer */
   background: #f2f2ed;
   text-align: center;
 }
@@ -1787,15 +1776,19 @@ a.logo-link {
   margin-top: 20px;
 }
 
-/* ── Sticky footer inside iframe ──────────────────────────── */
+/* ── Sticky footer fixed to viewport bottom ───────────────── */
 .iframe-sticky-footer {
-  flex-shrink: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
   background: #dfdfd9;
   border-top: 2px solid #c4c4bc;
-  padding: 12px 28px 10px;
+  padding: 12px 28px 14px;
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
 }
 
 .gov-submit-btn {
@@ -1805,11 +1798,12 @@ a.logo-link {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: bold;
-  padding: 10px 24px;
+  padding: 11px 28px;
   cursor: pointer;
   transition: background 0.15s;
   letter-spacing: 0.2px;
   align-self: flex-start;
+  -webkit-tap-highlight-color: transparent;
 }
 .gov-submit-btn:hover  { background: #2d5ca8; }
 .gov-submit-btn:active { background: #0f2a50; }
@@ -1837,12 +1831,12 @@ a.logo-link {
     max-width: 100%;
   }
 
-  .iframe-body {
-    height: 62dvh;
+  .gov-body,
+  .gov-success {
+    padding-left: 18px;
+    padding-right: 18px;
   }
 
-  .gov-body,
-  .gov-success,
   .iframe-sticky-footer {
     padding-left: 18px;
     padding-right: 18px;
