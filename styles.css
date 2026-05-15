@@ -502,6 +502,259 @@ main {
   }
 }
 
+/* ── Scroll fade-in ───────────────────────────────────────── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-in.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Geolocation banner ───────────────────────────────────── */
+.location-banner {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--dark-card);
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.location-banner.local {
+  border-color: var(--green);
+  color: var(--green);
+}
+.location-banner.outsider {
+  border-color: var(--red);
+  color: var(--red);
+}
+.location-banner.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Merch page ───────────────────────────────────────────── */
+.merch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 20px;
+  width: 90%;
+  max-width: 940px;
+  margin: 24px auto 0;
+}
+
+.merch-card {
+  background: var(--dark-card);
+  border: 1px solid var(--border-dim);
+  padding: 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.merch-card.available {
+  border-color: var(--green);
+}
+
+.merch-art {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #080808;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  font-family: 'HFucktura-Heavy', sans-serif;
+  color: #1a1a1a;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.merch-card.available .merch-art {
+  color: var(--green);
+  border: 1px solid var(--green);
+}
+
+.sold-out-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--red);
+  color: white;
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  padding: 3px 7px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.merch-name {
+  color: white;
+  font-size: 13px;
+  margin: 0 0 4px;
+  flex: 1;
+}
+
+.merch-note {
+  color: #555;
+  font-size: 11px;
+  font-style: italic;
+  margin: 0 0 8px;
+}
+
+.merch-price {
+  color: var(--green);
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 20px;
+  margin: 0 0 12px;
+}
+
+.merch-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: #444;
+  padding: 9px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: not-allowed;
+  font-family: 'HFucktura-Heavy', sans-serif;
+}
+
+.merch-btn.available {
+  border-color: var(--green);
+  color: var(--green);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.merch-btn.available:hover {
+  background: var(--green);
+  color: #000;
+}
+
+/* ── Banned map page ──────────────────────────────────────── */
+.map-wrap {
+  width: 90%;
+  max-width: 900px;
+  margin: 20px auto 0;
+}
+
+#banned-map {
+  width: 100%;
+  height: 480px;
+  border: 1px solid var(--border-dim);
+  border-top: 3px solid var(--red);
+}
+
+.banned-marker {
+  background: none;
+  border: none;
+}
+.banned-marker-inner {
+  width: 14px;
+  height: 14px;
+  background: var(--red);
+  border: 2px solid #ff5555;
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--red), 0 0 4px var(--red);
+  animation: pulse-red 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 6px var(--red); }
+  50%       { box-shadow: 0 0 16px var(--red), 0 0 6px #ff4444; }
+}
+
+.ban-list {
+  width: 90%;
+  max-width: 900px;
+  margin: 24px auto 60px;
+}
+
+.ban-list h2 {
+  text-align: left;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--red);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-dim);
+  padding-bottom: 10px;
+}
+
+.ban-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid #111;
+}
+
+.ban-venue {
+  color: white;
+  font-size: 14px;
+}
+
+.ban-reason {
+  color: #555;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.ban-date {
+  color: var(--red);
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .ban-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .ban-date { color: var(--red); }
+}
+
+/* Certificate print styles */
+@media print {
+  body > *:not(#certificate) { display: none; }
+  #certificate {
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    background: #f5f0e8;
+    color: #1a1a1a;
+    font-family: serif;
+    padding: 60px;
+    text-align: center;
+    border: 20px double #1a1a1a;
+    box-sizing: border-box;
+  }
+}
+
 /* ─── MPA View Transitions (Chrome 126+) ─────────────────────── */
 @view-transition {
   navigation: auto;
