@@ -513,6 +513,92 @@ main {
   transform: translateY(0);
 }
 
+/* ── Geolocation radar ────────────────────────────────────── */
+.radar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.radar-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.radar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.radar-face {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(36, 227, 157, 0.5);
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(36, 227, 157, 0.08), inset 0 0 40px rgba(0,0,0,0.9);
+}
+
+.radar-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(36, 227, 157, 0.15);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.radar-ring.r1 { width: 66%; height: 66%; }
+.radar-ring.r2 { width: 33%; height: 33%; }
+
+.radar-cross {
+  position: absolute;
+  background: rgba(36, 227, 157, 0.12);
+}
+.radar-cross.h { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
+.radar-cross.v { height: 100%; width: 1px; left: 50%; top: 0; transform: translateX(-50%); }
+
+.radar-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(36, 227, 157, 0)    0deg,
+    rgba(36, 227, 157, 0.03) 120deg,
+    rgba(36, 227, 157, 0.12) 240deg,
+    rgba(36, 227, 157, 0.55) 355deg,
+    rgba(36, 227, 157, 0)    360deg
+  );
+  animation: radar-spin 1.8s linear infinite;
+}
+
+@keyframes radar-spin { to { transform: rotate(360deg); } }
+
+.radar-coords {
+  font-family: 'HFucktura-Heavy', monospace;
+  font-size: 13px;
+  color: var(--green);
+  letter-spacing: 2px;
+}
+
+.radar-status {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  color: #444;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  transition: color 0.4s;
+}
+
 /* ── Geolocation banner ───────────────────────────────────── */
 .location-banner {
   position: fixed;
