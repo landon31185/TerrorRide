@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initMenu();
   initScrollReveal();
   initGeolocation();
+  initLogoBleed();
 });
 
 // ─── Menu ────────────────────────────────────────────────────────
@@ -180,4 +181,18 @@ function showLocationBanner(local) {
     banner.classList.remove('visible');
     banner.addEventListener('transitionend', () => banner.remove(), { once: true });
   }, 4500);
+}
+
+// ─── Logo blood bleed on tap ──────────────────────────────
+function initLogoBleed() {
+  const logo = document.querySelector('a.logo-link');
+  if (!logo) return;
+  logo.addEventListener('pointerdown', function (e) {
+    const blood = document.createElement('div');
+    blood.className = 'logo-blood';
+    blood.style.setProperty('--bx', e.clientX + 'px');
+    blood.style.setProperty('--by', e.clientY + 'px');
+    document.body.appendChild(blood);
+    blood.addEventListener('animationend', () => blood.remove(), { once: true });
+  });
 }
