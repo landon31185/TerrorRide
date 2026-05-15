@@ -1949,11 +1949,16 @@ a.logo-link {
 }
 
 .news-article {
-  padding: 40px 0;
-  border-bottom: 1px solid var(--border-dim);
+  padding: 40px;
+  margin-bottom: 24px;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
 }
 
-.news-article:last-child { border-bottom: none; }
+.news-article:last-child { margin-bottom: 0; }
 
 .article-meta {
   display: flex;
