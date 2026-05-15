@@ -87,6 +87,7 @@ p {
   top: 0;
   left: 0;
   z-index: 1001;
+  view-transition-name: top-nav;
 }
 
 .top-nav .logo {
@@ -981,25 +982,37 @@ main {
   }
 }
 
-/* ─── MPA View Transitions (Chrome 126+) ─────────────────────── */
+/* ─── MPA View Transitions (Chrome 126+, Safari 18+) ────────── */
 @view-transition {
   navigation: auto;
 }
 
+/* Content dims and shrinks out, rises and brightens in */
 ::view-transition-old(root) {
-  animation: 220ms ease-out both fade-and-slide-out;
+  animation: 200ms ease-in both vt-out;
 }
-
 ::view-transition-new(root) {
-  animation: 220ms ease-in both fade-and-slide-in;
+  animation: 320ms ease-out both vt-in;
 }
 
-@keyframes fade-and-slide-out {
-  to { opacity: 0; transform: translateY(-8px); }
+@keyframes vt-out {
+  to { opacity: 0; transform: scale(0.98) translateY(-6px); filter: brightness(0.3); }
+}
+@keyframes vt-in {
+  from { opacity: 0; transform: translateY(20px); filter: brightness(0.3); }
 }
 
-@keyframes fade-and-slide-in {
-  from { opacity: 0; transform: translateY(8px); }
+/* Nav stays perfectly locked — never moves */
+::view-transition-old(top-nav),
+::view-transition-new(top-nav) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
 }
 
 /* ─── Scroll-triggered reveal ─────────────────────────────────── */
