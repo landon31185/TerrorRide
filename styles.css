@@ -2175,6 +2175,27 @@ a.logo-link {
 }
 
 /* ── News page ────────────────────────────────────────────── */
+.news-intro {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 32px;
+  padding: 32px 36px;
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+}
+
+.news-intro h1 { margin: 0 0 10px; }
+
+.news-intro-sub {
+  margin: 0;
+  color: rgba(255,255,255,0.5);
+  font-style: italic;
+  font-size: 15px;
+}
+
 .news-list {
   width: 90%;
   max-width: 760px;
