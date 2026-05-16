@@ -419,12 +419,17 @@ main {
 
 /* ── Embedded track player ────────────────────────────────── */
 .track-player {
-  border-top: 1px solid var(--border-dim);
-  padding: 14px 0 4px;
-  margin-bottom: 20px;
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  padding: 14px 16px;
+  margin-top: 20px;
+  background: rgba(0,0,0,0.4);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
 }
 
-.tp-idle {
+.tp-idle, .tp-coming {
   font-family: 'HFucktura-Heavy', sans-serif;
   font-size: 10px;
   letter-spacing: 3px;
@@ -436,6 +441,7 @@ main {
   display: flex;
   align-items: center;
   gap: 12px;
+  width: 100%;
 }
 
 .tp-btn {

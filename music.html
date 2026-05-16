@@ -99,10 +99,10 @@
             </li>
           </ul>
 
-          <!-- Player — lives at bottom of album card -->
+          <!-- Player zone — replaces stream buttons -->
           <audio id="tp-audio" preload="none"></audio>
           <div class="track-player" id="track-player">
-            <div class="tp-idle" id="tp-idle">&#9654; Select a track</div>
+            <div class="tp-idle" id="tp-idle">&#9654;&nbsp;&nbsp;Select a track to play</div>
             <div class="tp-active" id="tp-active" style="display:none">
               <button class="tp-btn" id="tp-play" aria-label="Play">&#9654;</button>
               <div class="tp-centre">
@@ -114,12 +114,9 @@
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="stream-links">
-            <a href="#" class="stream-btn">Spotify</a>
-            <a href="#" class="stream-btn">Apple Music</a>
-            <a href="#" class="stream-btn">Bandcamp</a>
+            <div class="tp-coming" id="tp-coming" style="display:none">
+              <span id="tp-coming-title"></span> — streaming soon
+            </div>
           </div>
         </div>
 
@@ -158,20 +155,25 @@
         return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
       }
 
+      const coming      = document.getElementById('tp-coming');
+      const comingTitle = document.getElementById('tp-coming-title');
+
       function selectTrack(item) {
         document.querySelectorAll('.track-item').forEach(t => t.classList.remove('track-selected'));
         item.classList.add('track-selected');
         const src   = item.dataset.src;
         const title = item.dataset.title;
-        titleEl.textContent = title;
         if (!src) {
-          idle.textContent = '— ' + title + ' — streaming soon';
-          idle.style.display = 'block';
+          idle.style.display   = 'none';
           active.style.display = 'none';
+          comingTitle.textContent = title;
+          coming.style.display = 'block';
           return;
         }
-        idle.style.display = 'none';
+        idle.style.display   = 'none';
+        coming.style.display = 'none';
         active.style.display = 'flex';
+        titleEl.textContent  = title;
         audio.src = src;
         audio.load();
         audio.play();
