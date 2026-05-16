@@ -1544,21 +1544,7 @@ a.logo-link {
 }
 
 /* ── Blood bleed on logo tap ──────────────────────────────── */
-.logo-blood {
-  position: fixed;
-  inset: 0;
-  background: #8b0000;
-  pointer-events: none;
-  z-index: 99998;
-  clip-path: circle(0% at var(--bx, 50%) var(--by, 32px));
-  animation: blood-bleed 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-@keyframes blood-bleed {
-  0%   { clip-path: circle(0%    at var(--bx) var(--by)); opacity: 0.95; }
-  60%  { clip-path: circle(100%  at var(--bx) var(--by)); opacity: 0.8;  }
-  100% { clip-path: circle(150%  at var(--bx) var(--by)); opacity: 0;    }
-}
+/* logo-blood removed — replaced by canvas splatter in script.js */
 
 /* ── Homepage hero ────────────────────────────────────────── */
 .hero {
