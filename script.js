@@ -580,7 +580,7 @@ function initLogoBleed() {
     const iCount = 14;
     for (let i = 0; i < iCount; i++) {
       const a = (i / iCount) * Math.PI * 2;
-      const r = 28 + Math.random() * 22;
+      const r = 48 + Math.random() * 36;
       impactPts.push({ x: Math.cos(a) * r, y: Math.sin(a) * r });
     }
     chunks.push({ type: 'blob', ox, oy, pts: impactPts, vx: 0, vy: 0, gravity: 0, life: 1 });
@@ -589,8 +589,8 @@ function initLogoBleed() {
     const chunkCount = 12 + Math.floor(Math.random() * 8);
     for (let i = 0; i < chunkCount; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = 3 + Math.random() * 9;
-      const size  = 6 + Math.random() * 18;
+      const speed = 8 + Math.random() * 20;
+      const size  = 12 + Math.random() * 30;
       const pts   = [];
       const pCount = 6 + Math.floor(Math.random() * 5);
       for (let j = 0; j < pCount; j++) {
@@ -613,7 +613,7 @@ function initLogoBleed() {
     const dripCount = 5 + Math.floor(Math.random() * 5);
     for (let i = 0; i < dripCount; i++) {
       const angle = (Math.random() - 0.5) * Math.PI * 0.6 + Math.PI / 2;
-      const speed = 1.5 + Math.random() * 4;
+      const speed = 3 + Math.random() * 8;
       chunks.push({
         type: 'drip',
         ox, oy,
@@ -622,7 +622,7 @@ function initLogoBleed() {
         vx: (Math.random() - 0.5) * 1.5,
         vy: speed,
         w: 3 + Math.random() * 5,
-        len: 20 + Math.random() * 60,
+        len: 50 + Math.random() * 120,
         life: 1,
       });
     }
