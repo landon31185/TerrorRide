@@ -167,10 +167,9 @@ p {
 .middle { top: 25px; }
 .bottom { top: 36px; }
 
-/* Hamburger open state — two lines crossing at center form an X */
+/* Hamburger open state — translate each line to center, then rotate to form X */
 .hamburger-container.open .top {
-  transform: rotate(45deg);
-  top: 22px;
+  transform: translateY(7px) rotate(45deg);
 }
 
 .hamburger-container.open .middle {
@@ -178,8 +177,7 @@ p {
 }
 
 .hamburger-container.open .bottom {
-  transform: rotate(-45deg);
-  top: 22px;
+  transform: translateY(-15px) rotate(-45deg);
 }
 
 .hamburger-container.open .line {
