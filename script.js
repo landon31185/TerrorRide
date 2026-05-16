@@ -554,12 +554,118 @@ function showLocationBanner(local) {
 function initLogoBleed() {
   const logo = document.querySelector('a.logo-link');
   if (!logo) return;
-  logo.addEventListener('pointerdown', function (e) {
-    const blood = document.createElement('div');
-    blood.className = 'logo-blood';
-    blood.style.setProperty('--bx', e.clientX + 'px');
-    blood.style.setProperty('--by', e.clientY + 'px');
-    document.body.appendChild(blood);
-    blood.addEventListener('animationend', () => blood.remove(), { once: true });
-  });
+
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:99998;';
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+
+  let chunks = [];
+  let animId = null;
+  let startTime = null;
+  const DURATION = 1800;
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function splat(ox, oy) {
+    chunks = [];
+
+    // Central impact blob — irregular polygon
+    const impactPts = [];
+    const iCount = 14;
+    for (let i = 0; i < iCount; i++) {
+      const a = (i / iCount) * Math.PI * 2;
+      const r = 28 + Math.random() * 22;
+      impactPts.push({ x: Math.cos(a) * r, y: Math.sin(a) * r });
+    }
+    chunks.push({ type: 'blob', ox, oy, pts: impactPts, vx: 0, vy: 0, gravity: 0, life: 1 });
+
+    // Flying chunks — shoot outward in all directions
+    const chunkCount = 12 + Math.floor(Math.random() * 8);
+    for (let i = 0; i < chunkCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 3 + Math.random() * 9;
+      const size  = 6 + Math.random() * 18;
+      const pts   = [];
+      const pCount = 6 + Math.floor(Math.random() * 5);
+      for (let j = 0; j < pCount; j++) {
+        const a = (j / pCount) * Math.PI * 2;
+        const r = size * (0.5 + Math.random() * 0.6);
+        pts.push({ x: Math.cos(a) * r, y: Math.sin(a) * r });
+      }
+      chunks.push({
+        type: 'blob',
+        ox, oy,
+        pts,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 2,
+        gravity: 0.25 + Math.random() * 0.2,
+        life: 1,
+      });
+    }
+
+    // Drips — elongated streaks downward
+    const dripCount = 5 + Math.floor(Math.random() * 5);
+    for (let i = 0; i < dripCount; i++) {
+      const angle = (Math.random() - 0.5) * Math.PI * 0.6 + Math.PI / 2;
+      const speed = 1.5 + Math.random() * 4;
+      chunks.push({
+        type: 'drip',
+        ox, oy,
+        x: ox + (Math.random() - 0.5) * 60,
+        y: oy + (Math.random() - 0.5) * 30,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: speed,
+        w: 3 + Math.random() * 5,
+        len: 20 + Math.random() * 60,
+        life: 1,
+      });
+    }
+
+    startTime = null;
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(tick);
+  }
+
+  function tick(ts) {
+    if (!startTime) startTime = ts;
+    const elapsed = ts - startTime;
+    const t = Math.min(elapsed / DURATION, 1);
+    const opacity = t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.globalAlpha = opacity;
+
+    for (const c of chunks) {
+      ctx.fillStyle = '#8b0000';
+      if (c.type === 'blob') {
+        const cx = c.ox + c.vx * elapsed * 0.05;
+        const cy = c.oy + c.vy * elapsed * 0.05 + 0.5 * c.gravity * Math.pow(elapsed * 0.05, 2);
+        ctx.beginPath();
+        ctx.moveTo(cx + c.pts[0].x, cy + c.pts[0].y);
+        for (let i = 1; i < c.pts.length; i++) {
+          ctx.lineTo(cx + c.pts[i].x, cy + c.pts[i].y);
+        }
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        const x = c.x + c.vx * elapsed * 0.05;
+        const y = c.y + c.vy * elapsed * 0.05;
+        ctx.beginPath();
+        ctx.ellipse(x, y, c.w / 2, c.len / 2, Math.atan2(c.vy, c.vx) + Math.PI / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    ctx.globalAlpha = 1;
+    if (t < 1) animId = requestAnimationFrame(tick);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  logo.addEventListener('pointerdown', (e) => splat(e.clientX, e.clientY));
 }
