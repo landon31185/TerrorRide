@@ -204,6 +204,10 @@
         const r = progress.getBoundingClientRect();
         audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
       });
+
+      // Auto-select first track on load
+      const firstTrack = document.querySelector('.track-item');
+      if (firstTrack) selectTrack(firstTrack);
     })();
   </script>
 
