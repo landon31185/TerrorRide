@@ -4,7 +4,7 @@ module.exports = async function handler(req, res) {
   const url      = process.env.KV_REST_API_URL   || process.env.UPSTASH_REDIS_REST_URL;
   const token    = process.env.KV_REST_API_TOKEN  || process.env.UPSTASH_REDIS_REST_TOKEN;
   const adminKey = process.env.ADMIN_KEY;
-  const resendKey = process.env.RESEND_API_KEY;
+  const resendKey = process.env.RESEND_API_KEY || process.env.RESEND_KEY || process.env.RESEND_ADMIN;
 
   if (!url || !token) return res.status(503).json({ error: 'Not configured' });
 
