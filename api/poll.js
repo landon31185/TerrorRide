@@ -3,7 +3,8 @@ const VALID_IDS = new Set(['species', 'quiet', 'rock', 'pit']);
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
 
-  const { UPSTASH_REDIS_REST_URL: url, UPSTASH_REDIS_REST_TOKEN: token } = process.env;
+  const url   = process.env.KV_REST_API_URL   || process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) return res.status(503).json({ error: 'Not configured' });
 
   const redis = async (cmds) => {
