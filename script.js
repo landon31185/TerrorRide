@@ -592,10 +592,11 @@ function initLogoBleed() {
       const speed = 8 + Math.random() * 20;
       const size  = 12 + Math.random() * 30;
       const pts   = [];
-      const pCount = 6 + Math.floor(Math.random() * 5);
+      const pCount = 8 + Math.floor(Math.random() * 6);
       for (let j = 0; j < pCount; j++) {
-        const a = (j / pCount) * Math.PI * 2;
-        const r = size * (0.5 + Math.random() * 0.6);
+        const a = (j / pCount) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
+        const spike = Math.random() < 0.25 ? 1.8 + Math.random() * 0.8 : 0.4 + Math.random() * 0.7;
+        const r = size * spike;
         pts.push({ x: Math.cos(a) * r, y: Math.sin(a) * r });
       }
       chunks.push({
@@ -646,19 +647,36 @@ function initLogoBleed() {
       if (c.type === 'blob') {
         const cx = c.ox + c.vx * elapsed * 0.05;
         const cy = c.oy + c.vy * elapsed * 0.05 + 0.5 * c.gravity * Math.pow(elapsed * 0.05, 2);
+        const pts = c.pts;
+        const n = pts.length;
         ctx.beginPath();
-        ctx.moveTo(cx + c.pts[0].x, cy + c.pts[0].y);
-        for (let i = 1; i < c.pts.length; i++) {
-          ctx.lineTo(cx + c.pts[i].x, cy + c.pts[i].y);
+        // smooth blob via quadratic bezier through midpoints
+        ctx.moveTo(cx + (pts[n-1].x + pts[0].x) / 2, cy + (pts[n-1].y + pts[0].y) / 2);
+        for (let i = 0; i < n; i++) {
+          const next = pts[(i + 1) % n];
+          ctx.quadraticCurveTo(cx + pts[i].x, cy + pts[i].y, cx + (pts[i].x + next.x) / 2, cy + (pts[i].y + next.y) / 2);
         }
         ctx.closePath();
         ctx.fill();
       } else {
+        // teardrop drip: circle at head tapering to point
         const x = c.x + c.vx * elapsed * 0.05;
         const y = c.y + c.vy * elapsed * 0.05;
+        const angle = Math.atan2(c.vy, c.vx) + Math.PI / 2;
+        const hw = c.w / 2;
+        const hl = c.len / 2;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle);
         ctx.beginPath();
-        ctx.ellipse(x, y, c.w / 2, c.len / 2, Math.atan2(c.vy, c.vx) + Math.PI / 2, 0, Math.PI * 2);
+        ctx.arc(0, -hl * 0.4, hw, 0, Math.PI * 2);
         ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(-hw, -hl * 0.4);
+        ctx.quadraticCurveTo(-hw * 0.3, hl * 0.3, 0, hl);
+        ctx.quadraticCurveTo(hw * 0.3, hl * 0.3, hw, -hl * 0.4);
+        ctx.fill();
+        ctx.restore();
       }
     }
 
