@@ -91,11 +91,16 @@ p {
 }
 
 .top-nav .logo {
-  margin: 0; /* Remove any existing margins */
+  margin: 0;
   display: flex;
-  align-items: center; /* Vertically center text */
-  font-size: 1.5rem; /* Adjust font size as needed */
-  font-weight: bold;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 0.87;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
 }
 
 .nav-links {
@@ -1110,6 +1115,67 @@ main {
   font-size: 10px; color: #2a2a2a;
   letter-spacing: 2px; text-transform: uppercase;
   margin: 18px 0 0; text-align: right;
+}
+
+/* ─── Homepage poll results section ─────────────────────────────── */
+.hp-poll-section {
+  max-width: 680px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
+}
+
+.hp-poll-eyebrow {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin: 0 0 16px;
+}
+
+.hp-poll-q {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 22px;
+  color: white;
+  margin: 0 0 28px;
+  line-height: 1.3;
+}
+
+.hp-poll-bars { display: flex; flex-direction: column; gap: 16px; }
+
+.hp-poll-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 4px;
+  gap: 6px 12px;
+  align-items: center;
+}
+.hp-poll-label {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  grid-column: 1; grid-row: 1;
+}
+.hp-poll-pct {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 15px; color: var(--green);
+  grid-column: 2; grid-row: 1 / 3;
+  align-self: center;
+}
+.hp-bar-wrap {
+  height: 3px; background: #1a1a1a;
+  grid-column: 1; grid-row: 2; overflow: hidden;
+}
+.hp-bar {
+  height: 100%; background: var(--green);
+  width: 0%; transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hp-poll-total {
+  font-size: 10px; color: #333;
+  letter-spacing: 2px; text-transform: uppercase;
+  margin: 20px 0 0;
 }
 
 /* ─── Scroll-triggered reveal ─────────────────────────────────── */
