@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Terror Ride</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { padding: 80px 24px 60px; max-width: 860px; margin: 0 auto; }
+
+    .admin-login { max-width: 360px; margin: 120px auto 0; }
+    .admin-login h1 { font-family: 'HFucktura-Heavy', sans-serif; font-size: 28px; margin: 0 0 8px; }
+    .admin-login p  { color: #555; font-size: 13px; margin: 0 0 28px; }
+
+    .admin-field { display: flex; gap: 10px; }
+    .admin-field input {
+      flex: 1; background: #0a0a0a; border: 1px solid #333;
+      color: white; padding: 11px 14px; font-size: 14px; font-family: inherit;
+    }
+    .admin-field input:focus { outline: none; border-color: var(--green); }
+    .admin-field button {
+      background: var(--green); border: none; color: #000;
+      font-family: 'HFucktura-Heavy', sans-serif;
+      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 11px 20px; cursor: pointer;
+    }
+    .admin-field button:hover { background: #1cc888; }
+
+    .admin-error { color: var(--red); font-size: 13px; margin-top: 12px; display: none; }
+
+    /* Requests table */
+    #requests-view { display: none; }
+    .admin-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 32px; }
+    .admin-header h1 { font-family: 'HFucktura-Heavy', sans-serif; font-size: 24px; margin: 0; }
+    .admin-header span { font-size: 12px; color: #444; letter-spacing: 1px; text-transform: uppercase; }
+
+    .req-table { width: 100%; border-collapse: collapse; }
+    .req-table th {
+      font-family: 'HFucktura-Heavy', sans-serif;
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: #444; text-align: left; padding: 0 12px 12px 0; border-bottom: 1px solid #1a1a1a;
+    }
+    .req-table td { padding: 14px 12px 14px 0; border-bottom: 1px solid #111; font-size: 13px; vertical-align: middle; }
+    .req-table tr.fulfilled td { opacity: 0.35; }
+
+    .status-badge {
+      font-family: 'HFucktura-Heavy', sans-serif;
+      font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 3px 8px; border: 1px solid;
+    }
+    .status-badge.pending   { color: var(--green); border-color: var(--green); }
+    .status-badge.fulfilled { color: #444; border-color: #2a2a2a; }
+
+    .fulfill-btn {
+      background: transparent; border: 1px solid #333; color: #888;
+      font-family: 'HFucktura-Heavy', sans-serif;
+      font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 5px 12px; cursor: pointer; transition: border-color 0.2s, color 0.2s;
+    }
+    .fulfill-btn:hover { border-color: var(--green); color: var(--green); }
+    .fulfill-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .empty-state { color: #333; font-size: 14px; text-align: center; padding: 80px 0; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-login" id="login-view">
+    <h1>Admin</h1>
+    <p>Terror Ride song request dashboard. Not for the public.</p>
+    <div class="admin-field">
+      <input type="password" id="key-input" placeholder="Admin key" autocomplete="current-password">
+      <button onclick="login()">Enter</button>
+    </div>
+    <p class="admin-error" id="login-error">Wrong key. Try again.</p>
+  </div>
+
+  <div id="requests-view">
+    <div class="admin-header">
+      <h1>Song Requests</h1>
+      <span id="request-count"></span>
+    </div>
+    <div id="requests-body"></div>
+  </div>
+
+  <script>
+    let adminKey = '';
+
+    document.getElementById('key-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') login();
+    });
+
+    async function login() {
+      const key = document.getElementById('key-input').value.trim();
+      if (!key) return;
+      const res = await fetch(`/api/songs?key=${encodeURIComponent(key)}`);
+      if (!res.ok) {
+        document.getElementById('login-error').style.display = 'block';
+        return;
+      }
+      adminKey = key;
+      const { requests } = await res.json();
+      document.getElementById('login-view').style.display = 'none';
+      document.getElementById('requests-view').style.display = 'block';
+      renderRequests(requests);
+    }
+
+    function renderRequests(requests) {
+      const pending   = requests.filter(r => r.status === 'pending').length;
+      const total     = requests.length;
+      document.getElementById('request-count').textContent = `${pending} pending · ${total} total`;
+
+      const body = document.getElementById('requests-body');
+      if (!total) {
+        body.innerHTML = '<p class="empty-state">No requests yet.</p>';
+        return;
+      }
+
+      const sorted = [...requests].sort((a, b) => b.timestamp - a.timestamp);
+      body.innerHTML = `
+        <table class="req-table">
+          <thead>
+            <tr>
+              <th>Song</th><th>From</th><th>Email</th><th>Date</th><th>Status</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sorted.map(r => `
+              <tr class="${r.status}" id="row-${r.id}">
+                <td><strong>${esc(r.song)}</strong></td>
+                <td>${esc(r.name)}</td>
+                <td>${esc(r.email)}</td>
+                <td>${new Date(r.timestamp).toLocaleDateString()}</td>
+                <td><span class="status-badge ${r.status}">${r.status}</span></td>
+                <td>
+                  ${r.status === 'pending'
+                    ? `<button class="fulfill-btn" onclick="fulfill('${r.id}', this)">Fulfill</button>`
+                    : ''}
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    async function fulfill(id, btn) {
+      btn.disabled = true;
+      btn.textContent = '...';
+      const res = await fetch('/api/songs', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, key: adminKey }),
+      });
+      if (res.ok) {
+        const row = document.getElementById(`row-${id}`);
+        row.className = 'fulfilled';
+        row.querySelector('td:nth-child(5)').innerHTML = '<span class="status-badge fulfilled">fulfilled</span>';
+        row.querySelector('td:last-child').innerHTML = '';
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Fulfill';
+      }
+    }
+
+    function esc(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>

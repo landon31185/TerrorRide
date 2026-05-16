@@ -1112,16 +1112,74 @@ main {
 .poll-bar.voted { background: var(--green); box-shadow: 0 0 8px var(--green); }
 
 #poll-total {
-  font-size: 10px; color: #2a2a2a;
+  font-size: 10px; color: #666;
   letter-spacing: 2px; text-transform: uppercase;
   margin: 18px 0 0; text-align: right;
 }
+
+/* ─── Song request section ──────────────────────────────────────── */
+.song-request-section {
+  max-width: 680px;
+  margin: 0 auto 80px;
+  padding: 36px;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+}
+
+.song-request-eyebrow {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--green);
+  margin: 0 0 12px;
+}
+
+.song-request-desc {
+  font-size: 14px; color: rgba(255,255,255,0.55);
+  margin: 0 0 28px; line-height: 1.6;
+}
+
+.song-request-fields {
+  display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;
+}
+
+.song-request-fields input {
+  background: #080808; border: 1px solid #222;
+  color: white; padding: 12px 14px;
+  font-size: 13px; font-family: inherit; width: 100%; box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.song-request-fields input:focus { outline: none; border-color: var(--green); }
+.song-request-fields input::placeholder { color: #444; }
+
+.song-submit-btn {
+  background: transparent; border: 1px solid var(--green);
+  color: var(--green); font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 13px 28px; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.song-submit-btn:hover { background: var(--green); color: #000; }
+.song-submit-btn:disabled { opacity: 0.4; cursor: default; }
+
+.song-request-note {
+  font-size: 12px; color: #555; margin: 12px 0 0; min-height: 18px;
+  letter-spacing: 0.5px;
+}
+.song-request-note.success { color: var(--green); }
+.song-request-note.error   { color: var(--red); }
 
 /* ─── Homepage poll results section ─────────────────────────────── */
 .hp-poll-section {
   max-width: 680px;
   margin: 0 auto 80px;
-  padding: 0 24px;
+  padding: 32px 36px;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
 }
 
 .hp-poll-eyebrow {

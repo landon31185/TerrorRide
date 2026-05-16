@@ -89,6 +89,39 @@ function initPoll() {
   setTimeout(show, 12000);
 }
 
+// ─── Song request form ───────────────────────────────────────────
+(function () {
+  const form = document.getElementById('song-form');
+  if (!form) return;
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const status = document.getElementById('song-status');
+    const btn    = form.querySelector('.song-submit-btn');
+    const data   = Object.fromEntries(new FormData(form));
+    btn.disabled = true;
+    status.className = 'song-request-note';
+    status.textContent = 'Submitting...';
+    try {
+      const res = await fetch('/api/songs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        status.className = 'song-request-note success';
+        status.textContent = 'Received. Don\'t get excited.';
+        form.reset();
+      } else {
+        throw new Error();
+      }
+    } catch {
+      status.className = 'song-request-note error';
+      status.textContent = 'Something went wrong. Try again.';
+      btn.disabled = false;
+    }
+  });
+})();
+
 // ─── Homepage poll results ────────────────────────────────────────
 function initPollResults() {
   const qEl    = document.getElementById('hp-poll-q');
@@ -339,6 +372,9 @@ function initMenu() {
   const mobileMenu = document.querySelector('.mobile-menu');
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', toggleMenu);
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => { document.body.style.overflow = ''; });
+    });
   }
 }
 
@@ -357,7 +393,10 @@ function toggleMenu() {
   mobileMenu.classList.toggle('open');
   hamburger.classList.toggle('open');
 
-  if (mobileMenu.classList.contains('open')) {
+  const isOpen = mobileMenu.classList.contains('open');
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+
+  if (isOpen) {
     const video = mobileMenu.querySelector('.menu-bg-video');
     if (video) video.play();
   }
