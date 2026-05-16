@@ -2412,6 +2412,23 @@ a.logo-link {
   line-height: 1.15;
 }
 
+.article-photo {
+  margin: 20px 0 28px;
+  padding: 0;
+}
+.article-photo img {
+  width: 100%;
+  display: block;
+  border-radius: 3px;
+}
+.article-photo figcaption {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  font-style: italic;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
 .article-body p {
   font-size: 15px;
   color: rgba(255,255,255,0.9);
