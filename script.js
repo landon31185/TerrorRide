@@ -16,11 +16,7 @@ function initPoll() {
     { id: 'species', q: 'Are we fucked as a species?',
       a: ["We're so fucked", 'Hardcore til I die', 'We will have to see'] },
     { id: 'quiet',   q: 'Should bands play quieter out of respect for the neighborhood?',
-      a: ['Be considerate', "That's what the noise complaint page is for", 'file it at terrorride.com/noise'] },
-    { id: 'rock',    q: "What's the current state of rock?",
-      a: ['Completely dead', "It's right here", 'Check the pulse'] },
-    { id: 'pit',     q: 'Pick a side.',
-      a: ['The pit is a safe space', 'The pit is not a safe space', "I don't go in the pit"] },
+      a: ['Be considerate', "That's what the noise complaint page is for", 'File it at terrorride.com/noise'] },
   ];
 
   const poll = POLLS[Math.floor(Math.random() * POLLS.length)];
@@ -89,7 +85,7 @@ function initPoll() {
     });
   }
 
-  setTimeout(show, 4000);
+  setTimeout(show, 12000);
 }
 
 // ─── Fire ember cursor trail (desktop only) ──────────────────────
