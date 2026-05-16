@@ -1877,6 +1877,7 @@ a.logo-link {
   box-shadow: 0 12px 48px rgba(0,0,0,0.7), 0 0 0 1px #555;
   position: relative;
   left: 8px; /* intentional bad alignment */
+  overflow: hidden;
 }
 
 /* Browser chrome bar */
@@ -1934,6 +1935,7 @@ a.logo-link {
 /* ── Iframe interior ──────────────────────────────────────── */
 .iframe-body {
   background: #ebebeb;
+  overflow-x: hidden;
 }
 
 /* Government header */
@@ -2155,8 +2157,9 @@ a.logo-link {
 .success-ref {
   font-family: 'Courier New', monospace;
   font-size: 11px;
-  color: #777;
+  color: #595959;
   margin: 0 0 20px;
+  word-break: break-word;
 }
 
 .success-body {
