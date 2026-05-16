@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Friends & Enemies | Terror Ride</title>
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:site_name"   content="Terror Ride">
+  <meta property="og:title"       content="Friends & Enemies — Terror Ride">
+  <meta property="og:description" content="West Seattle businesses, evaluated without mercy.">
+  <meta property="og:image"       content="https://terrorride.vercel.app/images/BandLarge-Dark.png">
+  <meta property="og:url"         content="https://terrorride.vercel.app/local.html">
+  <meta name="twitter:card"       content="summary_large_image">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <nav class="top-nav" role="navigation">
+    <a href="index.html" class="logo logo-link">TERROR<br>RIDE</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+      <li><a href="noise.html">Noise</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="local.html" class="active" aria-current="page">Local</a></li>
+    </ul>
+    <div class="hamburger-container" aria-label="Toggle navigation menu" aria-expanded="false">
+      <div class="line top"></div>
+      <div class="line middle"></div>
+      <div class="line bottom"></div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <video autoplay loop muted playsinline class="menu-bg-video">
+      <source src="output.mp4" type="video/mp4">
+      <source src="output.webm" type="video/webm">
+    </video>
+    <ul class="mobile-menu-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+      <li><a href="noise.html">Noise</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="local.html" class="active">Local</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+    <div class="page-intro">
+      <h1>Friends &amp; Enemies</h1>
+      <p class="page-intro-sub">West Seattle businesses, evaluated without mercy.</p>
+    </div>
+
+    <!-- Friends -->
+    <section class="fe-section">
+      <div class="fe-section-head fe-friends-head">
+        <span class="fe-label">Friends</span>
+        <span class="fe-label-sub">We rep these. Genuinely.</span>
+      </div>
+      <div class="fe-grid">
+
+        <div class="fe-card fe-friend reveal">
+          <div class="fe-logo-wrap">
+            <img class="fe-logo-img" src="https://logo.clearbit.com/byandbyskateshop.com" alt="By and By Skate Shop" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fe-logo-fallback" style="display:none">BY &amp; BY</div>
+          </div>
+          <p class="fe-biz-name">By and By Skate Shop</p>
+          <p class="fe-comment">Jules buys his bearings here. We've met the owner. He's real.</p>
+        </div>
+
+        <div class="fe-card fe-friend reveal">
+          <div class="fe-logo-wrap">
+            <img class="fe-logo-img" src="https://logo.clearbit.com/thunderroadguitars.com" alt="Thunderroad Guitars" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fe-logo-fallback" style="display:none">THUNDER&shy;ROAD</div>
+          </div>
+          <p class="fe-biz-name">Thunderroad Guitars</p>
+          <p class="fe-comment">Ricky's been asked to leave three other shops. This one still lets him in. Loyalty goes both ways.</p>
+        </div>
+
+        <div class="fe-card fe-friend reveal">
+          <div class="fe-logo-wrap">
+            <img class="fe-logo-img" src="https://logo.clearbit.com/doughjoydonuts.com" alt="Dough Joy Donuts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fe-logo-fallback" style="display:none">DOUGH JOY</div>
+          </div>
+          <p class="fe-biz-name">Dough Joy Donuts</p>
+          <p class="fe-comment">We have nothing bad to say. We're not going to try.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Enemies -->
+    <section class="fe-section">
+      <div class="fe-section-head fe-enemies-head">
+        <span class="fe-label">Enemies</span>
+        <span class="fe-label-sub">Nothing personal. Some personal.</span>
+      </div>
+      <div class="fe-grid">
+
+        <div class="fe-card fe-enemy reveal">
+          <div class="fe-logo-wrap">
+            <img class="fe-logo-img fe-logo-enemy" src="https://logo.clearbit.com/boxbarseattle.com" alt="Box Bar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fe-logo-fallback" style="display:none">BOX BAR</div>
+          </div>
+          <p class="fe-biz-name">Box Bar</p>
+          <p class="fe-comment">We're vegan. We're not paying $18 for a tempeh block sandwich. That's not a meal, that's a situation.</p>
+        </div>
+
+        <div class="fe-card fe-enemy reveal">
+          <div class="fe-logo-wrap">
+            <img class="fe-logo-img fe-logo-enemy" src="https://logo.clearbit.com/rudysbarbershop.com" alt="Rudy's Barbershop" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fe-logo-fallback" style="display:none">RUDY'S</div>
+          </div>
+          <p class="fe-biz-name">Rudy's Barbershop</p>
+          <p class="fe-comment">I came for a haircut. I left knowing his ex-wife's lawyer's name. I did not ask for any of this. The fade was fine.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

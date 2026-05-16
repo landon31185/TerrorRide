@@ -88,6 +88,8 @@ p {
   left: 0;
   z-index: 1001;
   view-transition-name: top-nav;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .top-nav .logo {
@@ -165,20 +167,19 @@ p {
 .middle { top: 25px; }
 .bottom { top: 36px; }
 
-/* Hamburger open state */
+/* Hamburger open state — two lines crossing at center form an X */
 .hamburger-container.open .top {
-  transform: rotate(90deg);
+  transform: rotate(45deg);
   top: 22px;
 }
 
 .hamburger-container.open .middle {
-  opacity: 1;
-  top: 34px;
+  opacity: 0;
 }
 
 .hamburger-container.open .bottom {
-  transform: rotate(-90deg);
-  top: 28px;
+  transform: rotate(-45deg);
+  top: 22px;
 }
 
 .hamburger-container.open .line {
@@ -392,16 +393,19 @@ main {
 /* Music page — album section */
 .album-section {
   width: 90%;
-  max-width: 780px;
+  max-width: 680px;
   margin: 16px auto 0;
 }
 
 .album-card {
   display: flex;
   gap: 36px;
-  background-color: rgba(0, 0, 0, 0.72);
-  border: 1px solid #222;
-  border-top: 3px solid #24e39d;
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-top: 3px solid var(--green);
+  border-radius: 4px;
   padding: 32px;
 }
 
@@ -504,17 +508,23 @@ main {
   .album-card {
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 24px 20px;
     gap: 20px;
   }
 
-  .album-info h2 {
+  .album-info {
+    width: 100%;
     text-align: center;
   }
 
+  .album-info h2,
   .album-subtitle,
   .album-year {
     text-align: center;
+  }
+
+  .track-item {
+    justify-content: center;
   }
 
   .stream-links {
@@ -1140,6 +1150,7 @@ main {
 
 /* ─── Song request section ──────────────────────────────────────── */
 .song-request-section {
+  width: 90%;
   max-width: 680px;
   margin: 0 auto 80px;
   padding: 36px;
@@ -1723,7 +1734,7 @@ a.logo-link {
 
 /* ── Fake iframe wrapper ──────────────────────────────────── */
 .fake-iframe-wrap {
-  width: 92%;
+  width: 86%;
   max-width: 720px;
   margin: 0 auto 70px;
   box-shadow: 0 12px 48px rgba(0,0,0,0.7), 0 0 0 1px #555;
@@ -1828,7 +1839,7 @@ a.logo-link {
 
 /* Form body - scoped to override global dark styles */
 .gov-body {
-  padding: 22px 28px 100px; /* bottom clears fixed footer */
+  padding: 22px 28px 28px;
   background: #f2f2ed;
 }
 
@@ -1976,7 +1987,7 @@ a.logo-link {
 
 /* ── Success state (inside iframe) ─────────────────────────── */
 .gov-success {
-  padding: 36px 28px 100px; /* bottom clears fixed footer */
+  padding: 36px 28px 28px;
   background: #f2f2ed;
   text-align: center;
 }
@@ -2033,13 +2044,8 @@ a.logo-link {
   margin-top: 20px;
 }
 
-/* ── Sticky footer fixed to viewport bottom ───────────────── */
+/* ── Submit footer — static inside iframe ─────────────────── */
 .iframe-sticky-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 500;
   background: #dfdfd9;
   border-top: 2px solid #c4c4bc;
   padding: 12px 28px 14px;
@@ -2287,23 +2293,144 @@ a.logo-link {
 @media (max-width: 600px) {
   .fake-iframe-wrap {
     left: 0;
-    width: 100%;
-    max-width: 100%;
+    width: 90%;
   }
 
   .gov-body,
   .gov-success {
-    padding-left: 18px;
-    padding-right: 18px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .iframe-sticky-footer {
-    padding-left: 18px;
-    padding-right: 18px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .gov-header {
-    padding: 14px 18px;
+    padding: 14px 16px;
   }
 }
 
+/* ── Friends & Enemies page ───────────────────────────────── */
+.fe-section {
+  width: 90%;
+  max-width: 860px;
+  margin: 0 auto 56px;
+}
+
+.fe-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  border-bottom: 2px solid var(--border-dim);
+  padding-bottom: 12px;
+  margin-bottom: 28px;
+}
+
+.fe-friends-head { border-bottom-color: var(--green); }
+.fe-enemies-head { border-bottom-color: var(--red); }
+
+.fe-label {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.fe-friends-head .fe-label { color: var(--green); }
+.fe-enemies-head .fe-label { color: var(--red); }
+
+.fe-label-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  font-style: italic;
+}
+
+.fe-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.fe-card {
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.fe-friend { border-top: 2px solid var(--green); }
+.fe-enemy  { border-top: 2px solid var(--red); }
+
+.fe-logo-wrap {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.fe-logo-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.fe-logo-enemy {
+  filter: grayscale(60%) opacity(0.7);
+}
+
+.fe-logo-fallback {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #111;
+  text-align: center;
+  padding: 4px;
+  line-height: 1.2;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.fe-biz-name {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: white;
+  margin: 0;
+}
+
+.fe-comment {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.55;
+  margin: 0;
+  font-style: italic;
+}
+
+@media (max-width: 700px) {
+  .fe-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 440px) {
+  .fe-grid {
+    grid-template-columns: 1fr;
+  }
+}
