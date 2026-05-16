@@ -1602,13 +1602,19 @@ a.logo-link {
 }
 
 .hero-sub {
-  font-family: 'HFucktura-Thin', sans-serif;
-  font-size: clamp(14px, 2.4vw, 18px);
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.65;
-  max-width: 460px;
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: clamp(13px, 2vw, 16px);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   margin: 0 0 44px;
-  letter-spacing: 0.3px;
+  padding: 14px 24px;
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
 }
 
 .hero-cta {
