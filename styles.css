@@ -24,6 +24,10 @@
 }
 
 /* General body styling */
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -35,6 +39,7 @@ body {
   background-color: #000;
   padding-top: 64px; /* Add padding to prevent content from being hidden behind nav */
   position: relative;
+  overflow-x: hidden;
 }
 
 #bg-canvas {
@@ -421,12 +426,6 @@ main {
 }
 
 .track-play-btn:hover { background: var(--green); color: #000; }
-
-.track-play-btn--soon {
-  border-color: #333;
-  color: #333;
-  cursor: default;
-}
 
 /* ── Embedded track player ────────────────────────────────── */
 .track-player {
@@ -1302,14 +1301,18 @@ main {
   display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;
 }
 
-.song-request-fields input {
+.song-request-fields input,
+.song-request-fields textarea {
   background: #080808; border: 1px solid #222;
   color: white; padding: 12px 14px;
   font-size: 13px; font-family: inherit; width: 100%; box-sizing: border-box;
   transition: border-color 0.2s;
 }
-.song-request-fields input:focus { outline: none; border-color: var(--green); }
-.song-request-fields input::placeholder { color: #444; }
+.song-request-fields textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+.song-request-fields input:focus,
+.song-request-fields textarea:focus { outline: none; border-color: var(--green); }
+.song-request-fields input::placeholder,
+.song-request-fields textarea::placeholder { color: #444; }
 
 .song-submit-btn {
   background: transparent; border: 1px solid var(--green);
