@@ -1276,8 +1276,9 @@ main {
 .song-request-section {
   width: 90%;
   max-width: 680px;
-  margin: 0 auto 80px;
+  margin: 48px auto 80px;
   padding: 36px;
+  box-sizing: border-box;
   background: var(--dark-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
