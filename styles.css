@@ -3,7 +3,7 @@
   --green: #24e39d;
   --red: #BF0000;
   --nav-height: 64px;
-  --dark-card: rgba(0, 0, 0, 0.72);
+  --dark-card: rgba(0, 0, 0, 0.78);
   --border-dim: #222;
   --border-bright: #24e39d;
 }
@@ -1122,7 +1122,7 @@ main {
   max-width: 680px;
   margin: 0 auto 80px;
   padding: 36px;
-  background: rgba(0,0,0,0.78);
+  background: var(--dark-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
@@ -1177,7 +1177,7 @@ main {
   max-width: 680px;
   margin: 0 auto 80px;
   padding: 32px 36px;
-  background: rgba(0,0,0,0.78);
+  background: var(--dark-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
@@ -1675,7 +1675,7 @@ a.logo-link {
   padding: 40px 32px 28px;
   max-width: 640px;
   margin: 0 auto;
-  background: rgba(0,0,0,0.78);
+  background: var(--dark-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
@@ -2184,7 +2184,7 @@ a.logo-link {
 .news-article {
   padding: 40px;
   margin-bottom: 24px;
-  background: rgba(0, 0, 0, 0.78);
+  background: var(--dark-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
