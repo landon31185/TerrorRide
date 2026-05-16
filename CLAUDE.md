@@ -128,6 +128,49 @@ West Seattle noise metal band. Comedic but committed to the bit. Never winking a
 - **Act:** Updated `api/poll.js`
 - **Result:** Works. Always check what env vars the Vercel integration actually injects — they're not always what you expect.
 
+### ❌ Resend env var named wrong in Vercel
+- **Observe:** Resend emails silently not sending despite function returning 200 and Redis storing correctly
+- **Orient:** Code checks `process.env.RESEND_API_KEY` but Vercel had vars named `RESEND_KEY` and `RESEND_ADMIN`
+- **Decide:** Added fallback chain: `RESEND_API_KEY || RESEND_KEY || RESEND_ADMIN`. Also added `console.log` to log Resend response status so failures surface in Vercel logs.
+- **Result:** Fixed. **Lesson:** Define the env var name in code first, then use that exact name in Vercel. Never guess.
+
+### ❌ Vercel env vars require a redeploy to take effect
+- **Observe:** Added env var to Vercel, tested immediately, still failing
+- **Orient:** Serverless functions are built at deploy time — adding a var doesn't hot-reload anything
+- **Result:** Always merge a PR or manually redeploy after adding/changing Vercel env vars before testing.
+
+### ⚠️ Resend test sender restriction
+- **Observe:** Resend returned status 200 but email never arrived
+- **Orient:** `onboarding@resend.dev` (Resend's test sender) only delivers to the account's own verified email
+- **Decide:** Test with the Resend account email. For production delivery to anyone: buy a domain, verify it in Resend → Domains, update `from` in both API files.
+- **Result:** Works for account email only. **Backlog:** Buy `terrorride.com` (~$10/yr on Namecheap/Cloudflare) for real delivery.
+
+### ✅ CSS `--dark-card` token consolidation
+- **Observe:** Glass panels had inconsistent `rgba(0,0,0,0.72)` vs `rgba(0,0,0,0.78)` scattered inline
+- **Decide:** Bumped `--dark-card` to `rgba(0,0,0,0.78)`, replaced all inline values with `var(--dark-card)`
+- **Result:** One token controls all glass backgrounds site-wide. Add `border-radius: 4px` + `backdrop-filter: blur(12px)` + `border: 1px solid var(--border-dim)` for the full glass recipe.
+
+### ✅ Mobile body scroll lock on overlays
+- **Observe:** Background content scrolled while mobile menu was open
+- **Decide:** `document.body.style.overflow = isOpen ? 'hidden' : ''` on menu toggle; clear on link click too
+- **Result:** Fixed. Any full-screen overlay needs this.
+
+### ✅ Mobile long-press context menu suppression
+- **Observe:** Holding the logo triggered browser "Open in New Tab" menu instead of blood splatter
+- **Decide:** Three-part fix: `e.preventDefault()` on pointerdown + `contextmenu` event listener + CSS `-webkit-touch-callout: none; user-select: none`
+- **Result:** Fixed. All three are needed. Two alone isn't enough.
+
+### ✅ Organic canvas shapes — bezier curves
+- **Observe:** Blood splatter chunks looked geometric/angular
+- **Orient:** Straight `lineTo` between polygon vertices creates hard edges
+- **Decide:** `quadraticCurveTo` through midpoints between vertices for smooth blobs. Add spike variance: 25% of points lunge 1.8–2.6x further for organic tendrils.
+- **Result:** Looks like actual blood. Pattern reusable for any organic canvas shape.
+
+### ✅ `user-select: none` — apply at container level
+- **Observe:** Hero text still selectable after adding `user-select: none` to `.hero-sub` only
+- **Decide:** Apply to `.hero-inner` container instead of individual children
+- **Result:** Fixed. Always set at the parent that wraps everything you want non-selectable.
+
 ---
 
 ## Known Issues / Gotchas
