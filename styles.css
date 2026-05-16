@@ -2302,12 +2302,6 @@ a.logo-link {
 }
 
 .news-card-tag {
-  font-family: 'HFucktura-Heavy', sans-serif;
-  font-size: 9px;
-  color: #555;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border: 1px solid #333;
   padding: 1px 6px;
 }
 
@@ -2393,13 +2387,17 @@ a.logo-link {
   text-transform: uppercase;
 }
 
+.news-card-tag,
 .article-tag {
   font-family: 'HFucktura-Heavy', sans-serif;
   font-size: 9px;
-  color: #555;
+  color: #aaa;
   text-transform: uppercase;
   letter-spacing: 1px;
-  border: 1px solid #333;
+  border: 1px solid #444;
+}
+
+.article-tag {
   padding: 2px 7px;
 }
 
