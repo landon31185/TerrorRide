@@ -7,6 +7,24 @@ Live URL: `terrorride.vercel.app`
 
 ---
 
+## Accessibility — Non-Negotiable
+Every CSS color change must pass **WCAG AA contrast** before committing.
+
+| Situation | Minimum ratio |
+|-----------|--------------|
+| Normal text (< 18pt / 14pt bold) | 4.5 : 1 |
+| Large text (≥ 18pt or 14pt bold) | 3.0 : 1 |
+| UI components / icons | 3.0 : 1 |
+
+**Quick reference for this site's backgrounds:**
+- Dark card `rgba(0,0,0,0.78)` ≈ near-black → text needs to be **≥ #888** to pass (5.74 : 1)
+- Gov form / iframe body `#f2f2ed` (light) → text needs to be **≤ #595959** to pass
+- Any `rgba(255,255,255,X)` on dark: X must be **≥ 0.6** (effectively ≥ #999) to clear 4.5 : 1
+
+**Rule:** Never use `#555`, `#666`, `rgba(255,255,255,0.5)` or dimmer for readable text on dark backgrounds. Placeholder text is exempt (browsers handle it), decorative/non-text elements are exempt.
+
+---
+
 ## Brand Voice
 West Seattle noise metal band. Comedic but committed to the bit. Never winking at the camera.
 - Articles read like actual band statements, not parody
