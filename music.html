@@ -102,6 +102,20 @@
       </div>
     </section>
 
+    <section class="song-request-section">
+      <p class="song-request-eyebrow">Request a Song</p>
+      <p class="song-request-desc">We're not taking requests. But if you submit one, we'll consider it. No promises. Don't follow up.</p>
+      <form class="song-request-form" id="song-form" novalidate>
+        <div class="song-request-fields">
+          <input type="text"  name="song"  placeholder="Song title"   required autocomplete="off">
+          <input type="text"  name="name"  placeholder="Your name"    required autocomplete="name">
+          <input type="email" name="email" placeholder="Your email"   required autocomplete="email">
+        </div>
+        <button type="submit" class="song-submit-btn">Submit Request</button>
+        <p class="song-request-note" id="song-status"></p>
+      </form>
+    </section>
+
   </main>
 
 </body>
