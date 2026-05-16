@@ -1734,7 +1734,7 @@ a.logo-link {
 
 /* ── Fake iframe wrapper ──────────────────────────────────── */
 .fake-iframe-wrap {
-  width: 92%;
+  width: 86%;
   max-width: 720px;
   margin: 0 auto 70px;
   box-shadow: 0 12px 48px rgba(0,0,0,0.7), 0 0 0 1px #555;
@@ -1839,7 +1839,7 @@ a.logo-link {
 
 /* Form body - scoped to override global dark styles */
 .gov-body {
-  padding: 22px 28px 100px; /* bottom clears fixed footer */
+  padding: 22px 28px 28px;
   background: #f2f2ed;
 }
 
@@ -1987,7 +1987,7 @@ a.logo-link {
 
 /* ── Success state (inside iframe) ─────────────────────────── */
 .gov-success {
-  padding: 36px 28px 100px; /* bottom clears fixed footer */
+  padding: 36px 28px 28px;
   background: #f2f2ed;
   text-align: center;
 }
@@ -2044,13 +2044,8 @@ a.logo-link {
   margin-top: 20px;
 }
 
-/* ── Sticky footer fixed to viewport bottom ───────────────── */
+/* ── Submit footer — static inside iframe ─────────────────── */
 .iframe-sticky-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 500;
   background: #dfdfd9;
   border-top: 2px solid #c4c4bc;
   padding: 12px 28px 14px;
@@ -2298,23 +2293,22 @@ a.logo-link {
 @media (max-width: 600px) {
   .fake-iframe-wrap {
     left: 0;
-    width: 100%;
-    max-width: 100%;
+    width: 90%;
   }
 
   .gov-body,
   .gov-success {
-    padding-left: 18px;
-    padding-right: 18px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .iframe-sticky-footer {
-    padding-left: 18px;
-    padding-right: 18px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .gov-header {
-    padding: 14px 18px;
+    padding: 14px 16px;
   }
 }
 
