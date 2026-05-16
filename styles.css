@@ -311,6 +311,27 @@ p {
 }
 
 /* Main content layout */
+/* Shared glass page intro — used on About, Music, Banned, etc. */
+.page-intro {
+  text-align: center;
+  max-width: 680px;
+  width: 90%;
+  margin: 0 auto 32px;
+  padding: 32px 36px;
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+}
+.page-intro h1 { margin: 0; }
+.page-intro-sub {
+  margin: 10px 0 0;
+  color: rgba(255,255,255,0.5);
+  font-style: italic;
+  font-size: 15px;
+}
+
 main {
   width: 100%;
   display: flex;
