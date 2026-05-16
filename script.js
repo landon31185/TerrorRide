@@ -1,7 +1,15 @@
+const POLLS = [
+  { id: 'species', q: 'Are we fucked as a species?',
+    a: ["We're so fucked", 'Hardcore til I die', 'We will have to see'] },
+  { id: 'quiet',   q: 'Should bands play quieter out of respect for the neighborhood?',
+    a: ['Be considerate', "That's what the noise complaint page is for", 'File it at terrorride.com/noise'] },
+];
+
 document.addEventListener('DOMContentLoaded', function () {
   initShaderBackground();
   initCursorTrail();
   initPoll();
+  initPollResults();
   initMenu();
   initScrollReveal();
   initGeolocation();
@@ -11,13 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // ─── Pop-up poll ──────────────────────────────────────────────────
 function initPoll() {
   if (sessionStorage.getItem('tr_poll_done')) return;
-
-  const POLLS = [
-    { id: 'species', q: 'Are we fucked as a species?',
-      a: ["We're so fucked", 'Hardcore til I die', 'We will have to see'] },
-    { id: 'quiet',   q: 'Should bands play quieter out of respect for the neighborhood?',
-      a: ['Be considerate', "That's what the noise complaint page is for", 'File it at terrorride.com/noise'] },
-  ];
 
   const poll = POLLS[Math.floor(Math.random() * POLLS.length)];
 
@@ -86,6 +87,38 @@ function initPoll() {
   }
 
   setTimeout(show, 12000);
+}
+
+// ─── Homepage poll results ────────────────────────────────────────
+function initPollResults() {
+  const qEl    = document.getElementById('hp-poll-q');
+  const barsEl = document.getElementById('hp-poll-bars');
+  const totEl  = document.getElementById('hp-poll-total');
+  if (!qEl) return;
+
+  const weekNum = Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7));
+  const poll = POLLS[weekNum % POLLS.length];
+
+  qEl.textContent = poll.q;
+
+  fetch(`/api/poll?id=${poll.id}`)
+    .then(r => r.json())
+    .then(({ counts }) => {
+      const total = counts.reduce((a, b) => a + b, 0);
+      barsEl.innerHTML = poll.a.map((a, i) => {
+        const pct = total ? Math.round(counts[i] / total * 100) : 0;
+        return `<div class="hp-poll-row">
+          <span class="hp-poll-label">${a}</span>
+          <span class="hp-poll-pct">${pct}%</span>
+          <div class="hp-bar-wrap"><div class="hp-bar" data-pct="${pct}"></div></div>
+        </div>`;
+      }).join('');
+      totEl.textContent = total ? `${total} vote${total !== 1 ? 's' : ''} so far` : 'No votes yet — be the first.';
+      requestAnimationFrame(() => {
+        barsEl.querySelectorAll('.hp-bar').forEach(b => { b.style.width = b.dataset.pct + '%'; });
+      });
+    })
+    .catch(() => { qEl.closest('.hp-poll-section').style.display = 'none'; });
 }
 
 // ─── Fire ember cursor trail (desktop only) ──────────────────────
