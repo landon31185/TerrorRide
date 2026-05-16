@@ -342,7 +342,7 @@ p {
 .page-intro h1 { margin: 0; }
 .page-intro-sub {
   margin: 10px 0 0;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.75);
   font-style: italic;
   font-size: 15px;
 }
@@ -1853,7 +1853,7 @@ a.logo-link {
 .noise-intro h1 { margin-bottom: 12px; }
 
 .noise-intro-body {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.8);
   font-size: 15px;
   line-height: 1.75;
   margin: 0 0 14px;
@@ -2000,7 +2000,7 @@ a.logo-link {
 
 .gov-form-sub {
   font-size: 12px;
-  color: #666;
+  color: #444;
   margin: 0 0 14px;
   line-height: 1.5;
   font-family: Arial, Helvetica, sans-serif;
@@ -2036,7 +2036,7 @@ a.logo-link {
 .gov-field-note {
   font-family: Arial, sans-serif;
   font-size: 11px;
-  color: #888;
+  color: #555;
   font-style: italic;
   margin: 0 0 5px;
   line-height: 1.4;
@@ -2322,7 +2322,7 @@ a.logo-link {
 
 .news-card-excerpt {
   font-size: 13px;
-  color: #666;
+  color: #999;
   line-height: 1.55;
   margin: 0;
   flex: 1;
@@ -2354,7 +2354,7 @@ a.logo-link {
 
 .news-intro-sub {
   margin: 0;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.8);
   font-style: italic;
   font-size: 15px;
 }
@@ -2412,9 +2412,26 @@ a.logo-link {
   line-height: 1.15;
 }
 
+.article-photo {
+  margin: 20px 0 28px;
+  padding: 0;
+}
+.article-photo img {
+  width: 100%;
+  display: block;
+  border-radius: 3px;
+}
+.article-photo figcaption {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  font-style: italic;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
 .article-body p {
   font-size: 15px;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.9);
   line-height: 1.8;
   margin: 0 0 16px;
 }
