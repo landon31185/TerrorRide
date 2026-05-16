@@ -143,7 +143,7 @@
             <div class="gov-success" id="gov-success" style="display:none">
               <div class="success-icon">&#10003;</div>
               <h3 class="success-title">Complaint Successfully Submitted</h3>
-              <div class="success-ref">Reference No. <strong>#WS-2024-00048</strong> &nbsp;&bull;&nbsp; Received: <strong id="success-date"></strong></div>
+              <div class="success-ref">Reference No. <strong id="success-ref-num">#WS-2024-00048</strong> &nbsp;&bull;&nbsp; Received: <strong id="success-date"></strong></div>
               <p class="success-body">Your report has been received and logged in the City of Seattle Noise Disturbance Registry. A confirmation has been sent to the email address you provided. Probably.</p>
               <p class="success-body">Expected resolution timeline: <strong>3–5 business years</strong>. Possibly longer depending on staffing.</p>
               <div class="success-band-note">
@@ -174,11 +174,12 @@
   </main>
 
   <script>
-    function submitComplaint() {
+    async function submitComplaint() {
       const name  = document.getElementById('g-name');
       const email = document.getElementById('g-email');
       const desc  = document.getElementById('g-desc');
       const oath  = document.getElementById('g-oath');
+      const btn   = document.getElementById('gov-submit-btn');
 
       let valid = true;
 
@@ -198,14 +199,31 @@
 
       if (!valid) return;
 
-      // Show success
+      btn.disabled = true;
+      btn.textContent = 'Submitting to City of Seattle...';
+
+      let num = Math.floor(Math.random() * 500) + 3223;
+      try {
+        const res = await fetch('/api/complaints', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name.value.trim(), email: email.value.trim(), desc: desc.value.trim() }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.number) num = data.number;
+        }
+      } catch (_) {}
+
+      const caseRef = `#WS-${num}`;
       document.getElementById('gov-form').style.display = 'none';
       document.getElementById('gov-success').style.display = 'block';
       document.getElementById('success-date').textContent = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      document.getElementById('success-ref-num').textContent = caseRef;
       document.getElementById('iframe-scroll').scrollTop = 0;
 
       const footer = document.getElementById('iframe-footer');
-      footer.innerHTML = '<div class="gov-submitted-confirm">&#10003;&nbsp; Case #WS-2024-00048 submitted. May God have mercy on all of us.</div><div class="gov-footer-meta">Powered by CivicEngage&reg; &nbsp;|&nbsp; seattle.gov &nbsp;|&nbsp; Privacy Policy &nbsp;|&nbsp; Accessibility Statement</div>';
+      footer.innerHTML = `<div class="gov-submitted-confirm">&#10003;&nbsp; Case ${caseRef} submitted. May God have mercy on all of us.</div><div class="gov-footer-meta">Powered by CivicEngage&reg; &nbsp;|&nbsp; seattle.gov &nbsp;|&nbsp; Privacy Policy &nbsp;|&nbsp; Accessibility Statement</div>`;
     }
   </script>
 
