@@ -6,6 +6,13 @@
   --dark-card: rgba(0, 0, 0, 0.78);
   --border-dim: #222;
   --border-bright: #24e39d;
+  /* Motion tokens */
+  --dur-micro:      120ms;
+  --dur-component:  180ms;
+  --dur-structural: 280ms;
+  --ease-ui:        cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out-soft:  cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring:    cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Fonts */
@@ -164,13 +171,14 @@ p {
   height: 3px;
   background-color: white;
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity   0.2s  ease-out;
   position: absolute;
 }
 
-.top { top: 14px; }
-.middle { top: 25px; }
-.bottom { top: 36px; }
+.top { top: 14px; transition-delay: 0ms; }
+.middle { top: 25px; transition-delay: 40ms; }
+.bottom { top: 36px; transition-delay: 80ms; }
 
 /* Hamburger open state — inverted cross (✝) */
 .hamburger-container.open .top {
@@ -765,7 +773,7 @@ main {
     rgba(36, 227, 157, 0.55) 355deg,
     rgba(36, 227, 157, 0)    360deg
   );
-  animation: radar-spin 1.8s linear infinite;
+  animation: radar-spin 3.2s linear infinite;
 }
 
 @keyframes radar-spin { to { transform: rotate(360deg); } }
@@ -987,8 +995,8 @@ main {
 }
 
 @keyframes pulse-red {
-  0%, 100% { box-shadow: 0 0 6px var(--red); }
-  50%       { box-shadow: 0 0 16px var(--red), 0 0 6px #ff4444; }
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.15); }
 }
 
 .ban-list {
@@ -1149,10 +1157,10 @@ main {
 
 /* Content dims and shrinks out, rises and brightens in */
 ::view-transition-old(root) {
-  animation: 200ms ease-in both vt-out;
+  animation: 280ms ease-in both vt-out;
 }
 ::view-transition-new(root) {
-  animation: 320ms ease-out both vt-in;
+  animation: 280ms ease-out both vt-in;
 }
 
 @keyframes vt-out {
@@ -1262,7 +1270,7 @@ main {
 }
 .poll-bar {
   height: 100%; background: #333; width: 0%;
-  transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .poll-bar.voted { background: var(--green); box-shadow: 0 0 8px var(--green); }
 
@@ -1390,7 +1398,7 @@ main {
 }
 .hp-bar {
   height: 100%; background: var(--green);
-  width: 0%; transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 0%; transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hp-poll-total {
@@ -1625,8 +1633,8 @@ main {
 }
 
 @keyframes pulse-marker {
-  0%, 100% { box-shadow: 0 0 8px var(--red), 0 0 16px rgba(191,0,0,0.4); }
-  50%       { box-shadow: 0 0 16px var(--red), 0 0 32px rgba(191,0,0,0.6); }
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.2); }
 }
 
 .leaflet-popup-content-wrapper {
