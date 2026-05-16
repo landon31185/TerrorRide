@@ -1580,6 +1580,8 @@ a.logo-link {
   display: flex;
   flex-direction: column;
   align-items: center;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .hero-eyebrow {
