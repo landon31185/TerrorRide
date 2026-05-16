@@ -1122,10 +1122,11 @@ main {
   max-width: 680px;
   margin: 0 auto 80px;
   padding: 36px;
-  background: rgba(0,0,0,0.72);
+  background: rgba(0,0,0,0.78);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
+  border-radius: 4px;
 }
 
 .song-request-eyebrow {
@@ -1176,10 +1177,11 @@ main {
   max-width: 680px;
   margin: 0 auto 80px;
   padding: 32px 36px;
-  background: rgba(0,0,0,0.72);
+  background: rgba(0,0,0,0.78);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
+  border-radius: 4px;
 }
 
 .hp-poll-eyebrow {
@@ -1673,10 +1675,11 @@ a.logo-link {
   padding: 40px 32px 28px;
   max-width: 640px;
   margin: 0 auto;
-  background: rgba(0,0,0,0.72);
+  background: rgba(0,0,0,0.78);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
+  border-radius: 4px;
 }
 
 .noise-intro h1 { margin-bottom: 12px; }
