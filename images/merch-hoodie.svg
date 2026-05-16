@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#0a0a0a"/>
+  <!-- Hood bump -->
+  <path d="M155,75 Q200,30 245,75" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1.5"/>
+  <!-- Hoodie body -->
+  <path d="M110,80 L55,125 L55,185 L95,168 L95,345 L305,345 L305,168 L345,185 L345,125 L290,80 Q260,62 245,75 Q222,95 200,95 Q178,95 155,75 Q140,62 110,80 Z" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1.5"/>
+  <!-- Hood opening / neck -->
+  <path d="M155,75 Q200,95 245,75" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Center seam -->
+  <line x1="200" y1="95" x2="200" y2="345" stroke="#141414" stroke-width="1"/>
+  <!-- Kangaroo pocket -->
+  <rect x="150" y="268" width="100" height="58" rx="3" fill="#0a0a0a" stroke="#1a1a1a" stroke-width="1"/>
+  <!-- Logo -->
+  <text x="200" y="210" font-family="Arial Black, Impact, sans-serif" font-size="30" font-weight="900" fill="#24e39d" text-anchor="middle" letter-spacing="3">TERROR</text>
+  <text x="200" y="248" font-family="Arial Black, Impact, sans-serif" font-size="30" font-weight="900" fill="#24e39d" text-anchor="middle" letter-spacing="3">RIDE</text>
+  <!-- Tag -->
+  <rect x="291" y="325" width="12" height="16" rx="1" fill="#BF0000" opacity="0.6"/>
+</svg>
