@@ -393,16 +393,19 @@ main {
 /* Music page — album section */
 .album-section {
   width: 90%;
-  max-width: 780px;
+  max-width: 680px;
   margin: 16px auto 0;
 }
 
 .album-card {
   display: flex;
   gap: 36px;
-  background-color: rgba(0, 0, 0, 0.72);
-  border: 1px solid #222;
-  border-top: 3px solid #24e39d;
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-top: 3px solid var(--green);
+  border-radius: 4px;
   padding: 32px;
 }
 
@@ -505,17 +508,23 @@ main {
   .album-card {
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 24px 20px;
     gap: 20px;
   }
 
-  .album-info h2 {
+  .album-info {
+    width: 100%;
     text-align: center;
   }
 
+  .album-info h2,
   .album-subtitle,
   .album-year {
     text-align: center;
+  }
+
+  .track-item {
+    justify-content: center;
   }
 
   .stream-links {
@@ -1141,6 +1150,7 @@ main {
 
 /* ─── Song request section ──────────────────────────────────────── */
 .song-request-section {
+  width: 90%;
   max-width: 680px;
   margin: 0 auto 80px;
   padding: 36px;
