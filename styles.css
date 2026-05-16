@@ -1670,9 +1670,13 @@ a.logo-link {
 /* ── Noise complaint page ─────────────────────────────────── */
 .noise-intro {
   text-align: center;
-  padding: 40px 24px 28px;
+  padding: 40px 32px 28px;
   max-width: 640px;
   margin: 0 auto;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
 }
 
 .noise-intro h1 { margin-bottom: 12px; }
