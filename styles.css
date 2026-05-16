@@ -1541,6 +1541,8 @@ a.logo-link {
   color: inherit;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 /* ── Blood bleed on logo tap ──────────────────────────────── */
