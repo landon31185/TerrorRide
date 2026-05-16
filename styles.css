@@ -391,6 +391,133 @@ main {
   opacity: 0.85;
 }
 
+/* ── Featured single player ───────────────────────────────── */
+.player-section {
+  width: 90%;
+  max-width: 680px;
+  margin: 0 auto 28px;
+}
+
+.player-card {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-top: 3px solid var(--green);
+  border-radius: 4px;
+  padding: 24px;
+}
+
+.player-art {
+  flex-shrink: 0;
+  width: 90px;
+  height: 90px;
+  background: #0a0a0a;
+  border: 2px solid var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-art-text {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  color: var(--green);
+  font-size: 20px;
+  letter-spacing: 3px;
+}
+
+.player-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.player-eyebrow {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin: 0 0 4px;
+}
+
+.player-title {
+  font-size: 20px;
+  margin: 0 0 16px;
+  line-height: 1.1;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.player-btn {
+  background: transparent;
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-size: 14px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.player-btn:hover { background: var(--green); color: #000; }
+
+.player-time-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.player-time {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+.player-progress {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  cursor: pointer;
+  position: relative;
+}
+
+.player-bar {
+  height: 100%;
+  background: var(--green);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+@media (max-width: 480px) {
+  .player-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .player-art {
+    width: 70px;
+    height: 70px;
+  }
+}
+
 /* Music page — album section */
 .album-section {
   width: 90%;
