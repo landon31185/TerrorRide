@@ -667,5 +667,9 @@ function initLogoBleed() {
     else ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
-  logo.addEventListener('pointerdown', (e) => splat(e.clientX, e.clientY));
+  logo.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    splat(e.clientX, e.clientY);
+  });
+  logo.addEventListener('contextmenu', (e) => e.preventDefault());
 }
