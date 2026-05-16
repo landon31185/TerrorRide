@@ -167,17 +167,20 @@ p {
 .middle { top: 25px; }
 .bottom { top: 36px; }
 
-/* Hamburger open state — translate each line to center, then rotate to form X */
+/* Hamburger open state — inverted cross (✝) */
 .hamburger-container.open .top {
-  transform: translateY(7px) rotate(45deg);
+  transform: rotate(90deg);
+  top: 22px;
 }
 
 .hamburger-container.open .middle {
-  opacity: 0;
+  opacity: 1;
+  top: 34px;
 }
 
 .hamburger-container.open .bottom {
-  transform: translateY(-15px) rotate(-45deg);
+  transform: rotate(-90deg);
+  top: 28px;
 }
 
 .hamburger-container.open .line {
