@@ -72,30 +72,30 @@
           <p class="album-year">2025</p>
 
           <ul class="track-list">
-            <li class="track-item" data-src="" data-title="No Managers">
+            <li class="track-item" data-src="emerald-city-bruisers.mp3" data-title="No Managers">
               <span class="track-num">01</span>
               <span class="track-name">No Managers</span>
+              <button class="track-play-btn" aria-label="Play No Managers">&#9654;</button>
             </li>
             <li class="track-item" data-src="" data-title="Debt Machine">
               <span class="track-num">02</span>
               <span class="track-name">Debt Machine</span>
+              <button class="track-play-btn track-play-btn--soon" aria-label="Coming soon" disabled>&#9654;</button>
             </li>
             <li class="track-item" data-src="" data-title="Quarterly Funeral">
               <span class="track-num">03</span>
               <span class="track-name">Quarterly Funeral</span>
+              <button class="track-play-btn track-play-btn--soon" aria-label="Coming soon" disabled>&#9654;</button>
             </li>
             <li class="track-item" data-src="" data-title="The Shareholders Are Screaming">
               <span class="track-num">04</span>
               <span class="track-name">The Shareholders Are Screaming</span>
+              <button class="track-play-btn track-play-btn--soon" aria-label="Coming soon" disabled>&#9654;</button>
             </li>
             <li class="track-item" data-src="" data-title="West Seattle Burning">
               <span class="track-num">05</span>
               <span class="track-name">West Seattle Burning</span>
-            </li>
-            <li class="track-item track-item--single" data-src="emerald-city-bruisers.mp3" data-title="Emerald City Bruisers">
-              <span class="track-num">S1</span>
-              <span class="track-name">Emerald City Bruisers</span>
-              <span class="track-badge">Single</span>
+              <button class="track-play-btn track-play-btn--soon" aria-label="Coming soon" disabled>&#9654;</button>
             </li>
           </ul>
 
@@ -158,11 +158,19 @@
       const coming      = document.getElementById('tp-coming');
       const comingTitle = document.getElementById('tp-coming-title');
 
+      let activeItem = null;
+
+      function resetTrackBtns() {
+        document.querySelectorAll('.track-play-btn:not(.track-play-btn--soon)').forEach(b => b.textContent = '▶');
+      }
+
       function selectTrack(item) {
         document.querySelectorAll('.track-item').forEach(t => t.classList.remove('track-selected'));
         item.classList.add('track-selected');
+        activeItem = item;
         const src   = item.dataset.src;
         const title = item.dataset.title;
+        resetTrackBtns();
         if (!src) {
           idle.style.display   = 'none';
           active.style.display = 'none';
@@ -178,18 +186,39 @@
         audio.load();
         audio.play();
         playBtn.textContent = '❚❚';
+        item.querySelector('.track-play-btn').textContent = '❚❚';
         bar.style.width = '0%';
         curr.textContent = '0:00';
         dur.textContent  = '0:00';
       }
 
       document.querySelectorAll('.track-item').forEach(item => {
-        item.addEventListener('click', () => selectTrack(item));
+        item.addEventListener('click', (e) => {
+          if (e.target.classList.contains('track-play-btn')) return;
+          selectTrack(item);
+        });
+        const btn = item.querySelector('.track-play-btn');
+        if (btn && !btn.disabled) btn.addEventListener('click', () => {
+          if (activeItem === item && !audio.paused) {
+            audio.pause();
+            playBtn.textContent = '▶';
+            btn.textContent = '▶';
+          } else {
+            selectTrack(item);
+          }
+        });
       });
 
       playBtn.addEventListener('click', () => {
-        if (audio.paused) { audio.play();  playBtn.textContent = '❚❚'; }
-        else              { audio.pause(); playBtn.textContent = '▶'; }
+        if (audio.paused) {
+          audio.play();
+          playBtn.textContent = '❚❚';
+          if (activeItem) activeItem.querySelector('.track-play-btn').textContent = '❚❚';
+        } else {
+          audio.pause();
+          playBtn.textContent = '▶';
+          if (activeItem) activeItem.querySelector('.track-play-btn').textContent = '▶';
+        }
       });
 
       audio.addEventListener('loadedmetadata', () => { dur.textContent = fmt(audio.duration); });
@@ -197,7 +226,11 @@
         curr.textContent = fmt(audio.currentTime);
         if (audio.duration) bar.style.width = (audio.currentTime / audio.duration * 100) + '%';
       });
-      audio.addEventListener('ended', () => { playBtn.textContent = '▶'; bar.style.width = '0%'; });
+      audio.addEventListener('ended', () => {
+        playBtn.textContent = '▶';
+        bar.style.width = '0%';
+        if (activeItem) activeItem.querySelector('.track-play-btn').textContent = '▶';
+      });
 
       progress.addEventListener('click', (e) => {
         if (!audio.duration) return;
