@@ -59,30 +59,6 @@
   <main id="main-content">
     <div class="page-intro"><h1>Music</h1></div>
 
-    <!-- Featured Single Player -->
-    <section class="player-section">
-      <div class="player-card">
-        <div class="player-art">
-          <span class="player-art-text">ECB</span>
-        </div>
-        <div class="player-info">
-          <p class="player-eyebrow">Single &mdash; 2026</p>
-          <h2 class="player-title">Emerald City Bruisers</h2>
-          <audio id="main-player" src="emerald-city-bruisers.mp3" preload="metadata"></audio>
-          <div class="player-controls">
-            <button class="player-btn" id="play-btn" aria-label="Play">&#9654;</button>
-            <div class="player-time-wrap">
-              <span class="player-time" id="player-current">0:00</span>
-              <div class="player-progress" id="player-progress">
-                <div class="player-bar" id="player-bar"></div>
-              </div>
-              <span class="player-time" id="player-duration">0:00</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="album-section">
       <div class="album-card">
 
@@ -96,27 +72,49 @@
           <p class="album-year">2025</p>
 
           <ul class="track-list">
-            <li class="track-item">
+            <li class="track-item" data-src="" data-title="No Managers">
               <span class="track-num">01</span>
               <span class="track-name">No Managers</span>
             </li>
-            <li class="track-item">
+            <li class="track-item" data-src="" data-title="Debt Machine">
               <span class="track-num">02</span>
               <span class="track-name">Debt Machine</span>
             </li>
-            <li class="track-item">
+            <li class="track-item" data-src="" data-title="Quarterly Funeral">
               <span class="track-num">03</span>
               <span class="track-name">Quarterly Funeral</span>
             </li>
-            <li class="track-item">
+            <li class="track-item" data-src="" data-title="The Shareholders Are Screaming">
               <span class="track-num">04</span>
               <span class="track-name">The Shareholders Are Screaming</span>
             </li>
-            <li class="track-item">
+            <li class="track-item" data-src="" data-title="West Seattle Burning">
               <span class="track-num">05</span>
               <span class="track-name">West Seattle Burning</span>
             </li>
+            <li class="track-item track-item--single" data-src="emerald-city-bruisers.mp3" data-title="Emerald City Bruisers">
+              <span class="track-num">S1</span>
+              <span class="track-name">Emerald City Bruisers</span>
+              <span class="track-badge">Single</span>
+            </li>
           </ul>
+
+          <!-- Player — lives at bottom of album card -->
+          <audio id="tp-audio" preload="none"></audio>
+          <div class="track-player" id="track-player">
+            <div class="tp-idle" id="tp-idle">&#9654; Select a track</div>
+            <div class="tp-active" id="tp-active" style="display:none">
+              <button class="tp-btn" id="tp-play" aria-label="Play">&#9654;</button>
+              <div class="tp-centre">
+                <div class="tp-title" id="tp-title"></div>
+                <div class="tp-time-row">
+                  <span class="tp-time" id="tp-current">0:00</span>
+                  <div class="tp-progress" id="tp-progress"><div class="tp-bar" id="tp-bar"></div></div>
+                  <span class="tp-time" id="tp-dur">0:00</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div class="stream-links">
             <a href="#" class="stream-btn">Spotify</a>
@@ -146,30 +144,61 @@
 
   <script>
     (function () {
-      const audio    = document.getElementById('main-player');
-      const playBtn  = document.getElementById('play-btn');
-      const bar      = document.getElementById('player-bar');
-      const current  = document.getElementById('player-current');
-      const duration = document.getElementById('player-duration');
-      const progress = document.getElementById('player-progress');
+      const audio    = document.getElementById('tp-audio');
+      const playBtn  = document.getElementById('tp-play');
+      const bar      = document.getElementById('tp-bar');
+      const curr     = document.getElementById('tp-current');
+      const dur      = document.getElementById('tp-dur');
+      const progress = document.getElementById('tp-progress');
+      const titleEl  = document.getElementById('tp-title');
+      const idle     = document.getElementById('tp-idle');
+      const active   = document.getElementById('tp-active');
 
       function fmt(s) {
         return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
       }
 
+      function selectTrack(item) {
+        document.querySelectorAll('.track-item').forEach(t => t.classList.remove('track-selected'));
+        item.classList.add('track-selected');
+        const src   = item.dataset.src;
+        const title = item.dataset.title;
+        titleEl.textContent = title;
+        if (!src) {
+          idle.textContent = '— ' + title + ' — streaming soon';
+          idle.style.display = 'block';
+          active.style.display = 'none';
+          return;
+        }
+        idle.style.display = 'none';
+        active.style.display = 'flex';
+        audio.src = src;
+        audio.load();
+        audio.play();
+        playBtn.textContent = '❚❚';
+        bar.style.width = '0%';
+        curr.textContent = '0:00';
+        dur.textContent  = '0:00';
+      }
+
+      document.querySelectorAll('.track-item').forEach(item => {
+        item.addEventListener('click', () => selectTrack(item));
+      });
+
       playBtn.addEventListener('click', () => {
-        if (audio.paused) { audio.play(); playBtn.textContent = '❚❚'; }
+        if (audio.paused) { audio.play();  playBtn.textContent = '❚❚'; }
         else              { audio.pause(); playBtn.textContent = '▶'; }
       });
 
-      audio.addEventListener('loadedmetadata', () => { duration.textContent = fmt(audio.duration); });
+      audio.addEventListener('loadedmetadata', () => { dur.textContent = fmt(audio.duration); });
       audio.addEventListener('timeupdate', () => {
-        current.textContent = fmt(audio.currentTime);
-        bar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+        curr.textContent = fmt(audio.currentTime);
+        if (audio.duration) bar.style.width = (audio.currentTime / audio.duration * 100) + '%';
       });
       audio.addEventListener('ended', () => { playBtn.textContent = '▶'; bar.style.width = '0%'; });
 
       progress.addEventListener('click', (e) => {
+        if (!audio.duration) return;
         const r = progress.getBoundingClientRect();
         audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
       });
