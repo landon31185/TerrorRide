@@ -123,7 +123,7 @@ function initPollResults() {
 
 // ─── Fire ember cursor trail (desktop only) ──────────────────────
 function initCursorTrail() {
-  if (window.matchMedia('(hover: none)').matches) return;
+  if ('ontouchstart' in window && !window.matchMedia('(hover: hover)').matches) return;
 
   const canvas = document.createElement('canvas');
   canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998;';
