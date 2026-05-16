@@ -33,11 +33,11 @@ module.exports = async function handler(req, res) {
 
   // POST — submit a song request
   if (req.method === 'POST') {
-    const { name, song, email } = req.body || {};
-    if (!name || !song || !email) return res.status(400).json({ error: 'Missing fields' });
+    const { name, about, email } = req.body || {};
+    if (!name || !about || !email) return res.status(400).json({ error: 'Missing fields' });
 
     const id = Date.now().toString();
-    const request = { id, name, song, email, status: 'pending', timestamp: Date.now() };
+    const request = { id, name, about, email, status: 'pending', timestamp: Date.now() };
 
     await redis([
       ['SET', `song:req:${id}`, JSON.stringify(request)],
@@ -48,9 +48,9 @@ module.exports = async function handler(req, res) {
       to: email,
       subject: 'We got it.',
       html: `
-        <p style="font-family:sans-serif">Your request for <strong>${song}</strong> has been received by Terror Ride.</p>
-        <p style="font-family:sans-serif">We're not saying we'll play it. We're saying we received it.</p>
-        <p style="font-family:sans-serif">If we decide to create it, you'll hear from us.</p>
+        <p style="font-family:sans-serif">Your idea — <em>${about}</em> — has been received by Terror Ride.</p>
+        <p style="font-family:sans-serif">We're not saying we'll write it. We're saying we received it.</p>
+        <p style="font-family:sans-serif">If it has legs, you'll hear from us.</p>
         <p style="font-family:sans-serif">— Terror Ride<br>West Seattle, WA</p>
       `,
     });
@@ -85,9 +85,9 @@ module.exports = async function handler(req, res) {
 
     await sendEmail({
       to: request.email,
-      subject: `${request.song} has been created.`,
+      subject: 'Your idea became a song.',
       html: `
-        <p style="font-family:sans-serif">You asked Terror Ride to create <strong>${request.song}</strong>.</p>
+        <p style="font-family:sans-serif">You submitted an idea to Terror Ride: <em>${request.about}</em></p>
         <p style="font-family:sans-serif">We made it.</p>
         <p style="font-family:sans-serif">It is exactly what you asked for and also nothing like what you asked for.</p>
         <p style="font-family:sans-serif">Come to the show.</p>
