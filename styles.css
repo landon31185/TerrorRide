@@ -1615,6 +1615,8 @@ a.logo-link {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
   border-radius: 4px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .hero-cta {
