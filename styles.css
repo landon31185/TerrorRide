@@ -422,12 +422,6 @@ main {
 
 .track-play-btn:hover { background: var(--green); color: #000; }
 
-.track-play-btn--soon {
-  border-color: #333;
-  color: #333;
-  cursor: default;
-}
-
 /* ── Embedded track player ────────────────────────────────── */
 .track-player {
   border: 1px solid var(--border-dim);
