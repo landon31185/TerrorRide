@@ -30,13 +30,14 @@ module.exports = async function handler(req, res) {
     ['LPUSH', 'complaint:ids', id],
   ]);
 
+  console.log('resendKey set:', !!resendKey, 'to:', email);
   if (resendKey) {
     const date = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fterrorride.vercel.app%2Fnoise.html&bgcolor=f5f0e8&color=1a1a1a`;
     const safeDesc = String(desc).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const safeName = String(name).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
-    await fetch('https://api.resend.com/emails', {
+    const emailRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { Authorization: `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -152,6 +153,8 @@ module.exports = async function handler(req, res) {
 </html>`,
       }),
     });
+    const emailBody = await emailRes.json();
+    console.log('Resend status:', emailRes.status, JSON.stringify(emailBody));
   }
 
   return res.json({ ok: true, number: count });
