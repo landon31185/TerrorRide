@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#0a0a0a"/>
+  <!-- T-shirt silhouette -->
+  <path d="M120,70 L60,110 L60,170 L100,155 L100,340 L300,340 L300,155 L340,170 L340,110 L280,70 Q250,50 200,50 Q150,50 120,70 Z" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1.5"/>
+  <!-- Collar -->
+  <path d="M120,70 Q150,90 200,90 Q250,90 280,70" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Logo — barely visible, that's the bit -->
+  <text x="200" y="205" font-family="Arial Black, Impact, sans-serif" font-size="36" font-weight="900" fill="#111111" text-anchor="middle" letter-spacing="4">TERROR</text>
+  <text x="200" y="248" font-family="Arial Black, Impact, sans-serif" font-size="36" font-weight="900" fill="#111111" text-anchor="middle" letter-spacing="4">RIDE</text>
+  <!-- Tag -->
+  <rect x="286" y="320" width="14" height="18" rx="1" fill="#BF0000" opacity="0.6"/>
+  <!-- Bottom label -->
+  <text x="200" y="368" font-family="Arial, sans-serif" font-size="9" fill="#1a1a1a" text-anchor="middle" letter-spacing="6">BLACK ON BLACK</text>
+</svg>

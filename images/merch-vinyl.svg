@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#0a0a0a"/>
+  <!-- Record outer -->
+  <circle cx="200" cy="200" r="170" fill="#0d0d0d" stroke="#1a1a1a" stroke-width="1"/>
+  <!-- Groove rings -->
+  <circle cx="200" cy="200" r="160" fill="none" stroke="#141414" stroke-width="0.8"/>
+  <circle cx="200" cy="200" r="148" fill="none" stroke="#141414" stroke-width="0.8"/>
+  <circle cx="200" cy="200" r="136" fill="none" stroke="#141414" stroke-width="0.8"/>
+  <circle cx="200" cy="200" r="124" fill="none" stroke="#141414" stroke-width="0.8"/>
+  <circle cx="200" cy="200" r="112" fill="none" stroke="#141414" stroke-width="0.8"/>
+  <circle cx="200" cy="200" r="100" fill="none" stroke="#141414" stroke-width="0.8"/>
+  <!-- Center label -->
+  <circle cx="200" cy="200" r="68" fill="#111" stroke="#24e39d" stroke-width="1.5"/>
+  <!-- Center hole -->
+  <circle cx="200" cy="200" r="6" fill="#0a0a0a"/>
+  <!-- PCC -->
+  <text x="200" y="194" font-family="Arial Black, Impact, sans-serif" font-size="30" font-weight="900" fill="#24e39d" text-anchor="middle" letter-spacing="3">PCC</text>
+  <!-- Band name -->
+  <text x="200" y="216" font-family="Arial, sans-serif" font-size="8" fill="#555" text-anchor="middle" letter-spacing="2">TERROR RIDE</text>
+  <!-- Tiny label text -->
+  <text x="200" y="234" font-family="Arial, sans-serif" font-size="6" fill="#333" text-anchor="middle" letter-spacing="1">PUSHING CAPITALIST CONTROL</text>
+  <!-- Side A -->
+  <text x="200" y="174" font-family="Arial, sans-serif" font-size="7" fill="#333" text-anchor="middle" letter-spacing="2">SIDE A</text>
+</svg>
