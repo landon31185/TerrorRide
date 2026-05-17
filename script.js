@@ -794,4 +794,15 @@ function initScanPage() {
     },
     () => { /* denied — no message, no error */ }
   );
+
+  fetch('/api/scan?admin=1')
+    .then(r => r.json())
+    .then(({ total }) => {
+      const countEl = document.getElementById('scan-count');
+      if (!countEl || !total) return;
+      const others = total - 1;
+      if (others <= 0) countEl.textContent = "You're the first one here.";
+      else countEl.textContent = `You and ${others} other${others !== 1 ? 's' : ''} found this.`;
+    })
+    .catch(() => {});
 }
