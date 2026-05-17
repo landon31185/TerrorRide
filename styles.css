@@ -2558,6 +2558,35 @@ a.logo-link {
   margin-top: 4px;
 }
 
+.news-card-viewall {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-color: rgba(36,227,157,0.25);
+  gap: 8px;
+}
+
+.news-card-viewall:hover {
+  border-color: var(--green);
+}
+
+.news-viewall-label {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: clamp(28px, 8vw, 48px);
+  color: #fff;
+  margin: 0;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.news-viewall-count {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin: 0;
+}
+
 /* ── News page ────────────────────────────────────────────── */
 .news-intro {
   text-align: center;
