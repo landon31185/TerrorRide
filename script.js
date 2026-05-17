@@ -486,7 +486,6 @@ function initCarousel() {
 
 // ─── Nav transparency fallback (for browsers without scroll-driven animations) ───
 function initNavScroll() {
-  if (CSS.supports('animation-timeline', 'scroll()')) return;
   const nav = document.querySelector('.top-nav');
   if (!nav) return;
   nav.classList.add('nav-js-scroll');
