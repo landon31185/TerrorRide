@@ -344,7 +344,10 @@ function initShaderBackground() {
   const timeLoc = gl.getUniformLocation(prog, 'u_time');
   const resLoc  = gl.getUniformLocation(prog, 'u_res');
 
+  let _lastW = 0;
   function resize() {
+    if (window.innerWidth === _lastW) return; // skip iOS toolbar height-only changes
+    _lastW = window.innerWidth;
     const scale = window.innerWidth < 769 ? 0.5 : 1.0;
     canvas.width  = Math.floor(window.innerWidth  * scale);
     canvas.height = Math.floor(window.innerHeight * scale);
