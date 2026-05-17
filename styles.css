@@ -43,7 +43,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-height: 100dvh; /* Changed from height to min-height */
+  min-height: 100svh;
   padding-top: 64px; /* Add padding to prevent content from being hidden behind nav */
   position: relative;
   overflow-x: hidden;
@@ -387,6 +387,7 @@ main {
   flex-direction: column;
   align-items: center;
   padding-bottom: 24px;
+  flex: 1;
 }
 
 /* Band photo */
