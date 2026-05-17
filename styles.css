@@ -104,6 +104,28 @@ p {
   user-select: none;
 }
 
+/* Nav: transparent at top of page → solid as user scrolls. Zero JS. Chrome 115+ */
+@supports (animation-timeline: scroll()) {
+  .top-nav {
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+    animation: nav-scroll-in linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0px 80px;
+  }
+}
+
+@keyframes nav-scroll-in {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+    border-bottom-color: transparent;
+  }
+  to {
+    background-color: #000000;
+    border-bottom-color: var(--border-dim);
+  }
+}
+
 .top-nav .logo {
   margin: 0;
   display: flex;
@@ -671,6 +693,7 @@ main {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+  transition-delay: calc(var(--i, 0) * 70ms);
   filter: blur(3px);
 }
 .reveal.in-view {
@@ -701,10 +724,27 @@ main {
     animation-range: entry 0% entry 40%;
   }
 
+  /* Stagger grid cards via animation-range offset per --i index */
+  .merch-card.reveal,
+  .news-card.reveal {
+    animation-range-start: entry calc(var(--i, 0) * 4%);
+    animation-range-end: entry calc(var(--i, 0) * 4% + 40%);
+  }
+
   /* Ban list items slide in from the left */
   .ban-item.reveal {
     animation-name: scroll-reveal-left;
     animation-range: entry 0% entry 50%;
+  }
+}
+
+/* sibling-index() override — Chrome 137+: pure CSS stagger, no --i needed */
+@supports (transition-delay: calc(sibling-index() * 1ms)) {
+  .merch-card.reveal,
+  .news-card.reveal {
+    transition-delay: calc((sibling-index() - 1) * 70ms);
+    animation-range-start: entry calc((sibling-index() - 1) * 4%);
+    animation-range-end: entry calc((sibling-index() - 1) * 4% + 40%);
   }
 }
 
