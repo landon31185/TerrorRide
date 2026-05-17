@@ -33,6 +33,7 @@
 /* General body styling */
 html {
   overflow-x: hidden;
+  background-color: #000;
 }
 
 body {
@@ -1218,6 +1219,8 @@ main {
 @view-transition {
   navigation: auto;
 }
+
+::view-transition-group(root) { background: #000; }
 
 /* Content dims and shrinks out, rises and brightens in */
 ::view-transition-old(root) {
