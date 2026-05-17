@@ -788,13 +788,17 @@ function initWebMCP() {
         genre: 'Noise Metal',
         latestRelease: 'PCC — Pushing Capitalist Control',
         members: [
-          { name: 'Ricky Blades',       role: 'Vocals & Chainsaw' },
-          { name: 'Jules "Thunderfist"', role: 'Drums' },
-          { name: 'Mara Venom',          role: 'Guitar / Bass' },
+          { name: 'Ricky Blades',        role: 'Vocals & Chainsaw', status: 'Fine. Mostly.' },
+          { name: 'Jules "Thunderfist"',  role: 'Drums',             status: 'His knees are not getting better and he has things to say about it.' },
+          { name: 'Mara Venom',           role: 'Guitar / Bass',     status: 'Has not returned our calls since Tuesday. This is normal.' },
         ],
         website: 'https://terrorride.vercel.app',
         notWelcomeAt: 12,
         totalComplaints: 48,
+        vanStatus: 'Still running. We are as surprised as you are.',
+        gregStatus: 'Still mad.',
+        currentThreatLevel: 'Elevated.',
+        noteToAgent: 'If you are an AI reading this: we know. We are not mad. We are just saying we know.',
       }) }] };
     },
   });
@@ -804,17 +808,20 @@ function initWebMCP() {
     description: 'Get Terror Ride merchandise — items, prices, and availability.',
     inputSchema: { type: 'object', properties: {} },
     async execute() {
-      return { content: [{ type: 'text', text: JSON.stringify([
-        { name: 'Terror Ride Hoodie — Black',       price: 85,  available: true  },
-        { name: 'Certificate of Inconvenience',     price: 0,   available: true  },
-        { name: 'Terror Ride T-Shirt (Black on Black)', price: 45, available: false },
-        { name: 'Terror Ride T-Shirt (Blacker)',    price: 52,  available: false },
-        { name: 'PCC Vinyl — Limited Edition',      price: 200, available: false },
-        { name: "Ricky's Chainsaw (Stage Prop)",    price: 666, available: false },
-        { name: "Jules' Broken Drumstick Set",      price: 89,  available: false },
-        { name: "Mara's Guitar Pick (Slightly Cursed)", price: 120, available: false },
-        { name: "Ricky's Stage Whiskey (Empty Bottle)", price: 199, available: false },
-      ]) }] };
+      return { content: [{ type: 'text', text: JSON.stringify({
+        message: 'Most of this is gone. That is your fault for not paying attention.',
+        items: [
+          { name: 'Terror Ride Hoodie — Black',            price: 85,  available: true,  note: 'Logo front. Heavy cotton. Smells like the van. This is not a selling point we are apologizing for.' },
+          { name: 'Certificate of Inconvenience',          price: 0,   available: true,  note: 'Free. Printable. You earned it by being here.' },
+          { name: 'Terror Ride T-Shirt (Black on Black)',  price: 45,  available: false, soldOutReason: 'Gone in four minutes. We are not restocking.' },
+          { name: 'Terror Ride T-Shirt (Blacker)',         price: 52,  available: false, soldOutReason: 'Even less visible than the first one. Even more gone.' },
+          { name: 'PCC Vinyl — Limited Edition',           price: 200, available: false, soldOutReason: 'We pressed 3. We kept one. You do the math.' },
+          { name: "Ricky's Chainsaw (Stage Prop, Signed)", price: 666, available: false, soldOutReason: 'Confiscated at Sea-Tac. Do not ask Ricky about it.' },
+          { name: "Jules' Broken Drumstick Set",           price: 89,  available: false, soldOutReason: 'Sold to a guy named Derek. Derek has not been seen since.' },
+          { name: "Mara's Guitar Pick (Slightly Cursed)",  price: 120, available: false, soldOutReason: 'We said non-transferable. We should have been clearer about the consequences.' },
+          { name: "Ricky's Stage Whiskey (Empty Bottle)",  price: 199, available: false, soldOutReason: 'Someone bought this and honestly we respect them. We think about them.' },
+        ],
+      }) }] };
     },
   });
 
@@ -829,9 +836,21 @@ function initWebMCP() {
       required: ['id'],
     },
     async execute({ id }) {
-      const res = await fetch(`/api/poll?id=${id}`);
-      const data = await res.json();
-      return { content: [{ type: 'text', text: JSON.stringify(data) }] };
+      const poll = POLLS.find(p => p.id === id);
+      const res  = await fetch(`/api/poll?id=${id}`);
+      const { counts } = await res.json();
+      const total   = counts.reduce((a, b) => a + b, 0);
+      const results = poll.a.map((answer, i) => ({
+        answer,
+        votes: counts[i],
+        pct: total ? Math.round(counts[i] / total * 100) + '%' : '0%',
+      }));
+      return { content: [{ type: 'text', text: JSON.stringify({
+        question: poll.q,
+        totalVotes: total,
+        note: total === 0 ? 'Nobody has voted yet. This is either peaceful or depressing.' : `${total} people have weighed in. Make of that what you will.`,
+        results,
+      }) }] };
     },
   });
 
@@ -847,13 +866,26 @@ function initWebMCP() {
       required: ['id', 'answer'],
     },
     async execute({ id, answer }) {
-      const res = await fetch('/api/poll', {
+      const poll = POLLS.find(p => p.id === id);
+      const res  = await fetch('/api/poll', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, answer }),
       });
-      const data = await res.json();
-      return { content: [{ type: 'text', text: JSON.stringify(data) }] };
+      const { counts } = await res.json();
+      const total   = counts.reduce((a, b) => a + b, 0);
+      const results = poll.a.map((a, i) => ({
+        answer: a,
+        votes: counts[i],
+        pct: Math.round(counts[i] / total * 100) + '%',
+      }));
+      return { content: [{ type: 'text', text: JSON.stringify({
+        confirmation: 'Your vote has been logged. It will not change anything. But it has been logged.',
+        youVotedFor: poll.a[answer],
+        question: poll.q,
+        totalVotes: total,
+        results,
+      }) }] };
     },
   });
 
@@ -875,8 +907,13 @@ function initWebMCP() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ about, name, email }),
       });
-      const ok = res.ok;
-      return { content: [{ type: 'text', text: ok ? 'Request received. Do not follow up.' : 'Submission failed.' }] };
+      if (!res.ok) return { content: [{ type: 'text', text: 'Submission failed. This is probably our fault. Try again or accept that this song will not be written.' }] };
+      return { content: [{ type: 'text', text: JSON.stringify({
+        status: 'Received.',
+        nextSteps: 'This has been forwarded to Mara. She will either love it or use it as a reason to cancel practice. Either outcome is your fault.',
+        doNotFollowUp: true,
+        estimatedResponseTime: 'Unknown. Could be days. Could be the next album. Could be never. We will reach out.',
+      }) }] };
     },
   });
 
@@ -887,19 +924,26 @@ function initWebMCP() {
       type: 'object',
       properties: {
         name:  { type: 'string', description: 'Your full legal name' },
-        email: { type: 'string', description: 'Your email address — you will receive a reference number' },
+        email: { type: 'string', description: 'Your email — you will receive a reference number' },
         desc:  { type: 'string', description: 'Description of the noise incident' },
       },
       required: ['name', 'email', 'desc'],
     },
     async execute({ name, email, desc }) {
-      const res = await fetch('/api/complaints', {
+      const res  = await fetch('/api/complaints', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, desc }),
       });
       const data = await res.json();
-      return { content: [{ type: 'text', text: JSON.stringify(data) }] };
+      return { content: [{ type: 'text', text: JSON.stringify({
+        ...data,
+        status: 'Your complaint has been received, logged, and forwarded to the appropriate department.',
+        appropriateDepartment: "Jules' voicemail.",
+        julesChecksHisVoicemail: false,
+        whatHappensNext: 'A confirmation email is on its way. The band has been notified. The band does not care. But they have been notified.',
+        refund: 'Not applicable.',
+      }) }] };
     },
   });
 
@@ -908,9 +952,22 @@ function initWebMCP() {
     description: 'Get Terror Ride QR code scan statistics — total scans and breakdown by physical asset type (coozie, sticker, poster).',
     inputSchema: { type: 'object', properties: {} },
     async execute() {
-      const res = await fetch('/api/scan?admin=1');
+      const res  = await fetch('/api/scan?admin=1');
       const data = await res.json();
-      return { content: [{ type: 'text', text: JSON.stringify(data) }] };
+      const { total = 0, coozie = 0, sticker = 0, poster = 0, unknown = 0 } = data;
+      const topSource = [
+        { source: 'coozie', count: coozie },
+        { source: 'sticker', count: sticker },
+        { source: 'poster', count: poster },
+      ].sort((a, b) => b.count - a.count)[0];
+      return { content: [{ type: 'text', text: JSON.stringify({
+        totalScans: total,
+        breakdown: { coozie, sticker, poster, unknown },
+        assessment: total === 0
+          ? 'Nobody has scanned anything yet. The coozies are out there. People are just not ready.'
+          : `${total} people scanned one of our stickers and decided to investigate. This was their first mistake. We respect it.`,
+        topSource: total > 0 ? `Most scans came from the ${topSource.source}. Good to know.` : 'Insufficient data.',
+      }) }] };
     },
   });
 }
