@@ -2971,6 +2971,336 @@ code {
 }
 .footer-colophon:hover { color: var(--green); }
 
+/* ─── Scan (QR landing) page ─────────────────────────────── */
+.scan-hero {
+  min-height: calc(100dvh - var(--nav-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 24px 60px;
+}
+
+.scan-headline {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: clamp(60px, 22vw, 180px);
+  line-height: 0.88;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -2px;
+}
+
+.scan-sub {
+  font-size: clamp(14px, 4vw, 20px);
+  color: rgba(255,255,255,0.65);
+  margin: 20px 0 0;
+  letter-spacing: 1px;
+}
+
+.scan-geo {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: clamp(10px, 2.8vw, 14px);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin: 14px 0 0;
+  min-height: 18px;
+  transition: color 0.5s;
+}
+.scan-geo.local    { color: var(--green); }
+.scan-geo.outsider { color: rgba(255,255,255,0.55); }
+
+.scan-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 36px;
+  width: 100%;
+  max-width: 340px;
+}
+
+.scan-btn {
+  display: block;
+  padding: 16px 24px;
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  color: #fff;
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 17px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color var(--dur-component) var(--ease-ui), color var(--dur-component) var(--ease-ui);
+}
+.scan-btn:hover, .scan-btn:focus-visible {
+  border-color: var(--green);
+  color: var(--green);
+  outline: none;
+}
+
+.scan-tagline {
+  margin-top: 44px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+}
+
+/* ─── Print / QR asset sheet ─────────────────────────────── */
+.print-sheet {
+  max-width: 900px;
+  width: 100%;
+  padding: 40px 24px;
+}
+
+.print-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.print-header p {
+  color: rgba(255,255,255,0.55);
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin: 8px 0 20px;
+}
+
+.print-btn {
+  background: transparent;
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background var(--dur-component), color var(--dur-component);
+}
+.print-btn:hover { background: var(--green); color: #000; }
+
+.print-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.print-qr-card {
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  padding: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.print-qr-wrap {
+  background: #fff;
+  padding: 8px;
+  border-radius: 2px;
+  display: inline-block;
+  line-height: 0;
+}
+
+.print-qr-url {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.4);
+  margin: 0;
+}
+
+.print-qr-label {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: #fff;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .print-grid { grid-template-columns: 1fr; }
+}
+
+@media print {
+  .top-nav, .mobile-menu, .site-footer, .print-btn { display: none !important; }
+  body { background: #fff !important; padding-top: 0 !important; }
+  #bg-canvas { display: none !important; }
+  .print-qr-card {
+    background: #fff !important;
+    border: 1px solid #ccc !important;
+    break-inside: avoid;
+    backdrop-filter: none !important;
+  }
+  .print-qr-label, .print-qr-url { color: #000 !important; }
+  .print-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+}
+
+/* ─── Homepage merch collage ─────────────────────────────── */
+.hp-merch {
+  width: 100%;
+  max-width: 900px;
+  padding: 0 24px 48px;
+}
+
+.hp-merch-eyebrow {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.hp-merch-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.hp-merch-main {
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  transition: border-color var(--dur-component) var(--ease-ui);
+}
+.hp-merch-main:hover { border-color: var(--green); }
+
+.hp-merch-photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.hp-merch-info {
+  padding: 16px;
+}
+
+.hp-merch-name {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: #fff;
+  margin: 0 0 4px;
+}
+
+.hp-merch-price {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  margin: 0 0 12px;
+}
+
+.hp-merch-buy {
+  display: inline-block;
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  border: 1px solid var(--green);
+  border-radius: 4px;
+  padding: 8px 16px;
+  transition: background var(--dur-component) var(--ease-ui), color var(--dur-component) var(--ease-ui);
+}
+.hp-merch-buy:hover { background: var(--green); color: #000; }
+
+.hp-merch-soldouts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hp-merch-soldout-card {
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  padding: 20px 16px;
+  position: relative;
+  overflow: hidden;
+  opacity: 0.6;
+}
+
+.hp-merch-art {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.hp-merch-soldout-name {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #fff;
+  text-align: center;
+  margin: 0 0 4px;
+}
+
+.hp-merch-soldout-price {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  margin: 0;
+}
+
+.hp-merch-stamp {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-12deg);
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 15px;
+  letter-spacing: 3px;
+  color: var(--red);
+  border: 2px solid var(--red);
+  padding: 4px 10px;
+  white-space: nowrap;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.hp-merch-footer {
+  text-align: right;
+  margin-top: 12px;
+}
+.hp-merch-footer a {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.hp-merch-footer a:hover { color: var(--green); }
+
+@media (max-width: 560px) {
+  .hp-merch-grid {
+    grid-template-columns: 1fr;
+  }
+  .hp-merch-soldouts {
+    flex-direction: row;
+  }
+  .hp-merch-soldout-card {
+    flex: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .footer-ticker-track { animation: none; }
 }
