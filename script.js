@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initNavScroll();
   initGeolocation();
   initLogoBleed();
+  initCarousel();
 });
 
 // ─── Pop-up poll ──────────────────────────────────────────────────
@@ -425,6 +426,62 @@ function initScrollReveal() {
   );
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+// ─── Homepage news carousel ───────────────────────────────────────
+function initCarousel() {
+  const track = document.getElementById('carousel-track');
+  if (!track) return;
+
+  const cards  = [...track.querySelectorAll('.news-card')];
+  const dots   = [...document.querySelectorAll('.carousel-dots .dot')];
+  const prevBtn = document.querySelector('.carousel-prev');
+  const nextBtn = document.querySelector('.carousel-next');
+  let current = 0;
+
+  function setActive(index) {
+    current = Math.max(0, Math.min(index, cards.length - 1));
+    cards.forEach((c, i) => {
+      c.classList.toggle('active', i === current);
+      c.setAttribute('aria-current', i === current ? 'true' : 'false');
+    });
+    dots.forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+      d.setAttribute('aria-selected', String(i === current));
+    });
+    if (prevBtn) prevBtn.disabled = current === 0;
+    if (nextBtn) nextBtn.disabled = current === cards.length - 1;
+  }
+
+  function scrollToCard(index) {
+    const card = cards[Math.max(0, Math.min(index, cards.length - 1))];
+    if (!card) return;
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  // Detect centered card via IntersectionObserver on the track
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.intersectionRatio >= 0.6) {
+        const i = cards.indexOf(entry.target);
+        if (i !== -1) setActive(i);
+      }
+    });
+  }, { root: track, threshold: 0.6 });
+
+  cards.forEach(card => observer.observe(card));
+
+  prevBtn?.addEventListener('click', () => scrollToCard(current - 1));
+  nextBtn?.addEventListener('click', () => scrollToCard(current + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => scrollToCard(i)));
+
+  // Arrow-key navigation when focus is inside the carousel
+  track.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); scrollToCard(current - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); scrollToCard(current + 1); }
+  });
+
+  setActive(0);
 }
 
 // ─── Nav transparency fallback (for browsers without scroll-driven animations) ───
