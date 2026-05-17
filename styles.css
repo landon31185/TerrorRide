@@ -3323,3 +3323,28 @@ code {
 @media (prefers-reduced-motion: reduce) {
   .footer-ticker-track { animation: none; }
 }
+
+/* Visit counter */
+.hp-visits {
+  width: 100%;
+  max-width: 900px;
+  padding: 0 24px 32px;
+}
+
+.hp-visit-stats {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-height: 18px;
+}
+
+.hp-visit-sep { color: rgba(255,255,255,0.2); }
+.hp-visit-homie { color: var(--green); }
+.hp-visit-outsider { color: rgba(255,255,255,0.6); }

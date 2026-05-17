@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initNavScroll();
   initGeolocation();
   initScanPage();
+  initVisitCount();
   initLogoBleed();
   initCarousel();
   initWebMCP();
@@ -970,6 +971,27 @@ function initWebMCP() {
       }) }] };
     },
   });
+
+  mc.registerTool({
+    name: 'get_visit_stats',
+    description: 'Get Terror Ride site visitor counts broken down by Homies (West Seattle) and Outsiders (everyone else).',
+    inputSchema: { type: 'object', properties: {} },
+    async execute() {
+      const res  = await fetch('/api/visits');
+      const { total = 0, homie = 0, outsider = 0 } = await res.json();
+      return { content: [{ type: 'text', text: JSON.stringify({
+        total,
+        homie,
+        outsider,
+        homiePercentage: total > 0 ? Math.round(homie / total * 100) + '%' : '0%',
+        note: homie > outsider
+          ? 'The neighborhood is claiming this site. The outsiders are not keeping up.'
+          : outsider > 0
+            ? 'Outsiders outnumber the homies. The band has opinions about this. They have not shared them.'
+            : 'No data yet. Someone has to go first.',
+      }) }] };
+    },
+  });
 }
 
 // ─── Scan page geo message (no radar animation) ───────────
@@ -983,28 +1005,91 @@ function initScanPage() {
   }
 
   const cached = localStorage.getItem(GEO_CACHE_KEY);
-  if (cached !== null) { showGeo(cached === 'true'); return; }
+  if (cached !== null) { showGeo(cached === 'true'); }
+  else if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        const local =
+          coords.latitude  > WS_BOUNDS.latMin && coords.latitude  < WS_BOUNDS.latMax &&
+          coords.longitude > WS_BOUNDS.lngMin && coords.longitude < WS_BOUNDS.lngMax;
+        localStorage.setItem(GEO_CACHE_KEY, String(local));
+        showGeo(local);
+      },
+      () => {}
+    );
+  }
 
-  if (!navigator.geolocation) return;
+  const source = new URLSearchParams(location.search).get('s') || '';
+  const SOURCE_LABELS = {
+    coozie: 'coozie', sticker: 'sticker', poster: 'poster',
+    alki: 'Alki sticker', junction: 'Junction sticker', admiral: 'Admiral sticker',
+    westwood: 'Westwood sticker', 'highland-park': 'Highland Park sticker', 'south-park': 'South Park sticker',
+  };
+
+  fetch('/api/scan?admin=1')
+    .then(r => r.json())
+    .then(data => {
+      const countEl = document.getElementById('scan-count');
+      if (!countEl) return;
+      const total = data.total || 0;
+      const sourceCount = source && data[source] ? data[source] : 0;
+      if (source && sourceCount > 0) {
+        const label = SOURCE_LABELS[source] || source;
+        const others = sourceCount - 1;
+        countEl.textContent = others <= 0
+          ? `You're the first to find this ${label}.`
+          : `You and ${others} other${others !== 1 ? 's' : ''} found this ${label}.`;
+      } else {
+        if (!total) return;
+        const others = total - 1;
+        countEl.textContent = others <= 0
+          ? "You're the first one here."
+          : `You and ${others} other${others !== 1 ? 's' : ''} found this.`;
+      }
+    })
+    .catch(() => {});
+}
+
+function initVisitCount() {
+  const statsEl = document.getElementById('hp-visit-stats');
+  if (!statsEl) return;
+
+  fetch('/api/visits')
+    .then(r => r.json())
+    .then(({ total, homie, outsider }) => {
+      if (!total) return;
+      statsEl.innerHTML =
+        `<span class="hp-visit-total">${total.toLocaleString()} VISITED</span>` +
+        `<span class="hp-visit-sep">&middot;</span>` +
+        `<span class="hp-visit-homie">${homie.toLocaleString()} HOMIES</span>` +
+        `<span class="hp-visit-sep">&middot;</span>` +
+        `<span class="hp-visit-outsider">${outsider.toLocaleString()} OUTSIDERS</span>`;
+    })
+    .catch(() => {});
+
+  if (sessionStorage.getItem('tr_visit_counted')) return;
+  sessionStorage.setItem('tr_visit_counted', '1');
+
+  function recordVisit(isLocal) {
+    fetch('/api/visits', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: isLocal ? 'homie' : 'outsider' }),
+    }).catch(() => {});
+  }
+
+  const cached = localStorage.getItem(GEO_CACHE_KEY);
+  if (cached !== null) { recordVisit(cached === 'true'); return; }
+
+  if (!navigator.geolocation) { recordVisit(false); return; }
   navigator.geolocation.getCurrentPosition(
     ({ coords }) => {
       const local =
         coords.latitude  > WS_BOUNDS.latMin && coords.latitude  < WS_BOUNDS.latMax &&
         coords.longitude > WS_BOUNDS.lngMin && coords.longitude < WS_BOUNDS.lngMax;
       localStorage.setItem(GEO_CACHE_KEY, String(local));
-      showGeo(local);
+      recordVisit(local);
     },
-    () => { /* denied — no message, no error */ }
+    () => { recordVisit(false); }
   );
-
-  fetch('/api/scan?admin=1')
-    .then(r => r.json())
-    .then(({ total }) => {
-      const countEl = document.getElementById('scan-count');
-      if (!countEl || !total) return;
-      const others = total - 1;
-      if (others <= 0) countEl.textContent = "You're the first one here.";
-      else countEl.textContent = `You and ${others} other${others !== 1 ? 's' : ''} found this.`;
-    })
-    .catch(() => {});
 }
