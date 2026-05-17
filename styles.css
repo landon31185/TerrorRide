@@ -104,6 +104,39 @@ p {
   user-select: none;
 }
 
+/* Nav: transparent at top of page → solid as user scrolls. Zero JS. Chrome 115+ */
+@supports (animation-timeline: scroll()) {
+  .top-nav {
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+    animation: nav-scroll-in linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0px 80px;
+  }
+}
+
+/* JS fallback for browsers without scroll-driven animation support */
+.top-nav.nav-js-scroll {
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.25s ease, border-bottom-color 0.25s ease;
+}
+.top-nav.nav-js-scroll.scrolled {
+  background-color: #000000;
+  border-bottom-color: var(--border-dim);
+}
+
+@keyframes nav-scroll-in {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+    border-bottom-color: transparent;
+  }
+  to {
+    background-color: #000000;
+    border-bottom-color: var(--border-dim);
+  }
+}
+
 .top-nav .logo {
   margin: 0;
   display: flex;
@@ -377,9 +410,11 @@ main {
 }
 
 .member-card {
-  background-color: rgba(0, 0, 0, 0.72);
+  background-color: var(--dark-card);
+  backdrop-filter: blur(12px);
   border: 1px solid #222;
   border-left: 4px solid #24e39d;
+  border-radius: 4px;
   padding: 24px 28px;
 }
 
@@ -671,6 +706,7 @@ main {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+  transition-delay: calc(var(--i, 0) * 70ms);
   filter: blur(3px);
 }
 .reveal.in-view {
@@ -701,10 +737,27 @@ main {
     animation-range: entry 0% entry 40%;
   }
 
+  /* Stagger grid cards via animation-range offset per --i index */
+  .merch-card.reveal,
+  .news-card.reveal {
+    animation-range-start: entry calc(var(--i, 0) * 4%);
+    animation-range-end: entry calc(var(--i, 0) * 4% + 40%);
+  }
+
   /* Ban list items slide in from the left */
   .ban-item.reveal {
     animation-name: scroll-reveal-left;
     animation-range: entry 0% entry 50%;
+  }
+}
+
+/* sibling-index() override — Chrome 137+: pure CSS stagger, no --i needed */
+@supports (transition-delay: calc(sibling-index() * 1ms)) {
+  .merch-card.reveal,
+  .news-card.reveal {
+    transition-delay: calc((sibling-index() - 1) * 70ms);
+    animation-range-start: entry calc((sibling-index() - 1) * 4%);
+    animation-range-end: entry calc((sibling-index() - 1) * 4% + 40%);
   }
 }
 
@@ -801,6 +854,7 @@ main {
   left: 50%;
   transform: translateX(-50%) translateY(20px);
   background: var(--dark-card);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--green);
   color: var(--green);
   font-family: 'HFucktura-Heavy', sans-serif;
@@ -839,7 +893,9 @@ main {
 
 .merch-card {
   background: var(--dark-card);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
+  border-radius: 4px;
   padding: 16px;
   position: relative;
   display: flex;
@@ -1434,8 +1490,10 @@ main {
   left: 50%;
   transform: translateX(-50%) translateY(20px);
   background: var(--dark-card);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
   border-left: 4px solid var(--green);
+  border-radius: 4px;
   color: white;
   font-family: 'HFucktura-Heavy', sans-serif;
   font-size: 14px;
@@ -1472,7 +1530,9 @@ main {
 
 .merch-card {
   background: var(--dark-card);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
+  border-radius: 4px;
   padding: 20px;
   position: relative;
   display: flex;
@@ -1587,7 +1647,9 @@ main {
   max-width: 900px;
   margin: 28px auto 0;
   background: var(--dark-card);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
+  border-radius: 4px;
 }
 
 .ban-item {
@@ -1715,17 +1777,6 @@ a.logo-link {
   position: relative;
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom,
-      rgba(0,0,0,0.55) 0%,
-      rgba(0,0,0,0.15) 35%,
-      rgba(0,0,0,0.65) 100%);
-  pointer-events: none;
-}
 
 .hero-inner {
   position: relative;
@@ -2278,8 +2329,10 @@ a.logo-link {
 
 .news-card {
   background: var(--dark-card);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
   border-top: 2px solid var(--border-dim);
+  border-radius: 4px;
   padding: 22px;
   text-decoration: none;
   display: flex;

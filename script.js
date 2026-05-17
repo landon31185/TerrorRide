@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initPollResults();
   initMenu();
   initScrollReveal();
+  initNavScroll();
   initGeolocation();
   initLogoBleed();
 });
@@ -406,6 +407,11 @@ function toggleMenu() {
 // CSS scroll-driven animations handle this in Chrome 115+ / Safari 18+.
 // IntersectionObserver is the fallback for everything else.
 function initScrollReveal() {
+  // Set --i on grid cards for stagger fallback (used by transition-delay / animation-range)
+  document.querySelectorAll('.merch-card, .news-card').forEach((el, i) => {
+    el.style.setProperty('--i', i);
+  });
+
   if (CSS.supports('animation-timeline', 'view()')) return;
 
   const observer = new IntersectionObserver(
@@ -419,6 +425,17 @@ function initScrollReveal() {
   );
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+// ─── Nav transparency fallback (for browsers without scroll-driven animations) ───
+function initNavScroll() {
+  if (CSS.supports('animation-timeline', 'scroll()')) return;
+  const nav = document.querySelector('.top-nav');
+  if (!nav) return;
+  nav.classList.add('nav-js-scroll');
+  const update = () => nav.classList.toggle('scrolled', window.scrollY > 80);
+  window.addEventListener('scroll', update, { passive: true });
+  update();
 }
 
 // ─── Geolocation radar + banner ───────────────────────────────────
