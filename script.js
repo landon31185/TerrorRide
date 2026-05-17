@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initPollResults();
   initMenu();
   initScrollReveal();
+  initNavScroll();
   initGeolocation();
   initLogoBleed();
 });
@@ -424,6 +425,17 @@ function initScrollReveal() {
   );
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+// ─── Nav transparency fallback (for browsers without scroll-driven animations) ───
+function initNavScroll() {
+  if (CSS.supports('animation-timeline', 'scroll()')) return;
+  const nav = document.querySelector('.top-nav');
+  if (!nav) return;
+  nav.classList.add('nav-js-scroll');
+  const update = () => nav.classList.toggle('scrolled', window.scrollY > 80);
+  window.addEventListener('scroll', update, { passive: true });
+  update();
 }
 
 // ─── Geolocation radar + banner ───────────────────────────────────

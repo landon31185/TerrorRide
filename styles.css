@@ -115,6 +115,17 @@ p {
   }
 }
 
+/* JS fallback for browsers without scroll-driven animation support */
+.top-nav.nav-js-scroll {
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.25s ease, border-bottom-color 0.25s ease;
+}
+.top-nav.nav-js-scroll.scrolled {
+  background-color: #000000;
+  border-bottom-color: var(--border-dim);
+}
+
 @keyframes nav-scroll-in {
   from {
     background-color: rgba(0, 0, 0, 0);
