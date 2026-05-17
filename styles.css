@@ -44,7 +44,8 @@ body {
   justify-content: flex-start;
   align-items: center;
   min-height: 100svh;
-  padding-top: 64px; /* Add padding to prevent content from being hidden behind nav */
+  padding-top: 64px;    /* clearance for fixed nav */
+  padding-bottom: 36px; /* clearance for fixed ticker */
   position: relative;
   overflow-x: hidden;
 }
@@ -2894,12 +2895,17 @@ code {
   overflow: hidden;
 }
 
-/* Scrolling ticker */
+/* Scrolling ticker — fixed at viewport bottom */
 .footer-ticker {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
+  z-index: 500;
+  background: rgba(0,0,0,0.95);
   overflow: hidden;
   border-top: 1px solid var(--border-dim);
-  border-bottom: 1px solid var(--border-dim);
+  border-bottom: none;
   padding: 11px 0;
 }
 
@@ -3139,7 +3145,8 @@ code {
 
 @media print {
   .top-nav, .mobile-menu, .site-footer, .print-btn { display: none !important; }
-  body { background: #fff !important; padding-top: 0 !important; }
+  body { background: #fff !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+  .footer-ticker { display: none !important; }
   #bg-canvas { display: none !important; }
   .print-qr-card {
     background: #fff !important;
