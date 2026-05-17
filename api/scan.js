@@ -1,4 +1,7 @@
-const VALID_SOURCES = new Set(['coozie', 'sticker', 'poster']);
+const VALID_SOURCES = new Set([
+  'coozie', 'sticker', 'poster',
+  'alki', 'junction', 'admiral', 'westwood', 'highland-park', 'south-park',
+]);
 
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -18,29 +21,21 @@ module.exports = async function handler(req, res) {
   // Admin stats: GET /api/scan?admin=1
   if (req.method === 'GET' && req.query?.admin === '1') {
     if (!url || !token) return res.status(503).json({ error: 'Not configured' });
-    const results = await redis([
-      ['GET', 'scan:total'],
-      ['GET', 'scan:coozie'],
-      ['GET', 'scan:sticker'],
-      ['GET', 'scan:poster'],
-      ['GET', 'scan:unknown'],
-    ]);
-    const keys = ['total', 'coozie', 'sticker', 'poster', 'unknown'];
-    const counts = {};
-    keys.forEach((k, i) => { counts[k] = parseInt(results[i]?.result) || 0; });
+    const sourceList = [...VALID_SOURCES];
+    const cmds = [['GET', 'scan:total'], ['GET', 'scan:unknown'], ...sourceList.map(s => ['GET', `scan:${s}`])];
+    const results = await redis(cmds);
+    const counts = { total: parseInt(results[0]?.result) || 0, unknown: parseInt(results[1]?.result) || 0 };
+    sourceList.forEach((s, i) => { counts[s] = parseInt(results[i + 2]?.result) || 0; });
     return res.json(counts);
   }
 
-  // Track + redirect
+  // Track + redirect — pass source through so scan.html can show source-specific count
   const source = VALID_SOURCES.has(req.query?.s) ? req.query.s : 'unknown';
   if (url && token) {
     try {
-      await redis([
-        ['INCR', 'scan:total'],
-        ['INCR', `scan:${source}`],
-      ]);
+      await redis([['INCR', 'scan:total'], ['INCR', `scan:${source}`]]);
     } catch { /* non-blocking — don't fail the redirect */ }
   }
 
-  res.redirect(302, '/scan.html');
+  res.redirect(302, `/scan.html?s=${source}`);
 };

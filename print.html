@@ -55,6 +55,12 @@
         <button class="print-btn" onclick="window.print()">Print This Sheet</button>
       </div>
       <div class="print-grid" id="print-grid"></div>
+
+      <div class="print-header reveal" style="margin-top: 48px;">
+        <h2>Location Drops</h2>
+        <p>One per spot. Track which sticker is working. Each QR links to its own scan count.</p>
+      </div>
+      <div class="print-grid" id="print-grid-location"></div>
     </div>
   </main>
 
@@ -100,6 +106,48 @@
       card.appendChild(urlEl);
       card.appendChild(labelEl);
       grid.appendChild(card);
+
+      new QRCode(qrWrap, {
+        text: BASE + source,
+        width: 200,
+        height: 200,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+    });
+  </script>
+
+  <script>
+    const LOCATIONS = [
+      { label: 'ALKI',          source: 'alki' },
+      { label: 'THE JUNCTION',  source: 'junction' },
+      { label: 'ADMIRAL',       source: 'admiral' },
+      { label: 'WESTWOOD',      source: 'westwood' },
+      { label: 'HIGHLAND PARK', source: 'highland-park' },
+      { label: 'SOUTH PARK',    source: 'south-park' },
+    ];
+    const locGrid = document.getElementById('print-grid-location');
+
+    LOCATIONS.forEach(({ label, source }) => {
+      const card    = document.createElement('div');
+      card.className = 'print-qr-card reveal';
+
+      const qrWrap  = document.createElement('div');
+      qrWrap.className = 'print-qr-wrap';
+
+      const urlEl   = document.createElement('p');
+      urlEl.className = 'print-qr-url';
+      urlEl.textContent = 'terrorride.vercel.app';
+
+      const labelEl = document.createElement('p');
+      labelEl.className = 'print-qr-label';
+      labelEl.textContent = label;
+
+      card.appendChild(qrWrap);
+      card.appendChild(urlEl);
+      card.appendChild(labelEl);
+      locGrid.appendChild(card);
 
       new QRCode(qrWrap, {
         text: BASE + source,
