@@ -2771,3 +2771,122 @@ a.logo-link {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Colophon page ────────────────────────────────────────── */
+.page-intro-sub {
+  color: rgba(255,255,255,0.75);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 10px 0 0;
+  max-width: 520px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.colophon-grid {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.colophon-card {
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-top: 2px solid var(--green);
+  border-radius: 4px;
+  padding: 28px 32px;
+}
+
+.colophon-heading {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin: 0 0 18px;
+  text-align: left;
+}
+
+.colophon-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.colophon-list li {
+  font-size: 13px;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.6;
+  padding-left: 16px;
+  position: relative;
+}
+
+.colophon-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-size: 11px;
+  top: 2px;
+}
+
+.colophon-label {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: white;
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+
+.colophon-note {
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.colophon-link {
+  color: var(--green);
+  text-decoration: none;
+}
+.colophon-link:hover { text-decoration: underline; }
+
+code {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--green);
+  background: rgba(36,227,157,0.08);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+@media (max-width: 600px) {
+  .colophon-card { padding: 22px 20px; }
+}
+
+/* ── Site footer ── */
+.site-footer {
+  padding: 24px 0 40px;
+  text-align: center;
+}
+.colophon-footer-link {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.colophon-footer-link:hover { color: var(--green); }

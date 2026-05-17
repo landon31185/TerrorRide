@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colophon | Terror Ride</title>
+  <meta property="og:type"        content="website">
+  <meta property="og:site_name"   content="Terror Ride">
+  <meta property="og:title"       content="Colophon — Terror Ride">
+  <meta property="og:description" content="How this site was made. Tech stack, design decisions, and the thinking behind Terror Ride's web presence.">
+  <meta property="og:image"       content="https://terrorride.vercel.app/api/og?title=Terror+Ride&tag=Colophon">
+  <meta property="og:url"         content="https://terrorride.vercel.app/colophon.html">
+  <meta name="twitter:card"       content="summary_large_image">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="top-nav" role="navigation">
+    <a href="index.html" class="logo logo-link">TERROR<br>RIDE</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+      <li><a href="noise.html">Noise</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="local.html">Local</a></li>
+    </ul>
+    <div class="hamburger-container" aria-label="Toggle navigation menu" aria-expanded="false">
+      <div class="line top"></div>
+      <div class="line middle"></div>
+      <div class="line bottom"></div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <video autoplay loop muted playsinline class="menu-bg-video">
+      <source src="output.mp4" type="video/mp4">
+      <source src="output.webm" type="video/webm">
+    </video>
+    <ul class="mobile-menu-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+      <li><a href="noise.html">Noise</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="local.html">Local</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+
+    <div class="page-intro reveal">
+      <h1>Colophon</h1>
+      <p class="page-intro-sub">A colophon documents how something was made. This one covers the decisions, constraints, and thinking behind this site.</p>
+    </div>
+
+    <div class="colophon-grid">
+
+      <!-- What & Why -->
+      <section class="colophon-card reveal">
+        <h2 class="colophon-heading">What This Is</h2>
+        <ul class="colophon-list">
+          <li>A fictional band site for Terror Ride — West Seattle noise metal, est. 2009</li>
+          <li>Built as a portfolio artifact to demonstrate product thinking, modern CSS/JS, and full-stack serverless on a zero-budget constraint</li>
+          <li>Hard constraint: no CSS or JS frameworks — every byte is intentional</li>
+          <li>Deployed on Vercel free tier; auto-deploys from GitHub on merge to master</li>
+        </ul>
+      </section>
+
+      <!-- Tech Stack -->
+      <section class="colophon-card reveal">
+        <h2 class="colophon-heading">Tech Stack</h2>
+        <ul class="colophon-list">
+          <li><span class="colophon-label">WebGL shader</span> — domain-warped Voronoi lava cracks. Custom fragment shader, 60fps, half-res on mobile. This is the site's visual identity.</li>
+          <li><span class="colophon-label">Vercel serverless</span> — Node.js API functions for poll votes and OG image generation. CommonJS, no build step.</li>
+          <li><span class="colophon-label">Upstash Redis</span> — serverless-compatible key-value store via Vercel integration. Stores poll vote counts.</li>
+          <li><span class="colophon-label">Leaflet.js</span> — interactive map on the Banned page. CartoDB dark tiles, no API key required.</li>
+          <li><span class="colophon-label">HFucktura</span> — self-hosted typeface via <code>@font-face</code>. Heavy and Thin weights. The band's whole typographic identity in two files.</li>
+          <li><span class="colophon-label">CSS custom properties</span> — one token (<code>--dark-card</code>) controls every glass panel. Change one value, update the whole site.</li>
+          <li><span class="colophon-label">Vanilla JS</span> — no framework. Everything lives in one <code>script.js</code>, organized by feature function.</li>
+        </ul>
+      </section>
+
+      <!-- Design Decisions -->
+      <section class="colophon-card reveal">
+        <h2 class="colophon-heading">Key Decisions</h2>
+        <ul class="colophon-list">
+          <li><span class="colophon-label">Shader over photo or video</span> — a photo is static, a video is 10–30MB. A WebGL shader is 2KB, runs at 60fps, and creates something no stock library has.</li>
+          <li><span class="colophon-label">CSS cross-document view transitions</span> — <code>@view-transition { navigation: auto }</code> makes a multi-page site feel like a single-page app. Zero JS. Locks the nav with <code>view-transition-name: top-nav</code> so it never flickers.</li>
+          <li><span class="colophon-label">Transparent nav via scroll-driven animation</span> — <code>animation-timeline: scroll(root)</code> fades the nav from transparent to black over the first 80px of scroll. Pure CSS with a JS fallback for Chrome iOS, which reports support but doesn't execute it.</li>
+          <li><span class="colophon-label">OOUX object model first</span> — defined Band, Member, Song, Show, Article, Complaint, Poll, and Merch Item as discrete objects before writing a line of HTML. Every page maps cleanly to objects and actions.</li>
+          <li><span class="colophon-label">Glass recipe as a single token</span> — <code>backdrop-filter: blur(12px)</code> + <code>rgba(0,0,0,0.78)</code> + <code>border: 1px solid #222</code> + <code>border-radius: 4px</code>. Applied uniformly so white text passes WCAG AA against the lava background on every card.</li>
+          <li><span class="colophon-label">html vs body background trap</span> — CSS propagates <code>body</code>'s background to the viewport only when <code>html</code> has no background. Adding <code>background-color</code> to <code>html</code> to fix a white navigation flash caused <code>body</code>'s background to paint as a stacked element — directly over the <code>z-index: -1</code> WebGL canvas, hiding it. Fix: set background on <code>html</code> only, remove it from <code>body</code>.</li>
+        </ul>
+      </section>
+
+      <!-- Features -->
+      <section class="colophon-card reveal">
+        <h2 class="colophon-heading">Features</h2>
+        <ul class="colophon-list">
+          <li><span class="colophon-label">Geolocation banner</span> — detects the West Seattle bounding box. Locals see "You already know." Everyone else sees "You're not even from here."</li>
+          <li><span class="colophon-label">Logo blood bleed</span> — on tap or click, a dark red circle expands from the exact touch point via <code>clip-path</code> animation, then fades. Three-part fix required to suppress iOS long-press context menu.</li>
+          <li><span class="colophon-label">Cursor fire trail</span> — canvas overlay, <code>pointer-events: none</code>. Ember particles spawn on <code>mousemove</code>, burst on <code>mousedown</code>. Skips touch-only devices via compound hover check.</li>
+          <li><span class="colophon-label">Pop-up poll</span> — appears once per session after 12 seconds. Two questions, random rotation. Votes hit a serverless function and persist in Redis. Results render as animated bars.</li>
+          <li><span class="colophon-label">Homepage poll results</span> — "The People Have Spoken" section. Featured poll rotates weekly via <code>Date.now()</code> modulo. Hides silently if the API is down.</li>
+          <li><span class="colophon-label">Noise complaint generator</span> — fake Seattle.gov iframe with a working form. Feels government-issued. Built in vanilla HTML/CSS inside a sandboxed iframe.</li>
+          <li><span class="colophon-label">Banned map</span> — Leaflet.js map of venues Terror Ride is no longer welcome at. Each pin is a documented incident.</li>
+          <li><span class="colophon-label">News carousel</span> — CSS scroll-snap with IntersectionObserver-driven active states. Active card glows green and scales up. Full ARIA carousel pattern. Responsive: 1 card mobile, 2 tablet, 3-column grid desktop.</li>
+          <li><span class="colophon-label">Dynamic OG images</span> — <code>/api/og</code> edge function generates social preview images at request time. Headline rendered in HFucktura on lava background.</li>
+        </ul>
+      </section>
+
+      <!-- OOUX -->
+      <section class="colophon-card reveal">
+        <h2 class="colophon-heading">Object Model</h2>
+        <p class="colophon-note">Designed using <a href="https://www.ooux.com/" class="colophon-link" target="_blank" rel="noopener">OOUX</a> — Object-Oriented UX. Objects and their actions defined before any wireframing.</p>
+        <ul class="colophon-list colophon-objects">
+          <li><span class="colophon-label">Band</span> — name, bio, members, location, est. date → share</li>
+          <li><span class="colophon-label">Member</span> — name, role, photo → view</li>
+          <li><span class="colophon-label">Song</span> — title, album, stream links → play, request</li>
+          <li><span class="colophon-label">Show</span> — date, venue, location → get directions</li>
+          <li><span class="colophon-label">Article</span> — title, date, tag, body → read, share</li>
+          <li><span class="colophon-label">Complaint</span> — type, address, message → submit</li>
+          <li><span class="colophon-label">Poll</span> — question, answers, counts → vote, view results</li>
+          <li><span class="colophon-label">Merch Item</span> — name, price, availability → buy</li>
+        </ul>
+      </section>
+
+    </div>
+
+  </main>
+
+</body>
+</html>
