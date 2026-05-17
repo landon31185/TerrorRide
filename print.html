@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Assets | Terror Ride</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <nav class="top-nav" role="navigation">
+    <a href="index.html" class="logo logo-link">TERROR<br>RIDE</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+      <li><a href="noise.html">Noise</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="local.html">Local</a></li>
+    </ul>
+    <div class="hamburger-container" aria-label="Toggle navigation menu" aria-expanded="false">
+      <div class="line top"></div>
+      <div class="line middle"></div>
+      <div class="line bottom"></div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <video autoplay loop muted playsinline class="menu-bg-video">
+      <source src="output.mp4" type="video/mp4">
+      <source src="output.webm" type="video/webm">
+    </video>
+    <ul class="mobile-menu-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+      <li><a href="noise.html">Noise</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="local.html">Local</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+    <div class="print-sheet">
+      <div class="print-header reveal">
+        <h1>QR Asset Sheet</h1>
+        <p>Print on Avery 8163 (2&times;4 label sheet) or just cut these out and tape them everywhere.</p>
+        <button class="print-btn" onclick="window.print()">Print This Sheet</button>
+      </div>
+      <div class="print-grid" id="print-grid"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-ticker" aria-hidden="true">
+      <div class="footer-ticker-track">
+        <span>WEST SEATTLE &middot; EST. 2009 &middot; NOISE METAL &middot; 48 COMPLAINTS &middot; NOT WELCOME AT 12 VENUES &middot; THE VAN STILL RUNS &middot; GREG STILL MAD &middot;&nbsp;</span>
+        <span>WEST SEATTLE &middot; EST. 2009 &middot; NOISE METAL &middot; 48 COMPLAINTS &middot; NOT WELCOME AT 12 VENUES &middot; THE VAN STILL RUNS &middot; GREG STILL MAD &middot;&nbsp;</span>
+      </div>
+    </div>
+    <p class="footer-wordmark" aria-hidden="true">TERROR RIDE</p>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2026 Terror Ride. All grievances to <a href="noise.html">/noise</a>.</span>
+      <a href="colophon.html" class="footer-colophon">How this was made &rarr;</a>
+    </div>
+  </footer>
+
+  <script>
+    const ITEMS = [
+      { label: 'COOZIE',  source: 'coozie'  },
+      { label: 'STICKER', source: 'sticker' },
+      { label: 'POSTER',  source: 'poster'  },
+    ];
+    const BASE = 'https://terrorride.vercel.app/api/scan?s=';
+    const grid = document.getElementById('print-grid');
+
+    ITEMS.forEach(({ label, source }) => {
+      const card    = document.createElement('div');
+      card.className = 'print-qr-card reveal';
+
+      const qrWrap  = document.createElement('div');
+      qrWrap.className = 'print-qr-wrap';
+
+      const urlEl   = document.createElement('p');
+      urlEl.className = 'print-qr-url';
+      urlEl.textContent = 'terrorride.vercel.app';
+
+      const labelEl = document.createElement('p');
+      labelEl.className = 'print-qr-label';
+      labelEl.textContent = label;
+
+      card.appendChild(qrWrap);
+      card.appendChild(urlEl);
+      card.appendChild(labelEl);
+      grid.appendChild(card);
+
+      new QRCode(qrWrap, {
+        text: BASE + source,
+        width: 200,
+        height: 200,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+    });
+  </script>
+
+</body>
+</html>

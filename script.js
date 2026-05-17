@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initScrollReveal();
   initNavScroll();
   initGeolocation();
+  initScanPage();
   initLogoBleed();
   initCarousel();
 });
@@ -504,6 +505,7 @@ const GEO_SHOWN_KEY = 'tr_banner';
 const SCAN_MS       = 3200;
 
 function initGeolocation() {
+  if (document.querySelector('.scan-geo')) return; // scan page uses initScanPage
   if (sessionStorage.getItem(GEO_SHOWN_KEY)) return;
   sessionStorage.setItem(GEO_SHOWN_KEY, '1');
 
@@ -766,4 +768,30 @@ function initLogoBleed() {
     splat(e.clientX, e.clientY);
   });
   logo.addEventListener('contextmenu', (e) => e.preventDefault());
+}
+
+// ─── Scan page geo message (no radar animation) ───────────
+function initScanPage() {
+  const geoEl = document.getElementById('scan-geo');
+  if (!geoEl) return;
+
+  function showGeo(local) {
+    geoEl.textContent = local ? "YOU'RE ALREADY ONE OF US." : "YOU CAME ALL THE WAY HERE.";
+    geoEl.classList.add(local ? 'local' : 'outsider');
+  }
+
+  const cached = localStorage.getItem(GEO_CACHE_KEY);
+  if (cached !== null) { showGeo(cached === 'true'); return; }
+
+  if (!navigator.geolocation) return;
+  navigator.geolocation.getCurrentPosition(
+    ({ coords }) => {
+      const local =
+        coords.latitude  > WS_BOUNDS.latMin && coords.latitude  < WS_BOUNDS.latMax &&
+        coords.longitude > WS_BOUNDS.lngMin && coords.longitude < WS_BOUNDS.lngMax;
+      localStorage.setItem(GEO_CACHE_KEY, String(local));
+      showGeo(local);
+    },
+    () => { /* denied — no message, no error */ }
+  );
 }
