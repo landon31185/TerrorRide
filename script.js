@@ -1069,12 +1069,44 @@ function initVisitCount() {
     .then(r => r.json())
     .then(({ total, homie, outsider }) => {
       if (!total) return;
-      statsEl.innerHTML =
-        `<span class="hp-visit-total">${total.toLocaleString()} VISITED</span>` +
-        `<span class="hp-visit-sep">&middot;</span>` +
-        `<span class="hp-visit-homie">${homie.toLocaleString()} HOMIES</span>` +
-        `<span class="hp-visit-sep">&middot;</span>` +
-        `<span class="hp-visit-outsider">${outsider.toLocaleString()} OUTSIDERS</span>`;
+
+      const pct = Math.round(homie / total * 100);
+      const barW = Math.max(2, Math.min(98, Math.round(homie / total * 100)));
+
+      let note;
+      if (!homie) {
+        note = 'No locals detected yet. The band is choosing not to comment on this.';
+      } else if (homie > outsider) {
+        note = 'The neighborhood is claiming the site. The band finds this acceptable.';
+      } else if (outsider > homie * 5) {
+        note = `Outsiders outnumber locals ${Math.round(outsider / homie)}:1. Greg has been notified.`;
+      } else {
+        note = `West Seattle is ${pct}% of visitors. The band is watching the other ${100 - pct}%.`;
+      }
+
+      statsEl.innerHTML = `
+        <div class="hp-visit-card">
+          <p class="hp-visit-eyebrow">Neighborhood Report</p>
+          <div class="hp-visit-total-row">
+            <span class="hp-visit-total-num">${total.toLocaleString()}</span>
+            <span class="hp-visit-total-label">Total Visitors</span>
+          </div>
+          <div class="hp-visit-split">
+            <div class="hp-visit-group hp-visit-group--homie">
+              <span class="hp-visit-count">${homie.toLocaleString()}</span>
+              <span class="hp-visit-name">West Seattle Homies</span>
+            </div>
+            <div class="hp-visit-divider" aria-hidden="true"></div>
+            <div class="hp-visit-group hp-visit-group--outsider">
+              <span class="hp-visit-count">${outsider.toLocaleString()}</span>
+              <span class="hp-visit-name">Outsiders</span>
+            </div>
+          </div>
+          <div class="hp-visit-bar" role="meter" aria-label="West Seattle visitor share" aria-valuenow="${barW}" aria-valuemin="0" aria-valuemax="100">
+            <div class="hp-visit-bar-fill" style="width:${barW}%"></div>
+          </div>
+          <p class="hp-visit-note">${note}</p>
+        </div>`;
     })
     .catch(() => {});
 
