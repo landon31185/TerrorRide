@@ -2893,6 +2893,9 @@ code {
   width: 100%;
   margin-top: 0;
   overflow: hidden;
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Scrolling ticker — fixed at viewport bottom */
@@ -2947,17 +2950,17 @@ code {
 /* Bottom bar */
 .footer-bottom {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 16px 5%;
   border-top: 1px solid var(--border-dim);
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 10px 32px;
 }
 
 .footer-copy {
   font-size: 11px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.7);
   letter-spacing: 0.5px;
 }
 
@@ -2972,7 +2975,7 @@ code {
   font-size: 9px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.6);
   text-decoration: none;
   transition: color 0.2s;
 }
