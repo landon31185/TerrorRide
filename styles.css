@@ -44,7 +44,6 @@ body {
   justify-content: flex-start;
   align-items: center;
   min-height: 100dvh; /* Changed from height to min-height */
-  background-color: #000;
   padding-top: 64px; /* Add padding to prevent content from being hidden behind nav */
   position: relative;
   overflow-x: hidden;
