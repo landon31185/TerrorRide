@@ -3324,6 +3324,187 @@ code {
   .footer-ticker-track { animation: none; }
 }
 
+/* Magnet landing page extras */
+.magnet-eyebrow {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  margin: 0 0 20px;
+}
+
+.magnet-consent {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.25);
+  margin: 16px 0 0;
+  max-width: 300px;
+  text-align: center;
+}
+
+/* Magnet dashboard */
+.magnet-dashboard {
+  width: 100%;
+  max-width: 800px;
+  padding: 40px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.magnet-dash-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.magnet-dash-eyebrow {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+.magnet-dash-title {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: clamp(36px, 10vw, 80px);
+  color: #fff;
+  margin: 0;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.magnet-dash-sub {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.4);
+  margin: 10px 0 0;
+}
+
+.magnet-stats-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.magnet-stat-chip {
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  padding: 20px 28px;
+  text-align: center;
+  min-width: 130px;
+  flex: 1;
+  max-width: 180px;
+}
+
+.magnet-stat-num {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 40px;
+  color: #fff;
+  display: block;
+  line-height: 1;
+}
+
+.magnet-stat-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-top: 8px;
+  display: block;
+}
+
+.magnet-stat-chip.ws .magnet-stat-num { color: var(--green); }
+.magnet-stat-chip.total .magnet-stat-num { color: #fff; }
+
+.magnet-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 40px;
+}
+
+.magnet-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.7);
+}
+
+.magnet-table th {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  color: rgba(255,255,255,0.35);
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-dim);
+  white-space: nowrap;
+}
+
+.magnet-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(34,34,34,0.5);
+}
+
+.magnet-table tr:last-child td { border-bottom: none; }
+.magnet-table tr:hover td { background: rgba(255,255,255,0.03); }
+.magnet-table td.td-ws { color: var(--green); }
+
+.magnet-recent-wrap {
+  width: 100%;
+}
+
+.magnet-recent-title {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+
+.magnet-activity-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.magnet-activity-item {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.45);
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.mag-time { color: rgba(255,255,255,0.25); white-space: nowrap; }
+.mag-id   { color: rgba(255,255,255,0.75); }
+.mag-ws   { color: var(--green); }
+.mag-msg  { color: rgba(255,255,255,0.5); font-style: italic; }
+
+.magnet-refresh-note {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  text-align: center;
+  margin-top: 32px;
+}
+
 /* Visit counter */
 .hp-visits {
   width: 100%;

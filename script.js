@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initNavScroll();
   initGeolocation();
   initScanPage();
+  initMagnetPage();
   initVisitCount();
   initLogoBleed();
   initCarousel();
@@ -992,6 +993,16 @@ function initWebMCP() {
       }) }] };
     },
   });
+
+  mc.registerTool({
+    name: 'get_magnet_stats',
+    description: 'Get live NFC magnet campaign scan data by magnet ID and geofence result. Shows total scans, West Seattle vs outsider breakdown, per-magnet counts, unique visitors, and recent activity.',
+    inputSchema: { type: 'object', properties: {} },
+    async execute() {
+      const data = await fetch('/api/magnet?admin=1').then(r => r.json());
+      return { content: [{ type: 'text', text: JSON.stringify(data) }] };
+    },
+  });
 }
 
 // ─── Scan page geo message (no radar animation) ───────────
@@ -1092,4 +1103,168 @@ function initVisitCount() {
     },
     () => { recordVisit(false); }
   );
+}
+
+// ─── NFC Magnet landing page + live dashboard ─────────────
+function initMagnetPage() {
+  const magnetId = new URLSearchParams(location.search).get('id');
+
+  if (magnetId !== null) {
+    // ── LANDING MODE ──────────────────────────────────────
+    const landing  = document.getElementById('magnet-landing');
+    if (!landing) return;
+    landing.hidden = false;
+
+    const geoEl   = document.getElementById('magnet-geo');
+    const countEl = document.getElementById('magnet-count');
+
+    const MESSAGES = {
+      in_west_seattle: 'Welcome home.',
+      outside:         "You're not supposed to be here.",
+      gps_disabled:    "Can't locate you. But your vibe checks out.",
+    };
+
+    let geofence_result = null;
+    let logSent         = false;
+
+    function finalize(result) {
+      if (logSent) return;
+      logSent = true;
+      geofence_result = result;
+
+      const msg = MESSAGES[result] || MESSAGES.gps_disabled;
+      if (geoEl) {
+        geoEl.textContent = msg;
+        geoEl.classList.add(result === 'in_west_seattle' ? 'local' : 'outsider');
+      }
+
+      fetch('/api/magnet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ magnet_id: magnetId, geofence_result: result, message_shown: msg }),
+      })
+        .then(() => fetch('/api/magnet?admin=1'))
+        .then(r => r.json())
+        .then(data => {
+          if (!countEl) return;
+          const n = data?.magnets?.[magnetId]?.total || data?.total || 0;
+          if (n > 1) countEl.textContent = `${n} people have scanned this magnet.`;
+          else if (n === 1) countEl.textContent = "You're the first.";
+        })
+        .catch(() => {});
+    }
+
+    // Fallback if geo takes too long or is unavailable
+    const timeout = setTimeout(() => finalize('gps_disabled'), 5000);
+
+    const cached = localStorage.getItem(GEO_CACHE_KEY);
+    if (cached !== null) {
+      clearTimeout(timeout);
+      finalize(cached === 'true' ? 'in_west_seattle' : 'outside');
+    } else if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+          clearTimeout(timeout);
+          const local =
+            coords.latitude  > WS_BOUNDS.latMin && coords.latitude  < WS_BOUNDS.latMax &&
+            coords.longitude > WS_BOUNDS.lngMin && coords.longitude < WS_BOUNDS.lngMax;
+          localStorage.setItem(GEO_CACHE_KEY, String(local));
+          finalize(local ? 'in_west_seattle' : 'outside');
+        },
+        () => { clearTimeout(timeout); finalize('gps_disabled'); }
+      );
+    } else {
+      clearTimeout(timeout);
+      finalize('gps_disabled');
+    }
+
+  } else {
+    // ── DASHBOARD MODE ────────────────────────────────────
+    const dash = document.getElementById('magnet-dashboard');
+    if (!dash) return;
+    dash.hidden = false;
+
+    const statsRow   = document.getElementById('magnet-stats-row');
+    const tableWrap  = document.getElementById('magnet-table-wrap');
+    const recentWrap = document.getElementById('magnet-recent-wrap');
+    const refreshEl  = document.getElementById('magnet-refresh-note');
+
+    function timeAgo(ts) {
+      const s = Math.floor((Date.now() - ts) / 1000);
+      if (s < 60)  return `${s}s ago`;
+      if (s < 3600) return `${Math.floor(s / 60)}m ago`;
+      return `${Math.floor(s / 3600)}h ago`;
+    }
+
+    function renderDashboard() {
+      fetch('/api/magnet?admin=1')
+        .then(r => r.json())
+        .then(({ total = 0, geo = {}, magnets = {}, recent = [] }) => {
+
+          // Stat chips
+          const ws      = geo.in_west_seattle || 0;
+          const outside = geo.outside         || 0;
+          const noGps   = geo.gps_disabled    || 0;
+          statsRow.innerHTML = [
+            { cls: 'total', num: total,   label: 'Total Scans' },
+            { cls: 'ws',    num: ws,      label: 'West Seattle' },
+            { cls: '',      num: outside, label: 'Outsiders'   },
+            { cls: '',      num: noGps,   label: 'No GPS'       },
+          ].map(({ cls, num, label }) =>
+            `<div class="magnet-stat-chip ${cls}">
+              <span class="magnet-stat-num">${num.toLocaleString()}</span>
+              <span class="magnet-stat-label">${label}</span>
+            </div>`
+          ).join('');
+
+          // Per-magnet table
+          const rows = Object.entries(magnets)
+            .filter(([, v]) => v.total > 0)
+            .sort((a, b) => b[1].total - a[1].total);
+
+          if (rows.length) {
+            tableWrap.innerHTML =
+              `<table class="magnet-table" role="table">
+                <thead><tr>
+                  <th>Magnet</th><th>Total</th>
+                  <th>West Seattle</th><th>Outside</th><th>No GPS</th><th>Unique</th>
+                </tr></thead>
+                <tbody>${rows.map(([id, v]) =>
+                  `<tr>
+                    <td>MAG-${id}</td>
+                    <td>${v.total}</td>
+                    <td class="${v.in_west_seattle ? 'td-ws' : ''}">${v.in_west_seattle}</td>
+                    <td>${v.outside}</td>
+                    <td>${v.gps_disabled}</td>
+                    <td>${v.unique_ips}</td>
+                  </tr>`
+                ).join('')}</tbody>
+              </table>`;
+          } else {
+            tableWrap.innerHTML = '<p style="font-size:12px;letter-spacing:2px;color:rgba(255,255,255,0.25);text-align:center">No scans yet. Go put the magnets up.</p>';
+          }
+
+          // Recent activity
+          if (recent.length) {
+            recentWrap.innerHTML =
+              `<p class="magnet-recent-title">Recent Activity</p>
+               <ul class="magnet-activity-list">${recent.slice(0, 10).map(s =>
+                `<li class="magnet-activity-item">
+                  <span class="mag-time">${timeAgo(s.ts)}</span>
+                  <span class="mag-id">MAG-${s.magnet_id}</span>
+                  <span class="${s.geofence_result === 'in_west_seattle' ? 'mag-ws' : 'mag-msg'}">${s.message_shown}</span>
+                </li>`
+               ).join('')}</ul>`;
+          }
+
+          if (refreshEl) refreshEl.textContent = 'Updated just now · refreshes every 30s';
+        })
+        .catch(() => {
+          if (refreshEl) refreshEl.textContent = 'Could not load data.';
+        });
+    }
+
+    renderDashboard();
+    setInterval(renderDashboard, 30_000);
+  }
 }

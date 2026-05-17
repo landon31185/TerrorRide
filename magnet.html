@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You Scanned It | Terror Ride</title>
+  <meta property="og:type"        content="website">
+  <meta property="og:site_name"   content="Terror Ride">
+  <meta property="og:title"       content="You Scanned It — Terror Ride">
+  <meta property="og:description" content="We told you not to.">
+  <meta property="og:image"       content="https://terrorride.vercel.app/api/og?title=You+Scanned+It&tag=We+Told+You+Not+To">
+  <meta property="og:url"         content="https://terrorride.vercel.app/magnet.html">
+  <meta name="twitter:card"       content="summary_large_image">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/@mcp-b/global@latest/dist/index.iife.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <nav class="top-nav" role="navigation">
+    <a href="index.html" class="logo logo-link">TERROR<br>RIDE</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+      <li><a href="noise.html">Noise</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="local.html">Local</a></li>
+    </ul>
+    <div class="hamburger-container" aria-label="Toggle navigation menu" aria-expanded="false">
+      <div class="line top"></div>
+      <div class="line middle"></div>
+      <div class="line bottom"></div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <video autoplay loop muted playsinline class="menu-bg-video">
+      <source src="output.mp4" type="video/mp4">
+      <source src="output.webm" type="video/webm">
+    </video>
+    <ul class="mobile-menu-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="merch.html">Merch</a></li>
+      <li><a href="banned.html">Banned</a></li>
+      <li><a href="noise.html">Noise</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="local.html">Local</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+
+    <!-- Landing mode: shown when ?id= param is present -->
+    <section class="scan-hero" id="magnet-landing" hidden>
+      <p class="magnet-eyebrow">NFC MAGNET &middot; DO NOT SCAN</p>
+      <h1 class="scan-headline">YOU<br>SCANNED<br>IT.</h1>
+      <p class="scan-sub">We told you not to.</p>
+      <p class="scan-geo" id="magnet-geo" aria-live="polite"></p>
+      <p class="scan-count" id="magnet-count" aria-live="polite"></p>
+      <p class="magnet-consent">This page logs approximate location and visit data for the campaign.</p>
+      <nav class="scan-ctas" aria-label="Explore Terror Ride">
+        <a href="index.html" class="scan-btn">Enter the Site</a>
+        <a href="music.html" class="scan-btn">Listen</a>
+        <a href="merch.html" class="scan-btn">Buy Something</a>
+      </nav>
+      <p class="scan-tagline">Terror Ride &middot; West Seattle &middot; Est. 2009</p>
+    </section>
+
+    <!-- Dashboard mode: shown when no ?id= param -->
+    <section class="magnet-dashboard" id="magnet-dashboard" hidden>
+      <div class="magnet-dash-header">
+        <p class="magnet-dash-eyebrow">Live Campaign Data</p>
+        <h1 class="magnet-dash-title">Magnet Watch</h1>
+        <p class="magnet-dash-sub">West Seattle NFC magnet campaign &middot; real-time scan data</p>
+      </div>
+      <div class="magnet-stats-row" id="magnet-stats-row"></div>
+      <div class="magnet-table-wrap" id="magnet-table-wrap"></div>
+      <div class="magnet-recent-wrap" id="magnet-recent-wrap"></div>
+      <p class="magnet-refresh-note" id="magnet-refresh-note"></p>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-ticker" aria-hidden="true">
+      <div class="footer-ticker-track">
+        <span>WEST SEATTLE &middot; EST. 2009 &middot; NOISE METAL &middot; 48 COMPLAINTS &middot; NOT WELCOME AT 12 VENUES &middot; THE VAN STILL RUNS &middot; GREG STILL MAD &middot;&nbsp;</span>
+        <span>WEST SEATTLE &middot; EST. 2009 &middot; NOISE METAL &middot; 48 COMPLAINTS &middot; NOT WELCOME AT 12 VENUES &middot; THE VAN STILL RUNS &middot; GREG STILL MAD &middot;&nbsp;</span>
+      </div>
+    </div>
+    <p class="footer-wordmark" aria-hidden="true">TERROR RIDE</p>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2026 Terror Ride. All grievances to <a href="noise.html">/noise</a>.</span>
+      <a href="colophon.html" class="footer-colophon">How this was made &rarr;</a>
+    </div>
+  </footer>
+
+</body>
+</html>
