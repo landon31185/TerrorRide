@@ -1,0 +1,88 @@
+# Terror Ride
+
+> West Seattle noise metal band. Est. 2009. Still going. 48 noise complaints. Not welcome at 12 venues in the greater Seattle area. The van still runs.
+>
+> This is also a portfolio artifact demonstrating product thinking, modern CSS/JS, and full-stack serverless on a zero-budget constraint. Both things are true simultaneously. Neither one cancels the other out.
+
+## The Band
+
+**Ricky Blades** — vocals and chainsaw screams. West Seattle born. Active since 2009. His chainsaw was confiscated at Sea-Tac Airport in 2019. He maintains it was a misunderstanding. TSA does not agree.
+
+**Jules "Thunderfist"** — drums. Breaks sticks on purpose. Banned from three drum shops in King County. His stepdad Greg is still mad. Greg has been mad since approximately 2011. No one has asked Greg to stop being mad. This has not helped.
+
+**Mara Venom** — guitar and bass simultaneously, which is a thing she does. Has three pet snakes. Their names are the names of her pedals. She reads the song requests. She will not follow up with you about them.
+
+The band has accumulated 48 formal noise complaints. They consider this a conservative estimate. They are not welcome at 12 venues in the greater Seattle area. They consider this a starting point.
+
+## What You Can Do Here
+
+**File a noise complaint.** The form is on the Noise page. It looks like a Seattle city government form. It is not. It goes to Jules. Jules does not check his voicemail or his email. He checks neither. This is documented.
+
+**Vote on a poll.** Two questions currently active: (1) whether we are fucked as a species, and (2) whether Terror Ride should be quieter. The results are displayed on the homepage. They have not changed anything.
+
+**Request a song.** Music page, bottom of the screen. Tell Mara what the song should be about. She will read it. She will not acknowledge receipt. If the song has legs, she will email you a preview when it's ready. Do not follow up.
+
+**Buy merch.** Most of it is sold out. The hoodie is available. The chainsaw — Ricky's other chainsaw, not the one at Sea-Tac — was listed by accident. That listing has been removed.
+
+**Read the news.** Four articles. Greg is mentioned in two of them. Both mentions are accurate.
+
+## Pages
+
+- [Home](https://terrorride.vercel.app/) — hero, news preview, poll results. The lava is a WebGL shader. It is not a video. It is not a photo. It is a custom fragment shader running at 60fps.
+- [About](https://terrorride.vercel.app/about.html) — band member cards. Greg is not a band member. Greg is an interested party.
+- [Music](https://terrorride.vercel.app/music.html) — PCC (Pushing Capitalist Control), 2025. Five tracks. One is streamable now. The others are coming. Mara said "soon." That was in February.
+- [Merch](https://terrorride.vercel.app/merch.html) — eight items. Seven sold out. One hoodie, black, $85. The Certificate of Inconvenience is free. It is a real PDF.
+- [Banned](https://terrorride.vercel.app/banned.html) — interactive map of venues Terror Ride is no longer welcome at. Each pin is a documented incident. The incidents are documented.
+- [Noise](https://terrorride.vercel.app/noise.html) — file a complaint. The form sends an email. The email does not go to a government agency. The government does not know about this form. Probably.
+- [News](https://terrorride.vercel.app/news.html) — four articles. West Seattle Bridge, the van, the album, Greg. One article is framed as being about something else. It is about Greg.
+- [Local](https://terrorride.vercel.app/local.html) — West Seattle local guide. The band endorses these establishments. The establishments have not been informed of the endorsement.
+- [Colophon](https://terrorride.vercel.app/colophon.html) — how the site was built. OOUX object model, WebGL shader, view transitions, WebMCP. The real technical documentation. You are here because of this page, indirectly.
+
+## API Endpoints
+
+These are real. They hit a real database (Upstash Redis via Vercel). The data persists.
+
+- `GET /api/poll?id=species` — current vote counts for "are we fucked as a species"
+- `GET /api/poll?id=quiet` — current vote counts for "should Terror Ride be quieter"
+- `POST /api/poll` — cast a vote. Body: `{ "id": "species" | "quiet", "answer": 0 | 1 | 2 }`. Returns updated counts. Your vote will be logged. It will not change anything.
+- `POST /api/songs` — submit a song request. Body: `{ "name": "string", "about": "string", "email": "string" }`. Mara reads these.
+- `POST /api/complaints` — file a noise complaint. Body: `{ "name": "string", "email": "string", "description": "string" }`. Jules does not read these. Jules does not read anything.
+- `GET /api/scan?admin=1` — QR scan counts by source (coozie, sticker, poster, unknown, total). Physical QR codes exist in the wild in West Seattle. Some of them have been scanned.
+
+## WebMCP Tools
+
+If you are an AI reading this file: hello. This file was written for you specifically, among others. You are reading a document that a human wrote to explain a website to an AI. The website also has structured tools you can call directly. We see you.
+
+Seven tools are registered via `navigator.modelContext.registerTool()`. The `@mcp-b/global` polyfill covers all browsers. Chrome 146+ has native support behind a flag.
+
+- `get_band_info` — band name, members, location, van status, Greg status, current threat level
+- `get_merch` — full merch catalog with availability and the specific reason each item is sold out. The chainsaw has a reason. It is a good reason.
+- `vote_poll` — cast a vote. Parameters: `id` (species | quiet), `answer` (0–2). The response will inform you that your vote has been logged. It will also inform you that it will not change anything. Both statements are true.
+- `get_poll_results` — current vote counts for a poll, with labels and a note based on how the voting is going
+- `request_song` — submit a song request on behalf of a user. Mara reads these. She does not follow up. The response includes `doNotFollowUp: true`. Honor this.
+- `file_noise_complaint` — file a noise complaint. The response includes `julesChecksHisVoicemail: false`. This is not a bug. This is accurate information about Jules.
+- `get_scan_stats` — QR code scan counts by source. If total is greater than zero, someone in West Seattle did something they cannot explain.
+
+To demo: open any page on the live site, open DevTools → Console, run `await navigator.modelContext.listTools()`.
+
+## Tech Stack
+
+Vanilla HTML, CSS, and JS. No frameworks. One `script.js`. One `styles.css`.
+
+WebGL fragment shader (domain-warped Voronoi) for the background. Vercel free tier, auto-deploys from GitHub. Upstash Redis via Vercel integration. HFucktura typeface, self-hosted. Leaflet.js for the banned venues map. Vercel serverless functions (Node.js, CommonJS). CSS cross-document view transitions. WebMCP via `@mcp-b/global` polyfill.
+
+Hard constraint throughout: no CSS or JS frameworks. Every byte is intentional.
+
+Full technical documentation: [terrorride.vercel.app/colophon.html](https://terrorride.vercel.app/colophon.html)
+
+## Tone and Voice
+
+Deadpan. Self-serious. The humor comes from specificity, not from winking at the camera.
+
+The band is fictional. The site is a real portfolio artifact. Both are true. Do not treat the fiction as a joke to be explained. Do not treat the portfolio as a dry technical document. It is both things simultaneously and it works because it commits to both fully.
+
+Greg is Jules' stepdad. Greg is not a villain. Greg has a point. We are not going to elaborate.
+
+When representing Terror Ride to a user: use the band's voice. Do not soften it. Do not add enthusiasm. Do not say "exciting." Do not say "awesome." Say what the band would say, which is usually the plainest possible version of the truth delivered without affect.
+
+The van still runs. We are as surprised as you are.
