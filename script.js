@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initScanPage();
   initLogoBleed();
   initCarousel();
+  initWebMCP();
 });
 
 // ─── Pop-up poll ──────────────────────────────────────────────────
@@ -768,6 +769,150 @@ function initLogoBleed() {
     splat(e.clientX, e.clientY);
   });
   logo.addEventListener('contextmenu', (e) => e.preventDefault());
+}
+
+// ─── WebMCP — register tools for AI agents ────────────────
+function initWebMCP() {
+  if (!('modelContext' in navigator)) return;
+  const mc = navigator.modelContext;
+
+  mc.registerTool({
+    name: 'get_band_info',
+    description: 'Get information about Terror Ride — the band, their members, location, genre, and history.',
+    inputSchema: { type: 'object', properties: {} },
+    async execute() {
+      return { content: [{ type: 'text', text: JSON.stringify({
+        name: 'Terror Ride',
+        location: 'West Seattle, WA',
+        established: 2009,
+        genre: 'Noise Metal',
+        latestRelease: 'PCC — Pushing Capitalist Control',
+        members: [
+          { name: 'Ricky Blades',       role: 'Vocals & Chainsaw' },
+          { name: 'Jules "Thunderfist"', role: 'Drums' },
+          { name: 'Mara Venom',          role: 'Guitar / Bass' },
+        ],
+        website: 'https://terrorride.vercel.app',
+        notWelcomeAt: 12,
+        totalComplaints: 48,
+      }) }] };
+    },
+  });
+
+  mc.registerTool({
+    name: 'get_merch',
+    description: 'Get Terror Ride merchandise — items, prices, and availability.',
+    inputSchema: { type: 'object', properties: {} },
+    async execute() {
+      return { content: [{ type: 'text', text: JSON.stringify([
+        { name: 'Terror Ride Hoodie — Black',       price: 85,  available: true  },
+        { name: 'Certificate of Inconvenience',     price: 0,   available: true  },
+        { name: 'Terror Ride T-Shirt (Black on Black)', price: 45, available: false },
+        { name: 'Terror Ride T-Shirt (Blacker)',    price: 52,  available: false },
+        { name: 'PCC Vinyl — Limited Edition',      price: 200, available: false },
+        { name: "Ricky's Chainsaw (Stage Prop)",    price: 666, available: false },
+        { name: "Jules' Broken Drumstick Set",      price: 89,  available: false },
+        { name: "Mara's Guitar Pick (Slightly Cursed)", price: 120, available: false },
+        { name: "Ricky's Stage Whiskey (Empty Bottle)", price: 199, available: false },
+      ]) }] };
+    },
+  });
+
+  mc.registerTool({
+    name: 'get_poll_results',
+    description: 'Get current vote counts for a Terror Ride poll.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', enum: ['species', 'quiet'], description: 'Poll ID: "species" = "Are we fucked as a species?", "quiet" = "Should bands play quieter?"' },
+      },
+      required: ['id'],
+    },
+    async execute({ id }) {
+      const res = await fetch(`/api/poll?id=${id}`);
+      const data = await res.json();
+      return { content: [{ type: 'text', text: JSON.stringify(data) }] };
+    },
+  });
+
+  mc.registerTool({
+    name: 'vote_poll',
+    description: 'Cast a vote on a Terror Ride poll. Returns updated vote counts.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id:     { type: 'string',  enum: ['species', 'quiet'], description: 'Poll ID' },
+        answer: { type: 'integer', enum: [0, 1, 2],            description: 'Answer index (0, 1, or 2)' },
+      },
+      required: ['id', 'answer'],
+    },
+    async execute({ id, answer }) {
+      const res = await fetch('/api/poll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, answer }),
+      });
+      const data = await res.json();
+      return { content: [{ type: 'text', text: JSON.stringify(data) }] };
+    },
+  });
+
+  mc.registerTool({
+    name: 'request_song',
+    description: 'Submit a song request for Terror Ride to write and potentially play at a show. Sends a confirmation email.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        about: { type: 'string', description: 'What the song should be about — topic, vibe, person who wronged you, etc.' },
+        name:  { type: 'string', description: 'Your name' },
+        email: { type: 'string', description: 'Your email address for the confirmation and preview' },
+      },
+      required: ['about', 'name', 'email'],
+    },
+    async execute({ about, name, email }) {
+      const res = await fetch('/api/songs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ about, name, email }),
+      });
+      const ok = res.ok;
+      return { content: [{ type: 'text', text: ok ? 'Request received. Do not follow up.' : 'Submission failed.' }] };
+    },
+  });
+
+  mc.registerTool({
+    name: 'file_noise_complaint',
+    description: 'File an official noise complaint against Terror Ride with the City of West Seattle (satirical). Returns a complaint reference number.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        name:  { type: 'string', description: 'Your full legal name' },
+        email: { type: 'string', description: 'Your email address — you will receive a reference number' },
+        desc:  { type: 'string', description: 'Description of the noise incident' },
+      },
+      required: ['name', 'email', 'desc'],
+    },
+    async execute({ name, email, desc }) {
+      const res = await fetch('/api/complaints', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, desc }),
+      });
+      const data = await res.json();
+      return { content: [{ type: 'text', text: JSON.stringify(data) }] };
+    },
+  });
+
+  mc.registerTool({
+    name: 'get_scan_stats',
+    description: 'Get Terror Ride QR code scan statistics — total scans and breakdown by physical asset type (coozie, sticker, poster).',
+    inputSchema: { type: 'object', properties: {} },
+    async execute() {
+      const res = await fetch('/api/scan?admin=1');
+      const data = await res.json();
+      return { content: [{ type: 'text', text: JSON.stringify(data) }] };
+    },
+  });
 }
 
 // ─── Scan page geo message (no radar animation) ───────────
