@@ -767,7 +767,6 @@ function initLogoBleed() {
   }
 
   logo.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
     splat(e.clientX, e.clientY);
   });
   logo.addEventListener('contextmenu', (e) => e.preventDefault());
