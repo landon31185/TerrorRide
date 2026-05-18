@@ -3736,3 +3736,34 @@ code {
   .subscribe-form { flex-direction: column; }
   .subscribe-btn { width: 100%; padding: 13px; }
 }
+
+/* ── Sticky page label ── */
+.page-label {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-dim);
+  padding: 7px 24px;
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+  pointer-events: none;
+}
+
+.page-label.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.page-label-text {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+}

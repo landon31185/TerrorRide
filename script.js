@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initMenu();
   initScrollReveal();
   initNavScroll();
+  initPageLabel();
   initGeolocation();
   initScanPage();
   initMagnetPage();
@@ -499,6 +500,27 @@ function initNavScroll() {
   const update = () => nav.classList.toggle('scrolled', window.scrollY > 80);
   window.addEventListener('scroll', update, { passive: true });
   update();
+}
+
+// ─── Sticky page label ───────────────────────────────────────────
+function initPageLabel() {
+  const h1 = document.querySelector('main h1');
+  if (!h1) return;
+  if (h1.classList.contains('hero-title') || h1.classList.contains('scan-headline')) return;
+
+  const text = h1.textContent.trim();
+  if (!text) return;
+
+  const label = document.createElement('div');
+  label.className = 'page-label';
+  label.innerHTML = `<span class="page-label-text">${text}</span>`;
+  document.body.appendChild(label);
+
+  const observer = new IntersectionObserver(
+    ([entry]) => label.classList.toggle('visible', !entry.isIntersecting),
+    { threshold: 0, rootMargin: '-64px 0px 0px 0px' }
+  );
+  observer.observe(h1);
 }
 
 // ─── Geolocation radar + banner ───────────────────────────────────
