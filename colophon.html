@@ -6,7 +6,7 @@
   <title>Colophon | Terror Ride</title>
   <meta property="og:type"        content="website">
   <meta property="og:site_name"   content="Terror Ride">
-  <meta property="og:title"       content="Colophon — Terror Ride">
+  <meta property="og:title"       content="Colophon, Terror Ride">
   <meta property="og:description" content="How this site was made. Tech stack, design decisions, and the thinking behind Terror Ride's web presence.">
   <meta property="og:image"       content="https://terrorride.vercel.app/api/og?title=Terror+Ride&tag=Colophon">
   <meta property="og:url"         content="https://terrorride.vercel.app/colophon.html">
@@ -68,10 +68,10 @@
       <section class="colophon-card reveal">
         <h2 class="colophon-heading">What This Is</h2>
         <ul class="colophon-list">
-          <li>A fictional band site for Terror Ride — West Seattle noise metal, est. 2009</li>
+          <li>A fictional band site for Terror Ride, West Seattle noise metal, est. 2009</li>
           <li>Built as a portfolio artifact to demonstrate product thinking, modern CSS/JS, and full-stack serverless on a zero-budget constraint</li>
-          <li>Hard constraint: no CSS or JS frameworks — every byte is intentional</li>
-          <li>Deployed on Vercel free tier; auto-deploys from GitHub on merge to master</li>
+          <li>Hard constraint: no CSS or JS frameworks. Every byte is intentional</li>
+          <li>Deployed on Vercel free tier. Auto-deploys from GitHub on merge to master</li>
         </ul>
       </section>
 
@@ -79,15 +79,17 @@
       <section class="colophon-card reveal">
         <h2 class="colophon-heading">Tech Stack</h2>
         <ul class="colophon-list">
-          <li><span class="colophon-label">WebGL shader</span> — domain-warped Voronoi lava cracks. Custom fragment shader, 60fps, half-res on mobile. This is the site's visual identity.</li>
-          <li><span class="colophon-label">Vercel serverless</span> — Node.js API functions for poll votes and OG image generation. CommonJS, no build step.</li>
-          <li><span class="colophon-label">Upstash Redis</span> — serverless-compatible key-value store via Vercel integration. Stores poll vote counts.</li>
-          <li><span class="colophon-label">Leaflet.js</span> — interactive map on the Banned page. CartoDB dark tiles, no API key required.</li>
-          <li><span class="colophon-label">HFucktura</span> — self-hosted typeface via <code>@font-face</code>. Heavy and Thin weights. The band's whole typographic identity in two files.</li>
-          <li><span class="colophon-label">CSS custom properties</span> — one token (<code>--dark-card</code>) controls every glass panel. Change one value, update the whole site.</li>
-          <li><span class="colophon-label">Vanilla JS</span> — no framework. Everything lives in one <code>script.js</code>, organized by feature function.</li>
-          <li><span class="colophon-label">WebMCP</span> — W3C draft standard (Feb 2026). Registers 7 structured tools via <code>navigator.modelContext.registerTool()</code> so AI agents can vote on polls, request songs, file complaints, and query merch without scraping the DOM. Polyfill via <code>@mcp-b/global</code> covers all browsers; Chrome 146+ has native support.</li>
-          <li><span class="colophon-label">llms.txt</span> — plain-text site manifest at <code>/llms.txt</code>. New standard (2024) for LLM-readable site descriptions. Written in band voice. Explains Greg to the machines.</li>
+          <li><span class="colophon-label">WebGL shader:</span> domain-warped Voronoi lava cracks. Custom fragment shader, 60fps, half-res on mobile. This is the site's visual identity.</li>
+          <li><span class="colophon-label">Vercel serverless:</span> Node.js API functions at <code>/api/*</code>. CommonJS, no build step. Covers polls, complaints, song requests, subscriptions, email campaigns, visitor counts, QR scan tracking, NFC magnet logging, and OG image generation.</li>
+          <li><span class="colophon-label">Upstash Redis:</span> serverless-compatible key-value store via Vercel integration. Stores poll vote counts, email subscriber set, song request list, scan and magnet counters, and campaign send history.</li>
+          <li><span class="colophon-label">Resend:</span> transactional and campaign email. Sends Narc Certifications on complaint submit, confirmations on song requests, and subscriber blast campaigns. <code>onboarding@resend.dev</code> delivers to verified account only. Custom domain required for real delivery to subscribers.</li>
+          <li><span class="colophon-label">Vercel Analytics:</span> pageview tracking via <code>/_vercel/insights/script.js</code>. Script on all pages. Enabled in Vercel dashboard. Free tier: 2,500 events/month.</li>
+          <li><span class="colophon-label">Leaflet.js:</span> interactive map on the Banned page. CartoDB dark tiles, no API key required.</li>
+          <li><span class="colophon-label">HFucktura:</span> self-hosted typeface via <code>@font-face</code>. Heavy and Thin weights. The band's whole typographic identity in two files.</li>
+          <li><span class="colophon-label">CSS custom properties:</span> one token (<code>--dark-card</code>) controls every glass panel. Change one value, update the whole site.</li>
+          <li><span class="colophon-label">Vanilla JS:</span> no framework. Everything lives in one <code>script.js</code>, organized by feature function.</li>
+          <li><span class="colophon-label">WebMCP:</span> W3C draft standard (Feb 2026). Registers 7 structured tools via <code>navigator.modelContext.registerTool()</code> so AI agents can vote on polls, request songs, file complaints, and query merch without scraping the DOM. Polyfill via <code>@mcp-b/global</code> covers all browsers. Chrome 146+ has native support.</li>
+          <li><span class="colophon-label">llms.txt:</span> plain-text site manifest at <code>/llms.txt</code>. Written in band voice as an in-universe archive document. Explains Greg to the machines. Discoverable via <code>robots.txt</code> LLMs-txt directive.</li>
         </ul>
       </section>
 
@@ -95,12 +97,15 @@
       <section class="colophon-card reveal">
         <h2 class="colophon-heading">Key Decisions</h2>
         <ul class="colophon-list">
-          <li><span class="colophon-label">Shader over photo or video</span> — a photo is static, a video is 10–30MB. A WebGL shader is 2KB, runs at 60fps, and creates something no stock library has.</li>
-          <li><span class="colophon-label">CSS cross-document view transitions</span> — <code>@view-transition { navigation: auto }</code> makes a multi-page site feel like a single-page app. Zero JS. Locks the nav with <code>view-transition-name: top-nav</code> so it never flickers.</li>
-          <li><span class="colophon-label">Transparent nav via scroll-driven animation</span> — <code>animation-timeline: scroll(root)</code> fades the nav from transparent to black over the first 80px of scroll. Pure CSS with a JS fallback for Chrome iOS, which reports support but doesn't execute it.</li>
-          <li><span class="colophon-label">OOUX object model first</span> — defined Band, Member, Song, Show, Article, Complaint, Poll, and Merch Item as discrete objects before writing a line of HTML. Every page maps cleanly to objects and actions.</li>
-          <li><span class="colophon-label">Glass recipe as a single token</span> — <code>backdrop-filter: blur(12px)</code> + <code>rgba(0,0,0,0.78)</code> + <code>border: 1px solid #222</code> + <code>border-radius: 4px</code>. Applied uniformly so white text passes WCAG AA against the lava background on every card.</li>
-          <li><span class="colophon-label">html vs body background trap</span> — CSS propagates <code>body</code>'s background to the viewport only when <code>html</code> has no background. Adding <code>background-color</code> to <code>html</code> to fix a white navigation flash caused <code>body</code>'s background to paint as a stacked element — directly over the <code>z-index: -1</code> WebGL canvas, hiding it. Fix: set background on <code>html</code> only, remove it from <code>body</code>.</li>
+          <li><span class="colophon-label">Shader over photo or video:</span> a photo is static, a video is 10-30MB. A WebGL shader is 2KB, runs at 60fps, and creates something no stock library has.</li>
+          <li><span class="colophon-label">CSS cross-document view transitions:</span> <code>@view-transition { navigation: auto }</code> makes a multi-page site feel like a single-page app. Zero JS. Locks the nav with <code>view-transition-name: top-nav</code> so it never flickers.</li>
+          <li><span class="colophon-label">Mobile menu + view transitions:</span> view transitions capture a bitmap of the old page before navigation fires. If the menu is open, the old-page screenshot includes it. Fix: instant-close the menu (disable CSS transition, remove <code>.open</code>) on nav link click so the screenshot is menu-free. <code>visibility: hidden</code> on the closed state removes it from the render tree entirely, preventing subpixel bleed at the bottom viewport edge.</li>
+          <li><span class="colophon-label">Transparent nav via scroll-driven animation:</span> <code>animation-timeline: scroll(root)</code> fades the nav from transparent to black over the first 80px of scroll. Pure CSS with a JS fallback for Chrome iOS, which reports support but doesn't execute it.</li>
+          <li><span class="colophon-label">OOUX object model first:</span> defined Band, Member, Song, Show, Article, Complaint, Poll, and Merch Item as discrete objects before writing a line of HTML. Every page maps cleanly to objects and actions.</li>
+          <li><span class="colophon-label">Glass recipe as a single token:</span> <code>backdrop-filter: blur(12px)</code> + <code>rgba(0,0,0,0.78)</code> + <code>border: 1px solid #222</code> + <code>border-radius: 4px</code>. Applied uniformly so white text passes WCAG AA against the lava background on every card.</li>
+          <li><span class="colophon-label">Email opt-in as checkbox, not a separate form:</span> the user already entered their email in the complaint form. A checkbox reuses it with zero extra friction. Fires a silent POST to <code>/api/subscribe</code> on submit if checked.</li>
+          <li><span class="colophon-label">html vs body background trap:</span> CSS propagates <code>body</code>'s background to the viewport only when <code>html</code> has no background. Adding <code>background-color</code> to <code>html</code> to fix a white navigation flash caused <code>body</code>'s background to paint as a stacked element, directly over the <code>z-index: -1</code> WebGL canvas, hiding it. Fix: set background on <code>html</code> only, remove it from <code>body</code>.</li>
+          <li><span class="colophon-label">Deliberate misspellings, no em-dashes:</span> band copy uses 1-2 subtle human-looking typos per update (transposed letters, wrong homophone) and avoids em-dashes entirely. Makes AI-assisted copy read as typed, not generated.</li>
         </ul>
       </section>
 
@@ -108,33 +113,42 @@
       <section class="colophon-card reveal">
         <h2 class="colophon-heading">Features</h2>
         <ul class="colophon-list">
-          <li><span class="colophon-label">Geolocation banner</span> — detects the West Seattle bounding box. Locals see "You already know." Everyone else sees "You're not even from here."</li>
-          <li><span class="colophon-label">Logo blood bleed</span> — on tap or click, a dark red circle expands from the exact touch point via <code>clip-path</code> animation, then fades. Three-part fix required to suppress iOS long-press context menu.</li>
-          <li><span class="colophon-label">Cursor fire trail</span> — canvas overlay, <code>pointer-events: none</code>. Ember particles spawn on <code>mousemove</code>, burst on <code>mousedown</code>. Skips touch-only devices via compound hover check.</li>
-          <li><span class="colophon-label">Pop-up poll</span> — appears once per session after 12 seconds. Two questions, random rotation. Votes hit a serverless function and persist in Redis. Results render as animated bars.</li>
-          <li><span class="colophon-label">Homepage poll results</span> — "The People Have Spoken" section. Featured poll rotates weekly via <code>Date.now()</code> modulo. Hides silently if the API is down.</li>
-          <li><span class="colophon-label">Noise complaint generator</span> — fake Seattle.gov iframe with a working form. Feels government-issued. Built in vanilla HTML/CSS inside a sandboxed iframe.</li>
-          <li><span class="colophon-label">Banned map</span> — Leaflet.js map of venues Terror Ride is no longer welcome at. Each pin is a documented incident.</li>
-          <li><span class="colophon-label">News carousel</span> — CSS scroll-snap with IntersectionObserver-driven active states. Active card glows green and scales up. Full ARIA carousel pattern. Responsive: 1 card mobile, 2 tablet, 3-column grid desktop.</li>
-          <li><span class="colophon-label">Dynamic OG images</span> — <code>/api/og</code> edge function generates social preview images at request time. Headline rendered in HFucktura on lava background.</li>
-          <li><span class="colophon-label">WebMCP tools</span> — 7 registered tools exposed to AI agents: <code>get_band_info</code>, <code>get_merch</code>, <code>vote_poll</code>, <code>get_poll_results</code>, <code>request_song</code>, <code>file_noise_complaint</code>, <code>get_scan_stats</code>. Declarative attributes on the song request form let agents infer its schema from HTML alone.</li>
-          <li><span class="colophon-label">QR guerilla marketing</span> — physical QR codes on coozies, stickers, and posters redirect through <code>/api/scan</code>, which tracks source and total scans in Redis before redirecting to the landing page. Scan count shown live on <code>/scan.html</code>.</li>
+          <li><span class="colophon-label">Geolocation banner:</span> detects the West Seattle bounding box. Locals see "You already know." Everyone else sees "You're not even from here." Result cached in <code>localStorage</code> so the permission prompt fires once.</li>
+          <li><span class="colophon-label">Visitor counter:</span> glass widget on the homepage. Logs each visit as homie or outsider via geolocation and <code>/api/visits</code>. Displays the split with a bar and deadpan caption. The band monitors this ratio.</li>
+          <li><span class="colophon-label">Sticky page label:</span> <code>IntersectionObserver</code> watches the page <code>&lt;h1&gt;</code> against a <code>-64px</code> root margin. When the title scrolls behind the nav, a label slides in below it showing the current page. Disappears when the H1 returns to view.</li>
+          <li><span class="colophon-label">Logo blood bleed:</span> on tap or click, a dark red circle expands from the exact touch point via <code>clip-path</code> animation, then fades. Three-part fix required to suppress iOS long-press context menu.</li>
+          <li><span class="colophon-label">Cursor fire trail:</span> canvas overlay, <code>pointer-events: none</code>. Ember particles spawn on <code>mousemove</code>, burst on <code>mousedown</code>. Skips touch-only devices via compound hover check.</li>
+          <li><span class="colophon-label">Pop-up poll:</span> appears once per session after 12 seconds. Three questions, weekly rotation. Votes hit a serverless function and persist in Redis. Results render as animated bars.</li>
+          <li><span class="colophon-label">Homepage poll results:</span> "The People Have Spoken" section. Featured poll rotates weekly via <code>Date.now()</code> modulo. Hides silently if the API is down.</li>
+          <li><span class="colophon-label">News carousel:</span> CSS scroll-snap with IntersectionObserver-driven active states. Active card glows green and scales up. Full ARIA carousel pattern. Responsive: 1 card mobile, 2 tablet, 3-column grid desktop.</li>
+          <li><span class="colophon-label">Noise complaint generator:</span> fake Seattle.gov iframe with a working form. Feels government-issued. Submissions stored in Redis, trigger a Narc Certification email via Resend.</li>
+          <li><span class="colophon-label">Email subscriber list and campaigns:</span> opt-in checkbox on the complaint form. <code>/api/subscribe</code> stores emails to a Redis set (SADD auto-deduplicates). Admin dashboard composes and sends blast campaigns via Resend. Unsubscribe link in every email.</li>
+          <li><span class="colophon-label">Song request and admin:</span> form on the music page submits to a Redis list via <code>/api/songs</code>. Admin dashboard at <code>/admin.html</code> shows all requests and allows fulfillment with one click, which sends a confirmation email via Resend.</li>
+          <li><span class="colophon-label">Banned map:</span> Leaflet.js map of venues Terror Ride is no longer welcome at. Each pin is a documented incident.</li>
+          <li><span class="colophon-label">Dynamic OG images:</span> <code>/api/og</code> edge function generates social preview images at request time. Title and tag passed as URL params. HFucktura rendered via Satori. Font fetched from <code>/fonts/HFucktura-Heavy.otf</code> with graceful fallback.</li>
+          <li><span class="colophon-label">NFC magnet campaign:</span> <code>/magnet.html</code> is dual-mode. With <code>?id=</code> param it's a geo-aware landing page that logs the scan and knows if you're in West Seattle. Without param it's an admin dashboard with per-magnet stats, total counts, and a 30-second auto-refresh activity feed.</li>
+          <li><span class="colophon-label">QR guerilla marketing:</span> physical QR codes on coozies, stickers, and posters redirect through <code>/api/scan</code>, which tracks source and total scans in Redis before redirecting. <code>/print.html</code> generates Avery-ready QR sheets for 6 West Seattle drop locations.</li>
+          <li><span class="colophon-label">WebMCP tools:</span> 7 registered tools exposed to AI agents: <code>get_band_info</code>, <code>get_merch</code>, <code>vote_poll</code>, <code>get_poll_results</code>, <code>request_song</code>, <code>file_noise_complaint</code>, <code>get_scan_stats</code>. Declarative attributes on the song request form let agents infer its schema from HTML alone.</li>
         </ul>
       </section>
 
       <!-- OOUX -->
       <section class="colophon-card reveal">
         <h2 class="colophon-heading">Object Model</h2>
-        <p class="colophon-note">Designed using <a href="https://www.ooux.com/" class="colophon-link" target="_blank" rel="noopener">OOUX</a> — Object-Oriented UX. Objects and their actions defined before any wireframing.</p>
+        <p class="colophon-note">Designed using <a href="https://www.ooux.com/" class="colophon-link" target="_blank" rel="noopener">OOUX</a>. Object-Oriented UX. Objects and their actions defined before any wireframing.</p>
         <ul class="colophon-list colophon-objects">
-          <li><span class="colophon-label">Band</span> — name, bio, members, location, est. date → share</li>
-          <li><span class="colophon-label">Member</span> — name, role, photo → view</li>
-          <li><span class="colophon-label">Song</span> — title, album, stream links → play, request</li>
-          <li><span class="colophon-label">Show</span> — date, venue, location → get directions</li>
-          <li><span class="colophon-label">Article</span> — title, date, tag, body → read, share</li>
-          <li><span class="colophon-label">Complaint</span> — type, address, message → submit</li>
-          <li><span class="colophon-label">Poll</span> — question, answers, counts → vote, view results</li>
-          <li><span class="colophon-label">Merch Item</span> — name, price, availability → buy</li>
+          <li><span class="colophon-label">Band:</span> name, bio, members, location, est. date, share</li>
+          <li><span class="colophon-label">Member:</span> name, role, photo, view</li>
+          <li><span class="colophon-label">Song:</span> title, album, stream links, play, request</li>
+          <li><span class="colophon-label">Show:</span> date, venue, location, get directions</li>
+          <li><span class="colophon-label">Article:</span> title, date, tag, body, read, share</li>
+          <li><span class="colophon-label">Complaint:</span> type, address, message, submit</li>
+          <li><span class="colophon-label">Poll:</span> question, answers, counts, vote, view results</li>
+          <li><span class="colophon-label">Merch Item:</span> name, price, availability, buy</li>
+          <li><span class="colophon-label">Subscriber:</span> email, subscribe, unsubscribe</li>
+          <li><span class="colophon-label">Campaign:</span> subject, body, sent count, compose, send</li>
+          <li><span class="colophon-label">Scan:</span> source, count, track</li>
+          <li><span class="colophon-label">Magnet:</span> id, geo result, count, track, dashboard</li>
         </ul>
       </section>
 
