@@ -1,4 +1,4 @@
-const VALID_IDS = new Set(['species', 'quiet']);
+const VALID_IDS = new Set(['species', 'quiet', 'nimby']);
 
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
