@@ -404,6 +404,8 @@ function toggleMenu() {
   hamburger.classList.toggle('open');
 
   const isOpen = mobileMenu.classList.contains('open');
+  mobileMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+  hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   document.body.style.overflow = isOpen ? 'hidden' : '';
 
   if (isOpen) {
