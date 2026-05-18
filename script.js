@@ -10,7 +10,7 @@ const POLLS = [
 document.addEventListener('DOMContentLoaded', function () {
   initShaderBackground();
   initCursorTrail();
-  initPoll();
+  // initPoll(); // paused
   initPollResults();
   initMenu();
   initScrollReveal();
