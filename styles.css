@@ -1816,7 +1816,7 @@ a.logo-link {
 /* ── Homepage hero ────────────────────────────────────────── */
 .hero {
   width: 100%;
-  min-height: calc(100dvh - var(--nav-height));
+  min-height: calc(100dvh - var(--nav-height) - 80px);
   display: flex;
   align-items: center;
   justify-content: center;
