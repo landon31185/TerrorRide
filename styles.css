@@ -2359,7 +2359,7 @@ a.logo-link {
   font-size: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.9);
   text-decoration: none;
   transition: color 0.2s;
 }
