@@ -205,8 +205,10 @@ p {
   height: 3px;
   background-color: white;
   border-radius: 2px;
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity   0.2s  ease-out;
+  transition: transform          0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              top                0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color   0.2s  ease-out,
+              opacity            0.2s  ease-out;
   position: absolute;
 }
 

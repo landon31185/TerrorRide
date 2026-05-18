@@ -283,6 +283,7 @@ border-radius: 4px;
 - **`punycode` deprecation warning** in Vercel build logs — harmless, from Node internals. Ignore it.
 - **Resend free tier** — `onboarding@resend.dev` sender only delivers to account's verified email. Custom domain required for real delivery to subscribers.
 - **Admin page is publicly accessible** — `admin.html` has no server-side auth. Security is entirely in the API key validation on the serverless functions. Use a strong, random `CAMPAIGN_ADMIN_KEY` and `ADMIN_KEY`.
+- **Hamburger `.line` transition must include `top`** — the open state changes `top` on each line to reposition them. If `top` is not in the `transition` list, lines snap to new positions instantly and then rotate, creating a visible stutter. The correct transition is `transform, top, background-color, opacity`. Never replace it with a partial list that omits `top`.
 
 ---
 
