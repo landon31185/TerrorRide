@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+
+# AI context — https://llmstxt.org
+LLMs-txt: /llms.txt
