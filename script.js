@@ -1,10 +1,10 @@
 const POLLS = [
+  { id: 'nimby',   q: 'Which neighborhood would be fastest to report a rager of a Terror Ride show?',
+    a: ['North Admiral', 'Shorewood', 'Alki / Beach Drive', 'Fairmont', 'Shorewood / Seola Beach', 'Genesee'] },
   { id: 'species', q: 'Are we fucked as a species?',
     a: ["We're so fucked", 'Hardcore til I die', 'We will have to see'] },
   { id: 'quiet',   q: 'Should bands play quieter out of respect for the neighborhood?',
     a: ['Be considerate', "That's what the noise complaint page is for", 'File it at terrorride.com/noise'] },
-  { id: 'nimby',   q: 'Which West Seattle neighborhood has the most NIMBYs?',
-    a: ['Admiral / Fauntleroy', 'Highpoint', 'Any Pickleball Court'] },
 ];
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -867,7 +867,7 @@ function initWebMCP() {
     inputSchema: {
       type: 'object',
       properties: {
-        id: { type: 'string', enum: ['species', 'quiet', 'nimby'], description: 'Poll ID: "species" = "Are we fucked as a species?", "quiet" = "Should bands play quieter?", "nimby" = "Which West Seattle neighborhood has the most NIMBYs?"' },
+        id: { type: 'string', enum: ['species', 'quiet', 'nimby'], description: 'Poll ID: "species" = "Are we fucked as a species?", "quiet" = "Should bands play quieter?", "nimby" = "Which neighborhood would be fastest to report a Terror Ride show?"' },
       },
       required: ['id'],
     },
@@ -896,7 +896,7 @@ function initWebMCP() {
     inputSchema: {
       type: 'object',
       properties: {
-        id:     { type: 'string',  enum: ['species', 'quiet', 'nimby'], description: 'Poll ID' },
+        id:     { type: 'string',  enum: ['species', 'quiet', 'nimby'], description: 'Poll ID. Answer index must be 0–2 for species/quiet, 0–5 for nimby.' },
         answer: { type: 'integer', enum: [0, 1, 2],            description: 'Answer index (0, 1, or 2)' },
       },
       required: ['id', 'answer'],
