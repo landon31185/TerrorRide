@@ -61,6 +61,46 @@
     .fulfill-btn:disabled { opacity: 0.3; cursor: default; }
 
     .empty-state { color: #333; font-size: 14px; text-align: center; padding: 80px 0; }
+
+    /* Campaign section */
+    #campaign-view { display: none; margin-top: 64px; border-top: 1px solid #1a1a1a; padding-top: 48px; }
+    .campaign-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
+    .campaign-header h2 { font-family: 'HFucktura-Heavy', sans-serif; font-size: 20px; margin: 0; }
+    .campaign-stat { font-size: 12px; color: #444; letter-spacing: 1px; text-transform: uppercase; }
+    .campaign-key-row { display: flex; gap: 10px; margin-bottom: 24px; }
+    .campaign-key-row input {
+      flex: 1; background: #0a0a0a; border: 1px solid #333;
+      color: white; padding: 11px 14px; font-size: 13px; font-family: inherit;
+    }
+    .campaign-key-row input:focus { outline: none; border-color: var(--green); }
+    .campaign-key-row button {
+      background: transparent; border: 1px solid #333; color: #888;
+      font-family: 'HFucktura-Heavy', sans-serif;
+      font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 11px 18px; cursor: pointer; transition: border-color 0.2s, color 0.2s;
+    }
+    .campaign-key-row button:hover { border-color: var(--green); color: var(--green); }
+    .campaign-compose { display: none; }
+    .campaign-field {
+      width: 100%; background: #0a0a0a; border: 1px solid #333; color: white;
+      padding: 12px 14px; font-size: 14px; font-family: inherit;
+      box-sizing: border-box; display: block; margin-bottom: 12px;
+    }
+    .campaign-field:focus { outline: none; border-color: var(--green); }
+    .campaign-send-btn {
+      background: var(--green); border: none; color: #000;
+      font-family: 'HFucktura-Heavy', sans-serif;
+      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 13px 28px; cursor: pointer; transition: background 0.2s;
+    }
+    .campaign-send-btn:hover { background: #1cc888; }
+    .campaign-send-btn:disabled { opacity: 0.4; cursor: default; }
+    .campaign-result { font-size: 13px; margin-top: 12px; display: none; }
+    .campaign-history { margin-top: 40px; }
+    .campaign-history h3 { font-family: 'HFucktura-Heavy', sans-serif; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #444; margin: 0 0 16px; }
+    .campaign-row { padding: 14px 0; border-bottom: 1px solid #111; }
+    .campaign-row-subject { font-size: 14px; color: #ccc; margin-bottom: 4px; }
+    .campaign-row-meta { font-size: 11px; color: #444; letter-spacing: 0.5px; }
   </style>
 </head>
 <body>
@@ -83,6 +123,31 @@
     <div id="requests-body"></div>
   </div>
 
+  <!-- Campaign section — shown after login -->
+  <div id="campaign-view">
+    <div class="campaign-header">
+      <h2>Email Campaigns</h2>
+      <span class="campaign-stat" id="campaign-sub-count"></span>
+    </div>
+
+    <!-- Separate key input for campaign API (CAMPAIGN_ADMIN_KEY may differ from songs key) -->
+    <div class="campaign-key-row" id="campaign-key-row">
+      <input type="password" id="campaign-key-input" placeholder="Campaign admin key (CAMPAIGN_ADMIN_KEY env var)">
+      <button onclick="loadCampaigns()">Unlock</button>
+    </div>
+
+    <div class="campaign-compose" id="campaign-compose">
+      <input type="text" class="campaign-field" id="campaign-subject" placeholder="Subject line" style="resize:none;">
+      <textarea class="campaign-field" id="campaign-body" rows="10" placeholder="Write your message. Plain text — newlines become line breaks."></textarea>
+      <button class="campaign-send-btn" id="campaign-send-btn" onclick="sendCampaign()">Send to All Subscribers</button>
+      <p class="campaign-result" id="campaign-result"></p>
+      <div class="campaign-history" id="campaign-history" style="display:none">
+        <h3>Recent Campaigns</h3>
+        <div id="campaign-list"></div>
+      </div>
+    </div>
+  </div>
+
   <script>
     let adminKey = '';
 
@@ -102,7 +167,100 @@
       const { requests } = await res.json();
       document.getElementById('login-view').style.display = 'none';
       document.getElementById('requests-view').style.display = 'block';
+      document.getElementById('campaign-view').style.display = 'block';
       renderRequests(requests);
+
+      // Try same key for campaigns — works if CAMPAIGN_ADMIN_KEY matches songs key
+      document.getElementById('campaign-key-input').value = key;
+      const cr = await fetch(`/api/subscribe?admin=1&key=${encodeURIComponent(key)}`);
+      if (cr.ok) loadCampaigns();
+    }
+
+    let campaignKey = '';
+
+    async function loadCampaigns() {
+      const keyEl = document.getElementById('campaign-key-input');
+      campaignKey = keyEl.value.trim() || adminKey;
+      if (!campaignKey) return;
+
+      const [subRes, campRes] = await Promise.all([
+        fetch(`/api/subscribe?admin=1&key=${encodeURIComponent(campaignKey)}`),
+        fetch(`/api/campaign?admin=1&key=${encodeURIComponent(campaignKey)}`),
+      ]);
+
+      if (!subRes.ok) {
+        keyEl.style.borderColor = '#f44';
+        return;
+      }
+
+      document.getElementById('campaign-key-row').style.display = 'none';
+      document.getElementById('campaign-compose').style.display = 'block';
+
+      const { count } = await subRes.json();
+      document.getElementById('campaign-sub-count').textContent = `${count} subscriber${count !== 1 ? 's' : ''}`;
+
+      if (campRes.ok) {
+        const { campaigns } = await campRes.json();
+        if (campaigns && campaigns.length) {
+          const history = document.getElementById('campaign-history');
+          const list    = document.getElementById('campaign-list');
+          history.style.display = 'block';
+          list.innerHTML = campaigns.map(c => {
+            const d = c.sentAt ? new Date(c.sentAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+            return `<div class="campaign-row">
+              <div class="campaign-row-subject">${esc(c.subject)}</div>
+              <div class="campaign-row-meta">${d} &nbsp;&bull;&nbsp; ${c.sent} sent &nbsp;&bull;&nbsp; ${c.failed} failed</div>
+            </div>`;
+          }).join('');
+        }
+      }
+    }
+
+    async function sendCampaign() {
+      const subject = document.getElementById('campaign-subject').value.trim();
+      const body    = document.getElementById('campaign-body').value.trim();
+      const result  = document.getElementById('campaign-result');
+      const btn     = document.getElementById('campaign-send-btn');
+
+      if (!subject || !body) {
+        result.style.display = 'block';
+        result.style.color = 'var(--red)';
+        result.textContent = 'Subject and body are both required.';
+        return;
+      }
+
+      const subCount = document.getElementById('campaign-sub-count').textContent;
+      if (!confirm(`Send to ${subCount}?`)) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      result.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/campaign', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subject, body, key: campaignKey }),
+        });
+        const data = await res.json();
+        result.style.display = 'block';
+        if (res.ok) {
+          result.style.color = 'var(--green)';
+          result.textContent = `Done. ${data.sent} sent${data.failed ? `, ${data.failed} failed` : ''}. The band has been heard.`;
+          document.getElementById('campaign-subject').value = '';
+          document.getElementById('campaign-body').value = '';
+        } else {
+          result.style.color = 'var(--red)';
+          result.textContent = data.error || 'Send failed.';
+        }
+      } catch {
+        result.style.display = 'block';
+        result.style.color = 'var(--red)';
+        result.textContent = 'Network error. Try again.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send to All Subscribers';
+      }
     }
 
     function renderRequests(requests) {
