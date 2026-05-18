@@ -3644,3 +3644,95 @@ code {
   line-height: 1.6;
   font-style: italic;
 }
+
+/* ── Subscribe form (noise page) ── */
+.subscribe-aside {
+  width: 100%;
+  max-width: 700px;
+  margin: 32px auto 0;
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  padding: 32px 40px;
+}
+
+.subscribe-eyebrow {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin: 0 0 12px;
+}
+
+.subscribe-body {
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+  margin: 0 0 20px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.subscribe-form {
+  display: flex;
+  gap: 8px;
+}
+
+.subscribe-input {
+  flex: 1;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--border-dim);
+  color: #fff;
+  padding: 11px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  border-radius: 2px;
+  min-width: 0;
+}
+
+.subscribe-input:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+.subscribe-btn {
+  background: transparent;
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 11px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+  border-radius: 2px;
+}
+
+.subscribe-btn:hover {
+  background: var(--green);
+  color: #000;
+}
+
+.subscribe-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.subscribe-status {
+  font-size: 12px;
+  margin: 10px 0 0;
+  letter-spacing: 0.5px;
+}
+
+.subscribe-status.success { color: var(--green); }
+.subscribe-status.error   { color: #f44; }
+
+@media (max-width: 480px) {
+  .subscribe-aside { padding: 24px 20px; }
+  .subscribe-form { flex-direction: column; }
+  .subscribe-btn { width: 100%; padding: 13px; }
+}

@@ -1300,3 +1300,4 @@ function initMagnetPage() {
     setInterval(renderDashboard, 30_000);
   }
 }
+

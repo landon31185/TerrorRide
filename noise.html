@@ -133,6 +133,13 @@
               </div>
               <div class="gov-error gov-error-check" id="err-oath">You must affirm this statement before submitting.</div>
 
+              <div class="gov-field gov-check-row">
+                <input class="gov-checkbox" type="checkbox" id="g-subscribe">
+                <label class="gov-check-label" for="g-subscribe">
+                  Also add me to the Terror Ride mailing list. Band news only. Not Greg's emergencies.
+                </label>
+              </div>
+
               <div class="gov-case-ref">
                 Case Reference: <strong>#WS-2024-00048</strong> &nbsp;&bull;&nbsp;
                 District: West Seattle &nbsp;&bull;&nbsp;
@@ -205,6 +212,8 @@
       btn.disabled = true;
       btn.textContent = 'Submitting to City of Seattle...';
 
+      const subscribe = document.getElementById('g-subscribe');
+
       let num = Math.floor(Math.random() * 500) + 3223;
       try {
         const res = await fetch('/api/complaints', {
@@ -217,6 +226,14 @@
           if (data.number) num = data.number;
         }
       } catch (_) {}
+
+      if (subscribe.checked) {
+        fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email.value.trim() }),
+        }).catch(() => {});
+      }
 
       const caseRef = `#WS-${num}`;
       document.getElementById('gov-form').style.display = 'none';
