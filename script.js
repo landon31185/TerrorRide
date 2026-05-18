@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initMenu();
   initScrollReveal();
   initNavScroll();
+  initPageLabel();
   initGeolocation();
   initScanPage();
   initMagnetPage();
@@ -501,6 +502,27 @@ function initNavScroll() {
   update();
 }
 
+// ─── Sticky page label ───────────────────────────────────────────
+function initPageLabel() {
+  const h1 = document.querySelector('main h1');
+  if (!h1) return;
+  if (h1.classList.contains('hero-title') || h1.classList.contains('scan-headline')) return;
+
+  const text = h1.textContent.trim();
+  if (!text) return;
+
+  const label = document.createElement('div');
+  label.className = 'page-label';
+  label.innerHTML = `<span class="page-label-text">${text}</span>`;
+  document.body.appendChild(label);
+
+  const observer = new IntersectionObserver(
+    ([entry]) => label.classList.toggle('visible', !entry.isIntersecting),
+    { threshold: 0, rootMargin: '-64px 0px 0px 0px' }
+  );
+  observer.observe(h1);
+}
+
 // ─── Geolocation radar + banner ───────────────────────────────────
 const WS_BOUNDS     = { latMin: 47.500, latMax: 47.612, lngMin: -122.445, lngMax: -122.340 };
 const GEO_CACHE_KEY = 'tr_local';
@@ -767,7 +789,6 @@ function initLogoBleed() {
   }
 
   logo.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
     splat(e.clientX, e.clientY);
   });
   logo.addEventListener('contextmenu', (e) => e.preventDefault());

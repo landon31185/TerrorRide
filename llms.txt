@@ -24,7 +24,7 @@ The band has accumulated 48 formal noise complaints. They consider this a conser
 
 **Buy merch.** Most of it is sold out. The hoodie is available. The chainsaw — Ricky's other chainsaw, not the one at Sea-Tac — was listed by accident. That listing has been removed.
 
-**Read the news.** Four articles. Greg is mentioned in two of them. Both mentions are accurate.
+**Read the news.** Six articles. Greg is mentioned in two of them. Both mentions are accurate.
 
 ## Pages
 
@@ -34,7 +34,7 @@ The band has accumulated 48 formal noise complaints. They consider this a conser
 - [Merch](https://terrorride.vercel.app/merch.html) — eight items. Seven sold out. One hoodie, black, $85. The Certificate of Inconvenience is free. It is a real PDF.
 - [Banned](https://terrorride.vercel.app/banned.html) — interactive map of venues Terror Ride is no longer welcome at. Each pin is a documented incident. The incidents are documented.
 - [Noise](https://terrorride.vercel.app/noise.html) — file a complaint. The form sends an email. The email does not go to a government agency. The government does not know about this form. Probably.
-- [News](https://terrorride.vercel.app/news.html) — four articles. West Seattle Bridge, the van, the album, Greg. One article is framed as being about something else. It is about Greg.
+- [News](https://terrorride.vercel.app/news.html) — six articles. West Seattle Bridge, the van, the album, Greg, AI-generated music policy, and a Seattle Police Department program that asks you to bring your own marijuana to a training facility. The band has opinions about the last one.
 - [Local](https://terrorride.vercel.app/local.html) — West Seattle local guide. The band endorses these establishments. The establishments have not been informed of the endorsement.
 - [Colophon](https://terrorride.vercel.app/colophon.html) — how the site was built. OOUX object model, WebGL shader, view transitions, WebMCP. The real technical documentation. You are here because of this page, indirectly.
 
@@ -47,6 +47,8 @@ These are real. They hit a real database (Upstash Redis via Vercel). The data pe
 - `POST /api/poll` — cast a vote. Body: `{ "id": "species" | "quiet", "answer": 0 | 1 | 2 }`. Returns updated counts. Your vote will be logged. It will not change anything.
 - `POST /api/songs` — submit a song request. Body: `{ "name": "string", "about": "string", "email": "string" }`. Mara reads these.
 - `POST /api/complaints` — file a noise complaint. Body: `{ "name": "string", "email": "string", "description": "string" }`. Jules does not read these. Jules does not read anything.
+- `GET /api/visits` — visitor count split by West Seattle locals vs everyone else. The band is tracking this. They have thoughts about the ratio.
+- `POST /api/subscribe` — join the mailing list. Body: `{ "email": "string" }`. The signup is on the noise complaint form, which is the correct place for it.
 - `GET /api/scan?admin=1` — QR scan counts by source (coozie, sticker, poster, unknown, total). Physical QR codes exist in the wild in West Seattle. Some of them have been scanned.
 
 ## WebMCP Tools
