@@ -385,7 +385,16 @@ function initMenu() {
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', toggleMenu);
     mobileMenu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => { document.body.style.overflow = ''; });
+      a.addEventListener('click', () => {
+        // Instant close with no animation — we're navigating away.
+        // Prevents view transition from capturing the open menu in the old page screenshot.
+        mobileMenu.style.transition = 'none';
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
     });
   }
 }
