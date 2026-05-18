@@ -1,4 +1,4 @@
-const VALID_IDS = new Set(['species', 'quiet']);
+const POLL_SIZES = { species: 3, quiet: 3, nimby: 6 };
 
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -17,19 +17,18 @@ module.exports = async function handler(req, res) {
   };
 
   const id = req.method === 'POST' ? req.body?.id : req.query?.id;
-  if (!VALID_IDS.has(id)) return res.status(400).json({ error: 'Invalid poll' });
+  const size = POLL_SIZES[id];
+  if (!size) return res.status(400).json({ error: 'Invalid poll' });
 
   if (req.method === 'POST') {
     const answer = parseInt(req.body?.answer);
-    if (![0, 1, 2].includes(answer)) return res.status(400).json({ error: 'Invalid answer' });
+    if (isNaN(answer) || answer < 0 || answer >= size) return res.status(400).json({ error: 'Invalid answer' });
     await redis([['INCR', `poll:${id}:${answer}`]]);
   }
 
-  const results = await redis([
-    ['GET', `poll:${id}:0`],
-    ['GET', `poll:${id}:1`],
-    ['GET', `poll:${id}:2`],
-  ]);
+  const results = await redis(
+    Array.from({ length: size }, (_, i) => ['GET', `poll:${id}:${i}`])
+  );
 
   res.json({ counts: results.map(r => parseInt(r.result) || 0) });
 };

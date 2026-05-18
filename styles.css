@@ -247,7 +247,8 @@ p {
   transition: transform 0.5s ease, opacity 0.5s ease; /* Added opacity for fade effect */
   z-index: 1000;
   transform: translateY(100%); /* Initially off-screen */
-  opacity: 0; /* Start fully transparent */
+  opacity: 0;
+  visibility: hidden;
   justify-content: center;
   align-items: flex-start;
   padding-top: 10%;
@@ -255,8 +256,9 @@ p {
 }
 
 .mobile-menu.open {
-  transform: translateY(0); /* Slide in to position */
-  opacity: 1; /* Make the menu fully visible */
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
 }
 
 .mobile-menu-items {
@@ -1833,7 +1835,7 @@ a.logo-link {
 /* ── Homepage hero ────────────────────────────────────────── */
 .hero {
   width: 100%;
-  min-height: calc(100dvh - var(--nav-height));
+  min-height: calc(100dvh - var(--nav-height) - 80px);
   display: flex;
   align-items: center;
   justify-content: center;

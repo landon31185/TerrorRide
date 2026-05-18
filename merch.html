@@ -37,7 +37,7 @@
     </div>
   </nav>
 
-  <div class="mobile-menu">
+  <div class="mobile-menu" aria-hidden="true">
     <video autoplay loop muted playsinline class="menu-bg-video">
       <source src="output.mp4" type="video/mp4">
       <source src="output.webm" type="video/webm">
@@ -120,7 +120,7 @@
         <div class="merch-art merch-art-photo">
           <img src="images/IMG_3215.png" alt="Terror Ride Black Hoodie with logo" class="merch-photo" loading="lazy">
         </div>
-        <p class="merch-name">Terror Ride Hoodie — Black</p>
+        <p class="merch-name">Terror Ride Hoodie, Black</p>
         <p class="merch-note">Logo front. Heavy cotton. Smells like the van.</p>
         <p class="merch-price">$85</p>
         <button class="merch-btn available">Buy Now</button>
@@ -146,7 +146,7 @@
 
       <div class="merch-card available reveal">
         <div class="merch-art">CERTIFICATE<br>OF<br>INCONVENIENCE</div>
-        <p class="merch-name">Certificate of Inconvenience — Official</p>
+        <p class="merch-name">Certificate of Inconvenience, Official</p>
         <p class="merch-note">Proof you survived a Terror Ride show. Suitable for framing. Printable.</p>
         <p class="merch-price">$0.00</p>
         <button class="merch-btn available" onclick="printCertificate()">Claim Yours</button>
@@ -191,7 +191,7 @@
           #certificate-print .sig { margin-top: 48px; font-size: 13px; display: flex; justify-content: space-around; }
           #certificate-print .sig div { border-top: 1px solid #000; padding-top: 8px; min-width: 140px; }
         </style>
-        <h2>West Seattle, WA — Est. 2009</h2>
+        <h2>West Seattle, WA. Est. 2009</h2>
         <h1>TERROR RIDE</h1>
         <div class="seal">🤘</div>
         <p><em>This certifies that the bearer has been</em></p>
@@ -214,5 +214,6 @@
     </div>
   </footer>
 
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

@@ -1,4 +1,6 @@
 const POLLS = [
+  { id: 'nimby',   q: 'Which neighborhood would be fastest to report a rager of a Terror Ride show?',
+    a: ['North Admiral', 'Shorewood', 'Alki / Beach Drive', 'Fairmont', 'Shorewood / Seola Beach', 'Genesee'] },
   { id: 'species', q: 'Are we fucked as a species?',
     a: ["We're so fucked", 'Hardcore til I die', 'We will have to see'] },
   { id: 'quiet',   q: 'Should bands play quieter out of respect for the neighborhood?',
@@ -8,7 +10,7 @@ const POLLS = [
 document.addEventListener('DOMContentLoaded', function () {
   initShaderBackground();
   initCursorTrail();
-  initPoll();
+  // initPoll(); // paused
   initPollResults();
   initMenu();
   initScrollReveal();
@@ -136,8 +138,7 @@ function initPollResults() {
   const totEl  = document.getElementById('hp-poll-total');
   if (!qEl) return;
 
-  const weekNum = Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7));
-  const poll = POLLS[weekNum % POLLS.length];
+  const poll = POLLS[0];
 
   qEl.textContent = poll.q;
 
@@ -383,7 +384,14 @@ function initMenu() {
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', toggleMenu);
     mobileMenu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => { document.body.style.overflow = ''; });
+      a.addEventListener('click', () => {
+        mobileMenu.style.transition = 'none';
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        unlockBodyScroll();
+      });
     });
   }
 }
@@ -395,6 +403,22 @@ document.addEventListener('visibilitychange', function () {
   }
 });
 
+let _menuScrollY = 0;
+
+function lockBodyScroll() {
+  _menuScrollY = window.scrollY;
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${_menuScrollY}px`;
+  document.body.style.width = '100%';
+}
+
+function unlockBodyScroll() {
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, _menuScrollY);
+}
+
 function toggleMenu() {
   const mobileMenu = document.querySelector('.mobile-menu');
   const hamburger  = document.querySelector('.hamburger-container');
@@ -404,7 +428,9 @@ function toggleMenu() {
   hamburger.classList.toggle('open');
 
   const isOpen = mobileMenu.classList.contains('open');
-  document.body.style.overflow = isOpen ? 'hidden' : '';
+  mobileMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+  hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  isOpen ? lockBodyScroll() : unlockBodyScroll();
 
   if (isOpen) {
     const video = mobileMenu.querySelector('.menu-bg-video');
@@ -854,7 +880,7 @@ function initWebMCP() {
     inputSchema: {
       type: 'object',
       properties: {
-        id: { type: 'string', enum: ['species', 'quiet'], description: 'Poll ID: "species" = "Are we fucked as a species?", "quiet" = "Should bands play quieter?"' },
+        id: { type: 'string', enum: ['species', 'quiet', 'nimby'], description: 'Poll ID: "species" = "Are we fucked as a species?", "quiet" = "Should bands play quieter?", "nimby" = "Which neighborhood would be fastest to report a Terror Ride show?"' },
       },
       required: ['id'],
     },
@@ -883,7 +909,7 @@ function initWebMCP() {
     inputSchema: {
       type: 'object',
       properties: {
-        id:     { type: 'string',  enum: ['species', 'quiet'], description: 'Poll ID' },
+        id:     { type: 'string',  enum: ['species', 'quiet', 'nimby'], description: 'Poll ID. Answer index must be 0–2 for species/quiet, 0–5 for nimby.' },
         answer: { type: 'integer', enum: [0, 1, 2],            description: 'Answer index (0, 1, or 2)' },
       },
       required: ['id', 'answer'],
