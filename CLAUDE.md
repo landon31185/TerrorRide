@@ -32,6 +32,10 @@ West Seattle noise metal band. Comedic but committed to the bit. Never winking a
 - Tone: deadpan, self-serious, occasionally threatening
 - Do NOT make it cute. It should feel like it could be real.
 
+### Hard Copy Rules
+- **No em-dashes** (—) anywhere in visible page copy. Use commas, periods, or rewrite the sentence. `--` is acceptable for sign-offs only.
+- **1-2 deliberate misspellings per content update** — transposed letters, wrong homophone, dropped letter. Subtle. Scattered. Makes the copy read human, not generated.
+
 ---
 
 ## Tech Stack
