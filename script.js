@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
   initLogoBleed();
   initCarousel();
   initWebMCP();
-  initSubscribeForm();
 });
 
 // ─── Pop-up poll ──────────────────────────────────────────────────
@@ -1302,42 +1301,3 @@ function initMagnetPage() {
   }
 }
 
-// ─── Email subscribe form (noise page) ───────────────────────────
-function initSubscribeForm() {
-  const form   = document.getElementById('subscribe-form');
-  if (!form) return;
-  const status = document.getElementById('subscribe-status');
-  const btn    = form.querySelector('.subscribe-btn');
-
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    const email = document.getElementById('subscribe-email').value.trim();
-    if (!email) return;
-
-    btn.disabled = true;
-    status.textContent = '';
-    status.className = 'subscribe-status';
-
-    try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-      if (res.ok) {
-        status.className = 'subscribe-status success';
-        status.textContent = 'You\'re on the list. We\'ll be in touch. Probably.';
-        form.reset();
-      } else {
-        const data = await res.json();
-        status.className = 'subscribe-status error';
-        status.textContent = data.error === 'Invalid email' ? 'That doesn\'t look like an email.' : 'Something went wrong. Try again.';
-        btn.disabled = false;
-      }
-    } catch {
-      status.className = 'subscribe-status error';
-      status.textContent = 'Network error. Try again.';
-      btn.disabled = false;
-    }
-  });
-}
