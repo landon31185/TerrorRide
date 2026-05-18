@@ -385,14 +385,12 @@ function initMenu() {
     hamburger.addEventListener('click', toggleMenu);
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
-        // Instant close with no animation — we're navigating away.
-        // Prevents view transition from capturing the open menu in the old page screenshot.
         mobileMenu.style.transition = 'none';
         mobileMenu.classList.remove('open');
         mobileMenu.setAttribute('aria-hidden', 'true');
         hamburger.classList.remove('open');
         hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        unlockBodyScroll();
       });
     });
   }
@@ -405,6 +403,22 @@ document.addEventListener('visibilitychange', function () {
   }
 });
 
+let _menuScrollY = 0;
+
+function lockBodyScroll() {
+  _menuScrollY = window.scrollY;
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${_menuScrollY}px`;
+  document.body.style.width = '100%';
+}
+
+function unlockBodyScroll() {
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, _menuScrollY);
+}
+
 function toggleMenu() {
   const mobileMenu = document.querySelector('.mobile-menu');
   const hamburger  = document.querySelector('.hamburger-container');
@@ -416,7 +430,7 @@ function toggleMenu() {
   const isOpen = mobileMenu.classList.contains('open');
   mobileMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
   hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  document.body.style.overflow = isOpen ? 'hidden' : '';
+  isOpen ? lockBodyScroll() : unlockBodyScroll();
 
   if (isOpen) {
     const video = mobileMenu.querySelector('.menu-bg-video');
