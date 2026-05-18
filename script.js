@@ -138,8 +138,7 @@ function initPollResults() {
   const totEl  = document.getElementById('hp-poll-total');
   if (!qEl) return;
 
-  const weekNum = Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7));
-  const poll = POLLS[weekNum % POLLS.length];
+  const poll = POLLS[0];
 
   qEl.textContent = poll.q;
 
