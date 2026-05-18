@@ -205,8 +205,10 @@ p {
   height: 3px;
   background-color: white;
   border-radius: 2px;
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity   0.2s  ease-out;
+  transition: transform          0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              top                0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color   0.2s  ease-out,
+              opacity            0.2s  ease-out;
   position: absolute;
 }
 
@@ -461,8 +463,8 @@ main {
   border: 1px solid var(--green);
   color: var(--green);
   font-size: 10px;
-  width: 26px;
-  height: 26px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -667,6 +669,9 @@ main {
   border: 1px solid #24e39d;
   color: #24e39d;
   padding: 8px 18px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
   font-size: 12px;
   text-transform: uppercase;
@@ -678,6 +683,7 @@ main {
   background: #24e39d;
   color: #000;
 }
+.stream-btn:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 
 @media (max-width: 600px) {
   .album-card {
@@ -990,6 +996,10 @@ main {
   border: 1px solid #2a2a2a;
   color: #444;
   padding: 9px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -1008,6 +1018,7 @@ main {
   background: var(--green);
   color: #000;
 }
+.merch-btn.available:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 
 /* ── Banned map page ──────────────────────────────────────── */
 .map-wrap {
@@ -1310,14 +1321,16 @@ main {
   border: 1px solid rgba(255,255,255,0.15);
   color: rgba(255,255,255,0.7);
   font-family: 'HFucktura-Heavy', sans-serif;
-  font-size: 11px; letter-spacing: 1.5px;
+  font-size: 13px; letter-spacing: 1.5px;
   text-transform: uppercase;
   padding: 13px 16px; text-align: left;
+  min-height: 44px;
   cursor: pointer;
   transition: border-color 0.2s, color 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
 .poll-btn:hover { border-color: var(--green); color: var(--green); }
+.poll-btn:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 .poll-btn:disabled { opacity: 0.4; cursor: default; }
 
 #poll-results { display: flex; flex-direction: column; gap: 14px; }
@@ -1375,7 +1388,7 @@ main {
 
 .song-request-eyebrow {
   font-family: 'HFucktura-Heavy', sans-serif;
-  font-size: 10px; letter-spacing: 4px;
+  font-size: 11px; letter-spacing: 4px;
   text-transform: uppercase; color: var(--green);
   margin: 0 0 12px;
 }
@@ -1406,11 +1419,12 @@ main {
   background: transparent; border: 1px solid var(--green);
   color: var(--green); font-family: 'HFucktura-Heavy', sans-serif;
   font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-  padding: 13px 28px; cursor: pointer;
+  padding: 13px 28px; min-height: 44px; cursor: pointer;
   transition: background 0.2s, color 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
 .song-submit-btn:hover { background: var(--green); color: #000; }
+.song-submit-btn:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 .song-submit-btn:disabled { opacity: 0.4; cursor: default; }
 
 .song-request-note {
@@ -1653,6 +1667,10 @@ main {
   border: 1px solid #2a2a2a;
   color: #444;
   padding: 9px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -1671,6 +1689,7 @@ main {
   background: var(--green);
   color: #000;
 }
+.merch-btn.available:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 
 /* ─── Banned map page ─────────────────────────────────────────── */
 .map-wrap {
@@ -2132,7 +2151,7 @@ a.logo-link {
 .gov-label {
   display: block;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   color: #1a1a1a;
   margin-bottom: 5px;
@@ -2156,7 +2175,7 @@ a.logo-link {
   border: 1px solid #aaa;
   background: #fff;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   color: #1a1a1a;
   padding: 7px 10px;
   border-radius: 0;
@@ -2307,12 +2326,14 @@ a.logo-link {
   font-size: 13px;
   font-weight: bold;
   padding: 11px 28px;
+  min-height: 44px;
   cursor: pointer;
   transition: background 0.15s;
   letter-spacing: 0.2px;
   align-self: flex-start;
   -webkit-tap-highlight-color: transparent;
 }
+.gov-submit-btn:focus-visible { outline: 3px solid #6aa3f5; outline-offset: 3px; }
 .gov-submit-btn:hover  { background: #2d5ca8; }
 .gov-submit-btn:active { background: #0f2a50; }
 
@@ -2457,8 +2478,8 @@ a.logo-link {
   backdrop-filter: blur(12px);
   border: 1px solid var(--green);
   color: var(--green);
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2488,8 +2509,14 @@ a.logo-link {
   background: #333;
   border: 1px solid #444;
   padding: 0;
+  position: relative;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.dot::before {
+  content: '';
+  position: absolute;
+  inset: -18px;
 }
 .dot:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 .dot.active {
@@ -2524,7 +2551,7 @@ a.logo-link {
 
 .news-card-date {
   font-family: 'HFucktura-Heavy', sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--green);
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -2544,7 +2571,7 @@ a.logo-link {
 }
 
 .news-card-excerpt {
-  font-size: 13px;
+  font-size: 14px;
   color: #999;
   line-height: 1.55;
   margin: 0;
