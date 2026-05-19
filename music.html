@@ -121,17 +121,20 @@
     </section>
 
     <section class="song-request-section">
-      <p class="song-request-eyebrow">Got an Idea?</p>
+      <h2 class="song-request-eyebrow">Got an Idea?</h2>
       <p class="song-request-desc">Tell us what you want a song to be about. If it has legs, we'll email you a preview when it's ready. No promises. Don't follow up.</p>
       <form class="song-request-form" id="song-form" novalidate
             toolname="request_song"
             tooldescription="Request a song for Terror Ride to write and play at their next show">
         <div class="song-request-fields">
           <textarea name="about" placeholder="What should we write about?" required autocomplete="off" rows="3"
+                    aria-label="What should we write about?"
                     toolparamdescription="What the song should be about — topic, vibe, a specific incident, a person who wronged you"></textarea>
           <input type="text"  name="name"  placeholder="Your name"    required autocomplete="name"
+                 aria-label="Your name"
                  toolparamdescription="Your name">
           <input type="email" name="email" placeholder="Your email"   required autocomplete="email"
+                 aria-label="Your email"
                  toolparamdescription="Your email — we'll send a preview when the song is ready">
         </div>
         <button type="submit" class="song-submit-btn">Submit Request</button>
