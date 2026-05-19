@@ -108,25 +108,25 @@
 
               <div class="gov-field">
                 <label class="gov-label" for="g-name">Full Legal Name <span class="gov-req">*</span></label>
-                <input class="gov-input" type="text" id="g-name" placeholder="Put in your real name, no fake names tough guy." required>
+                <input class="gov-input" type="text" id="g-name" placeholder="Put in your real name, no fake names tough guy." required aria-describedby="err-name">
                 <div class="gov-error" id="err-name">You forgot to enter your name. Did you just think we'd magically know who you are?</div>
               </div>
 
               <div class="gov-field">
                 <label class="gov-label" for="g-email">Email Address <span class="gov-req">*</span></label>
-                <input class="gov-input" type="email" id="g-email" placeholder="We will send you a reference # after you submit. Seriously. Try it." required>
+                <input class="gov-input" type="email" id="g-email" placeholder="We will send you a reference # after you submit. Seriously. Try it." required aria-describedby="err-email">
                 <div class="gov-error" id="err-email">You forgot to enter your email. Is this your first time using the internet?</div>
               </div>
 
               <div class="gov-field">
                 <label class="gov-label" for="g-desc">Description of Noise Incident <span class="gov-req">*</span></label>
                 <p class="gov-field-note">Include date, time, and location of the incident. Describe the nature of the disturbance in detail. Do not use profanity. (We understand if you do.)</p>
-                <textarea class="gov-textarea" id="g-desc" rows="6" placeholder="Let it all out, Karen." required></textarea>
+                <textarea class="gov-textarea" id="g-desc" rows="6" placeholder="Let it all out, Karen." required aria-describedby="err-desc"></textarea>
                 <div class="gov-error" id="err-desc">You came all this way just to not tell us what you're mad about. Fill out the form.</div>
               </div>
 
               <div class="gov-field gov-check-row">
-                <input class="gov-checkbox" type="checkbox" id="g-oath" required>
+                <input class="gov-checkbox" type="checkbox" id="g-oath" required aria-describedby="err-oath">
                 <label class="gov-check-label" for="g-oath">
                   I affirm that the information provided is accurate and that I am not filing this complaint out of a personal grudge against a specific band, their drummer, their vocalist, or the van. <span class="gov-req">*</span>
                 </label>
@@ -210,6 +210,7 @@
       if (!valid) return;
 
       btn.disabled = true;
+      btn.setAttribute('aria-busy', 'true');
       btn.textContent = 'Submitting to City of Seattle...';
 
       const subscribe = document.getElementById('g-subscribe');

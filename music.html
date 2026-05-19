@@ -240,9 +240,21 @@
         audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
       });
 
-      // Auto-select first track on load
+      // Auto-select first track on load — show player UI but don't play
       const firstTrack = document.querySelector('.track-item');
-      if (firstTrack) selectTrack(firstTrack);
+      if (firstTrack) {
+        const src   = firstTrack.dataset.src;
+        const title = firstTrack.dataset.title;
+        firstTrack.classList.add('track-selected');
+        activeItem = firstTrack;
+        if (src) {
+          idle.style.display   = 'none';
+          active.style.display = 'flex';
+          titleEl.textContent  = title;
+          audio.src = src;
+          audio.load();
+        }
+      }
     })();
   </script>
   <footer class="site-footer">
