@@ -82,6 +82,7 @@ h2 {
   font-size: clamp(1.25rem, calc(1.114rem + 0.682vw), 1.625rem);
   line-height: 1.25;
 }
+}
 
 h3 {
   font-family: 'HFucktura-Heavy', sans-serif;
@@ -89,18 +90,6 @@ h3 {
   line-height: 1.25;
   color: white;
   text-align: center;
-}
-
-h3 {
-  font-family: 'HFucktura-Heavy', sans-serif;
-  color: white;
-  font-size: 18px;
-}
-
-h3 {
-  font-family: 'HFucktura-Heavy', sans-serif;
-  color: white;
-  font-size: 18px;
 }
 
 p {
