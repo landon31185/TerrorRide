@@ -299,6 +299,7 @@ border-radius: 4px;
 - [ ] **Dynamic OG images** — Vercel `@vercel/og` function. Share a news article → preview shows headline in HFucktura on lava background.
 - [ ] **Homepage poll results** — needs real votes to look good. Cast some via the pop-up poll first.
 - [ ] **`/?unsub=1` page state** — unsubscribe redirect lands on homepage with no feedback. Add a toast or banner for "You've been unsubscribed."
+- [ ] **Album tracks 02-05 have no audio** — `music.html` track list: "Debt Machine", "Quarterly Funeral", "The Shareholders Are Screaming", "West Seattle Burning" all have `data-src=""`. Don't wire up play buttons or stream links until files exist. Add `pcc.mp3` pattern: drop file in repo root, set `data-src="filename.mp3"`.
 
 ---
 
@@ -306,3 +307,5 @@ border-radius: 4px;
 - Primary branch: `master` → Vercel auto-deploys production on every merge
 - Dev branches: `claude/<feature-name>` → PR → squash merge to master
 - Every merge triggers a production deploy in ~30 seconds
+- **Delete branches after merge** — squash merges leave branches dangling. Always delete the remote branch after a PR is squash-merged so auditing is clean.
+- **One session per branch** — multiple Claude sessions on the same branch cause push conflicts and rebases. Each session takes its own `claude/<feature>` branch.
