@@ -13,6 +13,13 @@
   --ease-ui:        cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out-soft:  cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-spring:    cubic-bezier(0.22, 1, 0.36, 1);
+  /* Typography tokens */
+  --font-size-xs:   0.75rem;
+  --font-size-sm:   0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg:   1.125rem;
+  --line-height-body:    1.6;
+  --line-height-heading: 1.25;
 }
 
 /* Fonts */
@@ -39,6 +46,8 @@ html {
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -62,15 +71,24 @@ h1 {
   text-align: center;
   font-family: 'HFucktura-Heavy', sans-serif;
   color: white;
-  font-size: 28px;
-
+  font-size: clamp(1.5rem, calc(1.318rem + 0.909vw), 2rem);
+  line-height: 1.25;
 }                     
 
 h2 {
   text-align: center;
   font-family: 'HFucktura-Heavy', sans-serif;
   color: white;
-  font-size: 20px;
+  font-size: clamp(1.25rem, calc(1.114rem + 0.682vw), 1.625rem);
+  line-height: 1.25;
+}
+
+h3 {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: clamp(1.125rem, calc(1.08rem + 0.227vw), 1.25rem);
+  line-height: 1.25;
+  color: white;
+  text-align: center;
 }
 
 h3 {
@@ -554,7 +572,7 @@ main {
 
 .tp-time {
   font-family: 'HFucktura-Heavy', sans-serif;
-  font-size: 9px;
+  font-size: 11px;
   color: rgba(255,255,255,0.35);
   letter-spacing: 1px;
   flex-shrink: 0;
@@ -1951,7 +1969,7 @@ a.logo-link {
 
 .release-label {
   font-family: 'HFucktura-Heavy', sans-serif;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--red);
@@ -2682,7 +2700,7 @@ a.logo-link {
 .news-card-tag,
 .article-tag {
   font-family: 'HFucktura-Heavy', sans-serif;
-  font-size: 9px;
+  font-size: 11px;
   color: #aaa;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -3035,7 +3053,7 @@ code {
 
 .footer-colophon {
   font-family: 'HFucktura-Heavy', sans-serif;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: rgba(255,255,255,0.6);
@@ -3473,7 +3491,7 @@ code {
 }
 
 .magnet-stat-label {
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 3px;
   color: rgba(255,255,255,0.4);
   text-transform: uppercase;
@@ -3501,7 +3519,7 @@ code {
 .magnet-table th {
   font-family: 'HFucktura-Heavy', sans-serif;
   color: rgba(255,255,255,0.35);
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 3px;
   text-transform: uppercase;
   padding: 8px 12px;
@@ -3556,7 +3574,7 @@ code {
 .mag-msg  { color: rgba(255,255,255,0.5); font-style: italic; }
 
 .magnet-refresh-note {
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: rgba(255,255,255,0.2);
@@ -3590,7 +3608,7 @@ code {
 
 .hp-visit-eyebrow {
   font-family: 'HFucktura-Heavy', sans-serif;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 4px;
   color: rgba(255,255,255,0.4);
   text-transform: uppercase;
@@ -3612,7 +3630,7 @@ code {
 }
 
 .hp-visit-total-label {
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 3px;
   color: rgba(255,255,255,0.4);
   text-transform: uppercase;
@@ -3798,7 +3816,7 @@ code {
 
 .page-label-text {
   font-family: 'HFucktura-Heavy', sans-serif;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 4px;
   text-transform: uppercase;
   color: rgba(255,255,255,0.75);
