@@ -108,6 +108,7 @@ function initPoll() {
     const btn    = form.querySelector('.song-submit-btn');
     const data   = Object.fromEntries(new FormData(form));
     btn.disabled = true;
+    btn.setAttribute('aria-busy', 'true');
     status.className = 'song-request-note';
     status.textContent = 'Submitting...';
     try {
@@ -127,6 +128,7 @@ function initPoll() {
       status.className = 'song-request-note error';
       status.textContent = 'Something went wrong. Try again.';
       btn.disabled = false;
+      btn.removeAttribute('aria-busy');
     }
   });
 })();
@@ -392,6 +394,12 @@ function initMenu() {
         hamburger.setAttribute('aria-expanded', 'false');
         unlockBodyScroll();
       });
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        toggleMenu();
+        hamburger.focus();
+      }
     });
   }
 }

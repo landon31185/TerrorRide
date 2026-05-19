@@ -73,6 +73,12 @@ h2 {
   font-size: 20px;
 }
 
+h3 {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  color: white;
+  font-size: 18px;
+}
+
 p {
   color: white;
   font-size: 16px;
@@ -475,6 +481,7 @@ main {
 }
 
 .track-play-btn:hover { background: var(--green); color: #000; }
+.track-play-btn:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 
 /* ── Embedded track player ────────────────────────────────── */
 .track-player {
