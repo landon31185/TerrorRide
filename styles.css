@@ -271,6 +271,7 @@ p {
   justify-content: center;
   align-items: flex-start;
   padding-top: 10%;
+  overflow-y: auto;
   will-change: transform, opacity; /* Ensure smooth transition of both properties */
 }
 
