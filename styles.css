@@ -1956,8 +1956,8 @@ a.logo-link {
 }
 
 @media (max-width: 600px) {
-  .hero-cta { flex-direction: column; align-items: stretch; }
-  .btn-cta   { text-align: center; }
+  .hero-cta { flex-direction: column; align-items: stretch; width: 100%; }
+  .btn-cta   { text-align: center; width: 100%; }
 }
 
 .hero-bottom {
