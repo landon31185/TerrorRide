@@ -82,6 +82,7 @@ h2 {
   font-size: clamp(1.25rem, calc(1.114rem + 0.682vw), 1.625rem);
   line-height: 1.25;
 }
+}
 
 h3 {
   font-family: 'HFucktura-Heavy', sans-serif;
@@ -89,12 +90,6 @@ h3 {
   line-height: 1.25;
   color: white;
   text-align: center;
-}
-
-h3 {
-  font-family: 'HFucktura-Heavy', sans-serif;
-  color: white;
-  font-size: 18px;
 }
 
 p {
@@ -276,6 +271,7 @@ p {
   justify-content: center;
   align-items: flex-start;
   padding-top: 10%;
+  overflow-y: auto;
   will-change: transform, opacity; /* Ensure smooth transition of both properties */
 }
 
@@ -1957,6 +1953,11 @@ a.logo-link {
   border-color: white;
   color: white;
   background: rgba(255,255,255,0.06);
+}
+
+@media (max-width: 600px) {
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .btn-cta   { text-align: center; }
 }
 
 .hero-bottom {
