@@ -423,7 +423,6 @@ function initMenu() {
     hamburger.addEventListener('click', toggleMenu);
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
-        mobileMenu.style.transition = 'none';
         mobileMenu.classList.remove('open');
         mobileMenu.setAttribute('aria-hidden', 'true');
         hamburger.classList.remove('open');
