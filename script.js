@@ -140,26 +140,61 @@ function initPollResults() {
   const totEl  = document.getElementById('hp-poll-total');
   if (!qEl) return;
 
-  const poll = POLLS[0];
+  const poll    = POLLS[0];
+  const lsKey   = `tr_voted_${poll.id}`;
+  const voted   = localStorage.getItem(lsKey);
 
   qEl.textContent = poll.q;
+
+  function renderResults(counts, votedIdx) {
+    const total = counts.reduce((a, b) => a + b, 0);
+    barsEl.innerHTML = poll.a.map((a, i) => {
+      const pct = total ? Math.round(counts[i] / total * 100) : 0;
+      return `<div class="hp-poll-row">
+        <span class="hp-poll-label">${a}</span>
+        <span class="hp-poll-pct">${pct}%</span>
+        <div class="hp-bar-wrap"><div class="hp-bar${i === votedIdx ? ' hp-bar-voted' : ''}" data-pct="${pct}"></div></div>
+      </div>`;
+    }).join('');
+    totEl.textContent = total ? `${total} vote${total !== 1 ? 's' : ''} so far` : 'No votes yet — be the first.';
+    requestAnimationFrame(() => {
+      barsEl.querySelectorAll('.hp-bar').forEach(b => { b.style.width = b.dataset.pct + '%'; });
+    });
+  }
+
+  function renderButtons() {
+    barsEl.innerHTML = poll.a.map((a, i) =>
+      `<button class="hp-poll-btn" data-i="${i}">${a}</button>`
+    ).join('');
+    totEl.textContent = 'No votes yet — be the first.';
+    barsEl.querySelectorAll('.hp-poll-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const answer = parseInt(btn.dataset.i);
+        barsEl.querySelectorAll('.hp-poll-btn').forEach(b => b.disabled = true);
+        try {
+          const res = await fetch('/api/poll', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: poll.id, answer }),
+          });
+          const { counts } = await res.json();
+          localStorage.setItem(lsKey, answer);
+          renderResults(counts, answer);
+        } catch {
+          barsEl.querySelectorAll('.hp-poll-btn').forEach(b => b.disabled = false);
+        }
+      });
+    });
+  }
 
   fetch(`/api/poll?id=${poll.id}`)
     .then(r => r.json())
     .then(({ counts }) => {
-      const total = counts.reduce((a, b) => a + b, 0);
-      barsEl.innerHTML = poll.a.map((a, i) => {
-        const pct = total ? Math.round(counts[i] / total * 100) : 0;
-        return `<div class="hp-poll-row">
-          <span class="hp-poll-label">${a}</span>
-          <span class="hp-poll-pct">${pct}%</span>
-          <div class="hp-bar-wrap"><div class="hp-bar" data-pct="${pct}"></div></div>
-        </div>`;
-      }).join('');
-      totEl.textContent = total ? `${total} vote${total !== 1 ? 's' : ''} so far` : 'No votes yet — be the first.';
-      requestAnimationFrame(() => {
-        barsEl.querySelectorAll('.hp-bar').forEach(b => { b.style.width = b.dataset.pct + '%'; });
-      });
+      if (voted !== null) {
+        renderResults(counts, parseInt(voted));
+      } else {
+        renderButtons();
+      }
     })
     .catch(() => { qEl.closest('.hp-poll-section').style.display = 'none'; });
 }
