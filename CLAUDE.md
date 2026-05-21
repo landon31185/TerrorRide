@@ -309,3 +309,9 @@ border-radius: 4px;
 - Every merge triggers a production deploy in ~30 seconds
 - **Delete branches after merge** — squash merges leave branches dangling. Always delete the remote branch after a PR is squash-merged so auditing is clean.
 - **One session per branch** — multiple Claude sessions on the same branch cause push conflicts and rebases. Each session takes its own `claude/<feature>` branch.
+- **Reset branch to master after every squash merge** — squash merge creates a new commit on master that doesn't match the branch's history. If the branch isn't reset, the next rebase replays old commits against their own squashed versions and conflicts. After each PR merges, run:
+  ```bash
+  git fetch origin
+  git reset --hard origin/master
+  git push --force-with-lease origin <branch-name>
+  ```

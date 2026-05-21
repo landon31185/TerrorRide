@@ -1957,7 +1957,7 @@ a.logo-link {
 
 @media (max-width: 600px) {
   .hero-cta { flex-direction: column; align-items: stretch; width: 100%; }
-  .btn-cta   { text-align: center; width: 100%; }
+  .btn-cta   { text-align: center; width: 100%; box-sizing: border-box; }
 }
 
 .hero-bottom {
