@@ -142,7 +142,8 @@ function initPollResults() {
 
   const poll    = POLLS[0];
   const lsKey   = `tr_voted_${poll.id}`;
-  const voted   = localStorage.getItem(lsKey);
+  let voted = null;
+  try { voted = localStorage.getItem(lsKey); } catch (_) {}
 
   qEl.textContent = poll.q;
 
@@ -178,7 +179,7 @@ function initPollResults() {
             body: JSON.stringify({ id: poll.id, answer }),
           });
           const { counts } = await res.json();
-          localStorage.setItem(lsKey, answer);
+          try { localStorage.setItem(lsKey, answer); } catch (_) {}
           renderResults(counts, answer);
         } catch {
           barsEl.querySelectorAll('.hp-poll-btn').forEach(b => b.disabled = false);
