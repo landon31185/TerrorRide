@@ -257,10 +257,10 @@ p {
 /* Mobile Menu */
 .mobile-menu {
   position: fixed;
-  top: 64px;
+  top: 0;
   left: 0;
   width: 100%;
-  height: calc(100dvh - 64px); /* Subtract top nav height */
+  height: 100dvh;
   background-color: rgba(0,0,0,0.85);
   transition: transform 0.5s ease, opacity 0.5s ease; /* Added opacity for fade effect */
   z-index: 1000;
