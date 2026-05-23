@@ -425,7 +425,7 @@ main {
   object-fit: cover;
   display: block;
   margin: 0 auto 8px;
-  border-bottom: 3px solid #24e39d;
+  border: 3px solid var(--green);
 }
 
 /* About page — member cards */
