@@ -596,8 +596,15 @@ function initPageLabel() {
 // ─── Geolocation radar + banner ───────────────────────────────────
 const WS_BOUNDS     = { latMin: 47.500, latMax: 47.612, lngMin: -122.445, lngMax: -122.340 };
 const GEO_CACHE_KEY = 'tr_local';
+const GEO_COORDS_KEY = 'tr_geo';
 const GEO_SHOWN_KEY = 'tr_banner';
-const SCAN_MS       = 3200;
+const SCAN_MS       = 1600;
+
+function geoToSvg(lat, lng) {
+  const x = ((lng - (-122.465)) / 0.145) * 200;
+  const y = (1 - (lat - 47.480) / 0.152) * 200;
+  return { x: Math.max(8, Math.min(192, x)), y: Math.max(8, Math.min(192, y)) };
+}
 
 function initGeolocation() {
   if (document.querySelector('.scan-geo')) return; // scan page uses initScanPage
@@ -606,19 +613,21 @@ function initGeolocation() {
 
   const cached = localStorage.getItem(GEO_CACHE_KEY);
   if (cached !== null) {
-    showRadar().then(() => showLocationBanner(cached === 'true'));
+    const cachedCoords = JSON.parse(localStorage.getItem(GEO_COORDS_KEY) || 'null');
+    showRadar().then(() => showRadarResult(cached === 'true', cachedCoords));
     return;
   }
 
   if (!navigator.geolocation) return;
 
-  // Run radar and geolocation in parallel; show banner when both finish
+  // Run radar and geolocation in parallel; show result on radar when both finish
   let localResult = undefined; // undefined=pending, null=denied, bool=result
+  let userCoords  = null;
   let radarDone   = false;
 
   function maybeFinish() {
     if (!radarDone || localResult === undefined) return;
-    if (localResult !== null) showLocationBanner(localResult);
+    if (localResult !== null) showRadarResult(localResult, userCoords);
   }
 
   showRadar().then(() => { radarDone = true; maybeFinish(); });
@@ -629,6 +638,8 @@ function initGeolocation() {
         coords.latitude  > WS_BOUNDS.latMin && coords.latitude  < WS_BOUNDS.latMax &&
         coords.longitude > WS_BOUNDS.lngMin && coords.longitude < WS_BOUNDS.lngMax;
       localStorage.setItem(GEO_CACHE_KEY, String(local));
+      localStorage.setItem(GEO_COORDS_KEY, JSON.stringify({ lat: coords.latitude, lng: coords.longitude }));
+      userCoords  = { lat: coords.latitude, lng: coords.longitude };
       localResult = local;
       maybeFinish();
     },
@@ -648,6 +659,10 @@ function showRadar() {
         <div class="radar-cross h"></div>
         <div class="radar-cross v"></div>
         <div class="radar-sweep"></div>
+        <svg class="radar-map" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <polygon class="ws-peninsula" points="172,66 132,86 95,72 62,71 69,134 79,165 101,154 145,174 161,167"/>
+          <circle class="radar-blip" id="radar-blip" cx="120" cy="90" r="4"/>
+        </svg>
       </div>
       <div class="radar-coords" id="radar-coords">???.???°N  ???.???°W</div>
       <div class="radar-status" id="radar-status">INITIALIZING</div>
@@ -671,10 +686,7 @@ function showRadar() {
       clearInterval(statusIv);
       const el = document.getElementById('radar-status');
       if (el) { el.textContent = 'LOCATION CONFIRMED'; el.style.color = 'var(--green)'; }
-      setTimeout(() => {
-        overlay.classList.remove('visible');
-        overlay.addEventListener('transitionend', () => { overlay.remove(); resolve(); }, { once: true });
-      }, 700);
+      resolve();
     }, SCAN_MS);
   });
 }
@@ -684,6 +696,24 @@ function dismissRadar() {
   if (!overlay) return;
   overlay.classList.remove('visible');
   overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+}
+
+function showRadarResult(local, coords) {
+  const blip = document.getElementById('radar-blip');
+  if (blip) {
+    if (coords) {
+      const p = geoToSvg(coords.lat, coords.lng);
+      blip.setAttribute('cx', p.x);
+      blip.setAttribute('cy', p.y);
+    }
+    blip.classList.add(local ? 'local' : 'outsider', 'active');
+  }
+  const status = document.getElementById('radar-status');
+  if (status) {
+    status.textContent = local ? 'COME IN WEST SIDE HOMIE.' : "BRO YOU'RE NOT EVEN FROM HERE.";
+    status.style.color = local ? 'var(--green)' : 'var(--red)';
+  }
+  setTimeout(dismissRadar, 1800);
 }
 
 function animateCoords() {
@@ -859,6 +889,7 @@ function initLogoBleed() {
   }
 
   logo.addEventListener('pointerdown', (e) => {
+    if (navigator.vibrate) navigator.vibrate(8);
     splat(e.clientX, e.clientY);
   });
   logo.addEventListener('contextmenu', (e) => e.preventDefault());
