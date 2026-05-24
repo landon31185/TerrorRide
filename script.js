@@ -710,7 +710,7 @@ function showRadarResult(local, coords) {
   }
   const status = document.getElementById('radar-status');
   if (status) {
-    status.textContent = local ? 'COME IN WEST SIDE HOME.' : "BRO YOU'RE NOT EVEN FROM HERE.";
+    status.textContent = local ? 'COME IN WEST SIDE HOMIE.' : "BRO YOU'RE NOT EVEN FROM HERE.";
     status.style.color = local ? 'var(--green)' : 'var(--red)';
   }
   setTimeout(dismissRadar, 1800);
