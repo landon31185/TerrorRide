@@ -859,6 +859,7 @@ function initLogoBleed() {
   }
 
   logo.addEventListener('pointerdown', (e) => {
+    if (navigator.vibrate) navigator.vibrate(8);
     splat(e.clientX, e.clientY);
   });
   logo.addEventListener('contextmenu', (e) => e.preventDefault());
