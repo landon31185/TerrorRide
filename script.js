@@ -1,6 +1,6 @@
 const POLLS = [
   { id: 'nimby',   q: 'Which neighborhood would be fastest to report a rager of a Terror Ride show?',
-    a: ['North Admiral', 'Shorewood', 'Alki / Beach Drive', 'Fairmont', 'Shorewood / Seola Beach', 'Genesee'] },
+    a: ['North Admiral', 'Shorewood', 'Alki / Beach Drive', 'Fairmont', 'Gatewood', 'Genesee'] },
   { id: 'species', q: 'Are we fucked as a species?',
     a: ["We're so fucked", 'Hardcore til I die', 'We will have to see'] },
   { id: 'quiet',   q: 'Should bands play quieter out of respect for the neighborhood?',
