@@ -1908,7 +1908,7 @@ a.logo-link {
 /* ── Homepage hero ────────────────────────────────────────── */
 .hero {
   width: 100%;
-  min-height: calc(100dvh - var(--nav-height) - 80px);
+  min-height: calc(100dvh - var(--nav-height) - 240px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2435,7 +2435,7 @@ a.logo-link {
   width: 90%;
   max-width: 960px;
   margin: 0 auto;
-  padding: 64px 0 80px;
+  padding: 32px 0 80px;
 }
 
 .news-preview-head {
@@ -2492,6 +2492,7 @@ a.logo-link {
 .news-card {
   background: var(--dark-card);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-dim);
   border-top: 2px solid var(--border-dim);
   border-radius: 4px;
