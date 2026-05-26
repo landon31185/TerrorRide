@@ -28,7 +28,10 @@ module.exports = async function handler(req, res) {
   }
 
   const d = data?.[0]?.lastData;
-  if (!d) return res.status(503).json({ error: 'no data' });
+  if (!d) {
+    console.error('[weather] Ambient API response:', JSON.stringify(data));
+    return res.status(503).json({ error: 'no data', raw: data });
+  }
 
   const payload = {
     tempf:        d.tempf,
