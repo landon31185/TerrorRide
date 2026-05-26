@@ -10,7 +10,10 @@ module.exports = async function handler(req, res) {
       const cached = await fetch(`${url}/get/tr_weather_cache`, {
         headers: { Authorization: `Bearer ${token}` },
       }).then(r => r.json());
-      if (cached.result) return res.json(JSON.parse(cached.result));
+      if (cached.result) {
+        const hit = JSON.parse(cached.result);
+        if (hit.tempf != null) return res.json(hit);
+      }
     } catch {}
   }
 
@@ -52,12 +55,12 @@ module.exports = async function handler(req, res) {
     ts:           Date.now(),
   };
 
-  // Store in Redis with 5-min TTL
+  // Store in Redis with 5-min TTL (pipeline format, same as visits.js)
   if (url && token) {
-    fetch(`${url}/set/tr_weather_cache`, {
+    fetch(`${url}/pipeline`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ value: JSON.stringify(payload), ex: 300 }),
+      body: JSON.stringify([['SET', 'tr_weather_cache', JSON.stringify(payload), 'EX', '300']]),
     }).catch(() => {});
   }
 
