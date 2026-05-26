@@ -33,10 +33,20 @@ module.exports = async function handler(req, res) {
     return res.status(503).json({ error: 'no data', raw: data });
   }
 
+  console.log('[weather] device fields:', Object.keys(d).join(', '));
+
+  const tempf    = d.tempf    ?? d.temp1f   ?? d.tempinf;
+  const humidity = d.humidity ?? d.humidityin;
+  const feelsLike = d.feelsLike ?? d.feelsLikef ?? tempf;
+
+  if (tempf == null) {
+    return res.status(503).json({ error: 'no temp field', fields: Object.keys(d) });
+  }
+
   const payload = {
-    tempf:        d.tempf,
-    feelsLike:    d.feelsLike    ?? d.tempf,
-    humidity:     d.humidity,
+    tempf,
+    feelsLike,
+    humidity,
     windspeedmph: d.windspeedmph ?? 0,
     hourlyrainin: d.hourlyrainin ?? 0,
     ts:           Date.now(),
