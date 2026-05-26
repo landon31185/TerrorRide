@@ -3755,6 +3755,78 @@ code {
   font-style: italic;
 }
 
+/* ── Weather widget ─────────────────────────────────────── */
+#nav-temp-chip {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.45);
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.hp-weather {
+  width: 100%;
+  max-width: 900px;
+  padding: 0 24px 40px;
+}
+.hp-weather-stats { display: flex; justify-content: center; }
+.hp-weather-card {
+  background: var(--dark-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  padding: 28px 36px;
+  width: 100%;
+  max-width: 460px;
+  text-align: center;
+}
+.hp-weather-eyebrow {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+.hp-weather-temp-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.hp-weather-temp {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: clamp(56px, 12vw, 80px);
+  color: var(--green);
+  line-height: 1;
+}
+.hp-weather-feels {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.hp-weather-condition {
+  font-family: 'HFucktura-Heavy', sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+.hp-weather-details {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+}
+
 /* ── Subscribe form (noise page) ── */
 .subscribe-aside {
   width: 100%;

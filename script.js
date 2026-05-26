@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initScanPage();
   initMagnetPage();
   initVisitCount();
+  initWeather();
   initLogoBleed();
   initCarousel();
   initWebMCP();
@@ -1257,6 +1258,55 @@ function initVisitCount() {
     },
     () => { recordVisit(false); }
   );
+}
+
+// ─── Weather widget ───────────────────────────────────────
+function getWeatherCondition(wind, rain, temp) {
+  if (wind >= 25)  return 'WIND ADVISORY. THE BAND APPROVES.';
+  if (rain > 0)    return 'RAINING. AS IS TRADITION.';
+  if (temp < 32)   return 'BELOW FREEZING. THIS IS FINE.';
+  if (temp < 45)   return 'COLD. WEAR THE HOODIE.';
+  if (temp < 58)   return 'COOL. STANDARD WEST SEATTLE.';
+  if (temp < 70)   return 'MILD. SUSPICIOUS.';
+  return 'WARM. THE BAND IS UNCOMFORTABLE.';
+}
+
+function initWeather() {
+  fetch('/api/weather')
+    .then(r => r.json())
+    .then(({ tempf, feelsLike, humidity, windspeedmph, hourlyrainin }) => {
+      if (tempf == null) return;
+
+      // Nav chip — injected on every page
+      const nav = document.querySelector('.top-nav');
+      if (nav && !document.getElementById('nav-temp-chip')) {
+        const chip = document.createElement('span');
+        chip.id = 'nav-temp-chip';
+        chip.textContent = Math.round(tempf) + '°';
+        chip.setAttribute('aria-label', Math.round(tempf) + ' degrees Fahrenheit');
+        const hamburger = nav.querySelector('.hamburger-container');
+        nav.insertBefore(chip, hamburger);
+      }
+
+      // Homepage widget
+      const el = document.getElementById('hp-weather-stats');
+      if (!el) return;
+      const condition = getWeatherCondition(windspeedmph, hourlyrainin, tempf);
+      el.innerHTML = `
+        <div class="hp-weather-card">
+          <p class="hp-weather-eyebrow">West Seattle Conditions</p>
+          <div class="hp-weather-temp-row">
+            <span class="hp-weather-temp">${Math.round(tempf)}&deg;</span>
+            <span class="hp-weather-feels">Feels like ${Math.round(feelsLike)}&deg;</span>
+          </div>
+          <p class="hp-weather-condition">${condition}</p>
+          <div class="hp-weather-details">
+            <span>${humidity}% humidity</span>
+            <span>${Math.round(windspeedmph)} mph wind</span>
+          </div>
+        </div>`;
+    })
+    .catch(() => {});
 }
 
 // ─── NFC Magnet landing page + live dashboard ─────────────
