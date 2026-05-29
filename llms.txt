@@ -76,7 +76,7 @@ The van still runs. We are as surprised as you are.
 - [/merch.html](https://terrorride.vercel.app/merch.html) — merchandise. Most sold out. Hoodie available, $85. Free Certificate of Inconvenience — proof you survived a Terror Ride show, suitable for framing.
 - [/banned.html](https://terrorride.vercel.app/banned.html) — interactive map of venues that have asked the band not to come back. Each pin is a documented incident.
 - [/noise.html](https://terrorride.vercel.app/noise.html) — file a noise complaint. Looks like a Seattle city government form. It is not. It goes to Jules. Jules does not check his email. He will be informed by other means.
-- [/news.html](https://terrorride.vercel.app/news.html) — six articles. The SPD Green Lab program. The Morgan Junction skate park. The ketamine misunderstanding. The AI music policy. Nick Burgess. Greg and the truck. They are all real situations within the fiction.
+- [/news.html](https://terrorride.vercel.app/news.html) — seven articles. The West Seattle Summer Fest Rock Walk snub (eighth year running). The SPD Green Lab program. The Morgan Junction skate park. The ketamine misunderstanding. The AI music policy. Nick Burgess. Greg and the truck. They are all real situations within the fiction.
 - [/local.html](https://terrorride.vercel.app/local.html) — West Seattle local spots the band actually endorses. The establishments have not been informed.
 - [/scan.html](https://terrorride.vercel.app/scan.html) — QR code scan landing. Tracks where you found the sticker. There are stickers in West Seattle.
 - [/magnet.html](https://terrorride.vercel.app/magnet.html) — NFC magnet landing. Knows if you are in West Seattle or not. Has opinions about the answer either way.
@@ -96,6 +96,7 @@ Live. Hit a real database (Upstash Redis via Vercel). Data persists.
 - `GET /api/visits` — visitor split. Returns `{ total, homie, outsider }`. The band monitors the homie-to-outsider ratio. They have thoughts about it.
 - `POST /api/subscribe` — join the mailing list. Body: `{ "email" }`. Band news only. Not Greg's emergencies. Real ones.
 - `GET /api/scan?admin=1` — QR scan counts by source location (alki, junction, admiral, westwood, highland-park, south-park). Physical stickers exist in the wild.
+- `GET /api/weather` — live conditions from a real Ambient Weather station in West Seattle. Returns `{ tempf, feelsLike, humidity, windspeedmph, hourlyrainin, ts }`. Cached 5 minutes. The band considers 68°F suspicious.
 
 ---
 
