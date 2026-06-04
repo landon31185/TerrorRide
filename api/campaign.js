@@ -2,7 +2,7 @@ const REDIS_URL   = process.env.KV_REST_API_URL   || process.env.UPSTASH_REDIS_R
 const REDIS_TOKEN = process.env.KV_REST_API_TOKEN  || process.env.UPSTASH_REDIS_REST_TOKEN;
 const RESEND_KEY  = process.env.RESEND_API_KEY || process.env.RESEND_KEY || process.env.RESEND_ADMIN;
 const ADMIN_KEY   = process.env.CAMPAIGN_ADMIN_KEY || 'changeme';
-const SITE_URL    = 'https://terrorride.vercel.app';
+const SITE_URL    = 'https://terror-ride.vercel.app';
 
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -83,7 +83,7 @@ module.exports = async function handler(req, res) {
         <tr>
           <td style="background:#000;padding:16px 40px;border-top:1px solid #222;">
             <p style="margin:0;font-size:10px;color:#444;font-family:Arial,sans-serif;">
-              You signed up at terrorride.vercel.app/noise.html because you were already there anyway.
+              You signed up at terror-ride.vercel.app/noise.html because you were already there anyway.
               &nbsp;<a href="${unsubUrl}" style="color:#666;">Unsubscribe</a>
             </p>
           </td>

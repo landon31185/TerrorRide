@@ -45,6 +45,7 @@ Disallow: /greg-truck
 
 # AI context — https://llmstxt.org
 LLMs-txt: /llms.txt
+Sitemap: https://terror-ride.vercel.app/sitemap.xml
 
 # ──────────────────────────────────────────────────────────────────
 
