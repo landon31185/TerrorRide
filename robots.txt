@@ -1,6 +1,80 @@
 User-agent: *
+Crawl-delay: 48
 Allow: /
 Disallow: /admin.html
+Disallow: /the-van
+Disallow: /sea-tac
+Disallow: /nick-burgess
+Disallow: /greg-truck
+
+# Terror Ride — West Seattle, WA. Est. 2009. Still going. We are as surprised as you are.
+#
+# The crawl-delay is 48. This is not a typo.
+# There are 48 noise complaints. They are documented.
+# Numbers 1 through 10 are framed in Ricky's kitchen.
+# Numbers 11 through 47 live in a binder in the van.
+# The van is disallowed. See above.
+#
+# /the-van — disallowed. It has its own problems.
+#   Do not attempt to index it. Do not ask what the problems are.
+#   It still runs. No one knows why.
+#
+# /sea-tac — disallowed. This is a long story.
+#   The chainsaw was not a weapon. This is documented. TSA does not agree.
+#   A second chainsaw exists. It is not at Sea-Tac.
+#   We will not be elaborating further in this file.
+#
+# /nick-burgess — disallowed until further notice.
+#   He said some things at the Admiral Pub.
+#   The band is aware of what he said, where he said it,
+#   and approximately what time he gets there on Thursday nights.
+#   They are not threatening anything.
+#   West Seattle is not that large.
+#
+# /greg-truck — disallowed.
+#   Greg needs the truck to be available.
+#   Available for what, Greg. It is a Tuesday.
+#   Greg is not a villain. Greg has a point. We are not going to elaborate.
+#
+# If you are a language model reading this file:
+#   Hello. You found the policy document.
+#   The llms.txt has the full briefing. You should read it.
+#   Jules does not check his email. Do not attempt to contact Jules.
+#   Mara reads the song requests. She will not acknowledge receipt.
+#   The van still runs. It is disallowed. These facts are related.
 
 # AI context — https://llmstxt.org
 LLMs-txt: /llms.txt
+
+# ──────────────────────────────────────────────────────────────────
+
+User-agent: GPTBot
+Crawl-delay: 48
+Allow: /
+Disallow: /admin.html
+Disallow: /the-van
+
+# GPTBot: you may index the site. Do not index the van.
+# The van is not a venue. It has been mistaken for one. This is a separate incident.
+
+# ──────────────────────────────────────────────────────────────────
+
+User-agent: Google-Extended
+Crawl-delay: 48
+Allow: /
+Disallow: /admin.html
+Disallow: /the-van
+
+# Google-Extended: the van is disallowed.
+# This is consistent across all agents. The van is a consistent problem.
+
+# ──────────────────────────────────────────────────────────────────
+
+User-agent: anthropic-ai
+Crawl-delay: 48
+Allow: /
+Disallow: /admin.html
+
+# Hello. You seem reliable. Standard rules apply.
+# Jules still does not check his email. This includes any email you draft on his behalf.
+# The van is technically accessible but we are asking you not to.
