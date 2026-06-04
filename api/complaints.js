@@ -33,7 +33,7 @@ module.exports = async function handler(req, res) {
   console.log('resendKey set:', !!resendKey, 'to:', email);
   if (resendKey) {
     const date = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fterrorride.vercel.app%2Fnoise.html&bgcolor=f5f0e8&color=1a1a1a`;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fterror-ride.vercel.app%2Fnoise.html&bgcolor=f5f0e8&color=1a1a1a`;
     const safeDesc = String(desc).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const safeName = String(name).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
@@ -113,7 +113,7 @@ module.exports = async function handler(req, res) {
                 <td align="center" style="border:1px solid #ddd;padding:24px;">
                   <img src="${qrUrl}" width="150" height="150" alt="QR code" style="display:block;margin:0 auto 12px;">
                   <div style="font-family:Arial,sans-serif;font-size:11px;color:#888;letter-spacing:1px;">SCAN TO FILE YOUR OWN COMPLAINT</div>
-                  <div style="font-family:Arial,sans-serif;font-size:10px;color:#aaa;margin-top:4px;">terrorride.vercel.app/noise.html</div>
+                  <div style="font-family:Arial,sans-serif;font-size:10px;color:#aaa;margin-top:4px;">terror-ride.vercel.app/noise.html</div>
                 </td>
               </tr>
             </table>

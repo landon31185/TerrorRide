@@ -917,7 +917,7 @@ function initWebMCP() {
           { name: 'Jules "Thunderfist"',  role: 'Drums',             status: 'His knees are not getting better and he has things to say about it.' },
           { name: 'Mara Venom',           role: 'Guitar / Bass',     status: 'Has not returned our calls since Tuesday. This is normal.' },
         ],
-        website: 'https://terrorride.vercel.app',
+        website: 'https://terror-ride.vercel.app',
         notWelcomeAt: 12,
         totalComplaints: 48,
         vanStatus: 'Still running. We are as surprised as you are.',
