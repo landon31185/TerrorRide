@@ -3765,6 +3765,10 @@ code {
   flex-shrink: 0;
 }
 
+@media (max-width: 768px) {
+  #nav-temp-chip { display: none; }
+}
+
 .hp-weather {
   width: 100%;
   max-width: 900px;
