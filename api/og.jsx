@@ -108,7 +108,7 @@ export default async function handler(req) {
         letterSpacing: '3px',
         display: 'flex',
       }}>
-        terrorride.vercel.app
+        terror-ride.vercel.app
       </div>
     </div>,
     {
